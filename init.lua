@@ -1,1 +1,3 @@
-vim.cmd('source ./.vimrc')
+-- vim.cmd('source $VIM_CONFIG/.vimrc')
+
+require('core')

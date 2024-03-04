@@ -5,5 +5,6 @@ if test -e $XDG_CONFIG_HOME/nvim/init.vim
 end
 
 ln -s -f $(path resolve init.lua) $XDG_CONFIG_HOME/nvim/init.lua
+ln -s -f $(path resolve lua) $XDG_CONFIG_HOME/nvim/lua
 
 set -xU VIM_CONFIG $(path resolve .)

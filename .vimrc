@@ -104,6 +104,9 @@ call plug#end()
 " set ; to : in normal mode
 nnoremap ; :
 
+set cursorline
+set cursorlineopt=both
+
 set undodir=~/.vim/undodir
 set undofile
 set undolevels=1000
