@@ -93,6 +93,7 @@ Plug 'otavioschwanck/arrow.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
 Plug 'm4xshen/hardtime.nvim'
+
 """"""""""""""""""""""""""""""""""""""""
 
 

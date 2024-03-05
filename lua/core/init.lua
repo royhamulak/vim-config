@@ -50,6 +50,7 @@ vim.o.fileformats = 'unix,dos,mac'
 require('core.cli')
 require('core.colors')
 require('core.UI')
+require('core.text')
 require('core.mappings')
 require('core.files')
 require('core.history')

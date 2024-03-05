@@ -31,3 +31,19 @@ vim.keymap.set('n', '<C-h>', '<C-w>h', opt)
 vim.keymap.set('n', '<C-j>', '<C-w>j', opt)
 vim.keymap.set('n', '<C-k>', '<C-w>k', opt)
 vim.keymap.set('n', '<C-l>', '<C-w>l', opt)
+
+-- <C-A> is select all
+vim.keymap.set('n', '<C-A>', 'gggH<C-O>G', opt)
+vim.keymap.set('i', '<C-A>', '<C-O>gg<C-O>gH<C-O>G', opt)
+vim.keymap.set({'c', 'o', 's'}, '<C-A>', '<C-O>gggH<C-O>G', opt)
+vim.keymap.set('x', '<C-A>', '<C-C>ggVG', opt)
+
+-- Reload config
+vim.keymap.set("n", "<leader><CR>", "<cmd>lua ReloadConfig()<CR>", { noremap = true, silent = false })
+--------------------------------
+-- Utils
+--------------------------------
+
+vim.api.nvim_create_user_command('VisualSelection', function(opts)
+  
+end, {})
