@@ -5,7 +5,7 @@ vim.o.expandtab = true
 vim.o.smarttab = true
 
 -- Number of spaces per <TAB>
-vim.o.shiftwidth = 4
+vim.o.shiftwidth = 2
 
 -- Represent <TAB> in file as the shiftwidth val
 vim.o.tabstop = vim.o.shiftwidth

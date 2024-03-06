@@ -48,6 +48,7 @@ vim.o.encoding = 'utf8'
 vim.o.fileformats = 'unix,dos,mac'
 
 require('core.cli')
+require('core.reload')
 require('core.colors')
 require('core.UI')
 require('core.text')
