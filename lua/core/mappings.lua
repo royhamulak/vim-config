@@ -20,6 +20,25 @@ vim.keymap.set('n', '<leader><cr>', _G.ReloadConfig, { silent = false })
 -- Fast save
 vim.keymap.set('n', '<leader>w', ':w!<cr>', opt)
 
+-- Switch CWD to the buffer's directory
+vim.keymap.set('n', '<leader>cd', ':cd %:p:h<cr>:pwd<cr>', opt)
+
+----------------------------------------------------------------
+-- Editing
+----------------------------------------------------------------
+
+-- Remap 0 to first non-blank character
+vim.keymap.set('n', '0', '^', opt)
+
+-- Move lines using <M-jk>
+vim.keymap.set('n', '<M-j>', 'mz:m+<cr>`z', opt)
+vim.keymap.set('n', '<M-k>', 'mz:m-2<cr>`z', opt)
+vim.keymap.set('v', '<M-j>', ':m\'>+<cr>`<my`>mzgv`yo`z', opt)
+vim.keymap.set('v', '<M-k>', ':m\'<-2<cr>`>my`<mzgv`yo`z', opt)
+
+-- Quickly replace selected text in visual selection
+vim.keymap.set('v', '<leader>r', function() VisualSelection('replace') end, {})
+
 ----------------------------------------------------------------
 -- Movement
 ----------------------------------------------------------------
@@ -103,8 +122,12 @@ vim.keymap.set('n', '<M-=>', ':bl<cr>', opt)
 vim.keymap.set('n', '<cr>', ':noh<cr>', opt)
 
 -- Use * and # to search for visual selection
-vim.keymap.set('v', '*', function () VisualSelection('f') end, opt)
-vim.keymap.set('v', '#', function () VisualSelection('b') end, opt)
+vim.keymap.set('v', '*', function () return VisualSelection('f') end, {})
+vim.keymap.set('v', '#', function () return VisualSelection('b') end, {})
+
+-- Use <Space> to search and <C-Space> to backwards search
+vim.keymap.set('n', '<Space>', '/', {})
+vim.keymap.set('n', '<C-Space>', '?', {})
 
 ----------------------------------------------------------------
 -- Utils
@@ -116,15 +139,16 @@ function VisualSelection(direction)
 
   local pattern = vim.fn.escape(vim.fn.getreg('"'), '\\/.*$^~[]')
   local pattern = vim.fn.substitute(pattern, '\n$', "", "")
+  print(pattern)
 
   if direction == 'b' then
-    vim.cmd('normal ?' .. pattern .. '^M')
+    vim.cmd.normal('?' .. pattern .. '^M')
   elseif direction =='gv' then
-    vim.fn.feedkeys(':', 'vimgrep /' .. pattern .. '/ **/*.')
+    vim.fn.feedkeys(':vimgrep /' .. pattern .. '/ **/*.')
   elseif direction == 'replace' then
-    vim.fn.feedkeys(':', '%s/' .. pattern .. '/')
+    vim.fn.feedkeys(':%s/' .. pattern .. '/')
   elseif direction == 'f' then
-    vim.cmd('normal /' .. pattern .. '^M')
+    vim.cmd.normal('/' .. pattern .. '^M')
   end
 
   vim.fn.setreg('/', pattern)

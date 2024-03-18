@@ -47,6 +47,25 @@ vim.o.encoding = 'utf8'
 -- Use Unix EOL format when editing or readong a file
 vim.o.fileformats = 'unix,dos,mac'
 
+---------------------------------------------
+-- Utils
+---------------------------------------------
+
+-- Delete trailing white space on save
+function ClearExtraSpaces()
+  local save_cursor = vim.fn.getpos('.')
+  local old_q = vim.fn.getreg('/')
+  vim.cmd('silent! a%s/\\s\\+$//e')
+  vim.fn.setpos('.', save_cursor)
+  vim.fn.setreg('/', old_q)
+end
+
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+  pattern = {"*.txt", "*.js", "*.ts", "*.sh", "*.fishrc", "*.lua"},
+  callback = ClearExtraSpaces
+})
+
+
 require('core.cli')
 require('core.reload')
 require('core.colors')
@@ -56,4 +75,4 @@ require('core.mappings')
 require('core.files')
 require('core.history')
 require('core.filetype')
-require('core.history')
+require('core.search')

@@ -12,3 +12,8 @@ vim.o.incsearch = true
 
 -- Enable regex in search
 vim.o.magic = true
+
+-- Use Silver searcher if available
+if vim.fn.executable('ag') == 1 then
+  vim.o.grepprg = 'ag --nogroup --nocolor'
+end

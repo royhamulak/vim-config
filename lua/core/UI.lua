@@ -18,3 +18,9 @@ vim.o.matchtime = 2
 
 -- Show line number
 vim.o.number = true
+
+-- Always show tab line
+vim.o.showtabline = 2
+
+-- Always show status line
+vim.o.laststatus = 2

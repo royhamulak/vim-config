@@ -66,6 +66,9 @@ Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
 """"""""""""""""""""""""""""""""""""""""
 
+" Marks
+" Plug 'chentoast/marks.nvim'
+""""""""""""""""""""""""""""""""""""""""
 " Ale
 Plug 'dense-analysis/ale'
 """"""""""""""""""""""""""""""""""""""""
@@ -216,6 +219,7 @@ let g:ale_linters = {
 \   'typescript.tsx': ['eslint'],
 \   'html': ['stylelint'],
 \   'css': ['stylelint'],
+\   'sql': ['sqlfluff'],
 \}
 let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
@@ -226,6 +230,7 @@ let g:ale_fixers = {
 \   'json': ['prettier', 'eslint'],
 \   'css': ['prettier'],
 \   'html': ['prettier'],
+\   'sql': ['sqlfluff'],
 \   '*': ['prettier'],
 \}
 nnoremap <leader>pr :ALEFix<CR>
@@ -1053,5 +1058,7 @@ require("arrow").setup({
 })
 
 
+-- require("marks").setup({
+-- })
 -- require("hardtime").setup()
 .
