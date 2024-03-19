@@ -20,7 +20,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 
-Plug 'nathom/filetype.nvim'
 Plug 'rcarriga/nvim-notify'
 """"""""""""""""""""""""""""""""""""""""
 
@@ -128,10 +127,6 @@ filetype on
 filetype plugin on
 filetype indent on
 
-autocmd BufRead,BufEnter *.astro set filetype=astro
-autocmd BufRead,BufEnter *.mdx set filetype=jsx
-autocmd BufRead,BufEnter *.sql set filetype=sql
-autocmd BufRead,BufEnter *.md set filetype=markdown
 
 " autocmd TermLeave,TermClose * set number
 " autocmd TermOpen * setlocal l:nonumber
@@ -584,9 +579,7 @@ endfun
 
 autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 
-nnoremap <leader>c gcc
-vnoremap <leader>c gc
-vnoremap <leader>cw g>
+let g:tcomment_mapleader2 = '<leader>c'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Diffview
@@ -821,7 +814,7 @@ require('treesitter-context').setup({
   enable = false,
 })
 
-mapKeys("n", "<leader>c", "<cmd>TSContextToggle<cr>", opts)
+mapKeys("n", "<leader><C-c>", "<cmd>TSContextToggle<cr>", opts)
 
 
 require('onedark').setup({
@@ -1018,7 +1011,11 @@ require('hlargs').setup({
   },
 })
 
-require("filetype").setup({})
+vim.filetype.add({
+  extension = {
+    mdx = 'javascriptreact',
+  },
+})
 
 require('nvim-test').setup({
 runners = {               -- setup tests runners
