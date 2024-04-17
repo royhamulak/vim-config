@@ -210,8 +210,8 @@ nnoremap <leader>k <Plug>(ale_previous_wrap)
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'javascript.jsx': ['eslint'],
-\   'typescript': ['eslint'],
-\   'typescript.tsx': ['eslint'],
+\   'typescript': ['eslint', 'tslint', 'tsserver'],
+\   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
 \   'html': ['stylelint'],
 \   'css': ['stylelint'],
 \   'sql': ['sqlfluff'],
