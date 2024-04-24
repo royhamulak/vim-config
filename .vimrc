@@ -19,6 +19,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.x' }
 
 Plug 'rcarriga/nvim-notify'
 """"""""""""""""""""""""""""""""""""""""
@@ -98,6 +99,11 @@ Plug 'm4xshen/hardtime.nvim'
 
 """"""""""""""""""""""""""""""""""""""""
 
+" native lsp stuff
+Plug 'williamboman/mason.nvim'
+Plug 'williamboman/mason-lspconfig.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'mfussenegger/nvim-lint'
 
 call plug#end()
 
@@ -298,8 +304,11 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-noremap <C-p> :Files<CR>
-noremap <C-f> :Ag<CR>
+" noremap <C-p> :Files<CR>
+" noremap <C-f> :Ag<CR>
+
+" noremap <C-p> <cmd>Telescope git_files<cr>
+" noremap <C-f> <cmd>Telescope live_grep<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Airline 
@@ -310,7 +319,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#coc#enabled = 1
+" let g:airline#extensions#coc#enabled = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
@@ -746,6 +755,8 @@ function! VisualSelection(direction) range
 endfunction
 
 
+" autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
+" autocmd BufReadPost quickfix setlocal nowrap
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lua stuff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1055,7 +1066,88 @@ require("arrow").setup({
 })
 
 
+local telescope = require('telescope')
+
+telescope.setup({
+  defaults = {
+    dynamic_preview_title = true
+  },
+  pickers = {
+    git_files = {
+      use_git_root = false,
+    },
+  },
+})
+
+local tele_builtins = require('telescope.builtin')
+
+vim.keymap.set("n", "<C-F>", "<cmd>Telescope live_grep<cr>", opts)
+vim.keymap.set("n", "<C-P>", function ()
+  if os.execute("git rev-parse --show-top-level 2> /dev/null") == 0 then
+    tele_builtins.git_files({show_untracked = true})
+  else
+    tele_builtins.find_files()
+  end
+end, opts)
+
 -- require("marks").setup({
 -- })
 -- require("hardtime").setup()
+
+-- Native LSP stuff
+
+-- require("mason").setup()
+-- require("mason-lspconfig").setup({
+--   ensure_installed = {"tsserver"},
+-- })
+--
+-- local lspconfig = require('lspconfig')
+-- lspconfig.tsserver.setup({})
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+--   callback = function(ev)
+--     -- Enable completion triggered by <c-x><c-o>
+--     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+--
+--     -- Buffer local mappings.
+--     -- See `:help vim.lsp.*` for documentation on any of the below functions
+--     local opts = { buffer = ev.buf }
+--     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+--     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+--     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+--     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+--     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+--     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+--     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+--     vim.keymap.set('n', '<leader>wl', function()
+--       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+--     end, opts)
+--     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+--     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+--     vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
+--     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+--     vim.keymap.set('n', '<leader>f', function()
+--       vim.lsp.buf.format { async = true }
+--     end, opts)
+--   end,
+-- })
+--
+--
+-- require('lint').linters_by_ft = {
+--    javascript= {'eslint'},
+--    typescript= {'eslint', 'tslint', 'tsserver'},
+--    html= {'stylelint'},
+--    css= {'stylelint'},
+--    sql= {'sqlfluff'}
+-- }
+--
+-- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+--   callback = function()
+--
+--     -- try_lint without arguments runs the linters defined in `linters_by_ft`
+--     -- for the current filetype
+--     require("lint").try_lint()
+--
+--   end,
+-- })
 .
