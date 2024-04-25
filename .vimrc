@@ -59,7 +59,7 @@ Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'm-demare/hlargs.nvim'
 
 " Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
 """"""""""""""""""""""""""""""""""""""""
 
 " markdown
@@ -70,7 +70,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' 
 " Plug 'chentoast/marks.nvim'
 """"""""""""""""""""""""""""""""""""""""
 " Ale
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
 """"""""""""""""""""""""""""""""""""""""
 
 """"""""""""' Git
@@ -205,96 +205,96 @@ set rtp+=/usr/local/opt/fzf
 """"""""""""""""""""""""""""""
 " => Ale
 """"""""""""""""""""""""""""""
-let g:ale_virtualtext_cursor = 1
-nnoremap <leader>j <Plug>(ale_next_wrap)
-nnoremap <leader>k <Plug>(ale_previous_wrap)
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'javascript.jsx': ['eslint'],
-\   'typescript': ['eslint', 'tslint', 'tsserver'],
-\   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
-\   'html': ['stylelint'],
-\   'css': ['stylelint'],
-\   'sql': ['sqlfluff'],
-\}
-let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint'],
-\   'javascript.jsx': ['prettier', 'eslint'],
-\   'javascriptreact': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'eslint'],
-\   'typescript.tsx': ['prettier', 'eslint'],
-\   'json': ['prettier', 'eslint'],
-\   'css': ['prettier'],
-\   'html': ['prettier'],
-\   'sql': ['sqlfluff'],
-\   '*': ['prettier'],
-\}
-nnoremap <leader>pr :ALEFix<CR>
-
-let g:ale_sign_error = '❌ '
-let g:ale_sign_warning = '⚠️ '
+" let g:ale_virtualtext_cursor = 1
+" nnoremap <leader>j <Plug>(ale_next_wrap)
+" nnoremap <leader>k <Plug>(ale_previous_wrap)
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \   'javascript.jsx': ['eslint'],
+" \   'typescript': ['eslint', 'tslint', 'tsserver'],
+" \   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
+" \   'html': ['stylelint'],
+" \   'css': ['stylelint'],
+" \   'sql': ['sqlfluff'],
+" \}
+" let g:ale_fixers = {
+" \   'javascript': ['prettier', 'eslint'],
+" \   'javascript.jsx': ['prettier', 'eslint'],
+" \   'javascriptreact': ['prettier', 'eslint'],
+" \   'typescript': ['prettier', 'eslint'],
+" \   'typescript.tsx': ['prettier', 'eslint'],
+" \   'json': ['prettier', 'eslint'],
+" \   'css': ['prettier'],
+" \   'html': ['prettier'],
+" \   'sql': ['sqlfluff'],
+" \   '*': ['prettier'],
+" \}
+" nnoremap <leader>pr :ALEFix<CR>
+"
+" let g:ale_sign_error = '❌ '
+" let g:ale_sign_warning = '⚠️ '
 
 """"""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 " use <tab> to trigger completion and navigate to the next complete item
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
-
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
-
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
-
-" Highlight symbol under cursor on CursorHold
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nnoremap <leader>rn <Plug>(coc-rename)
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nnoremap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nnoremap <leader>qf  <Plug>(coc-fix-current)
-
-" GoTo code navigation.
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
+" function! CheckBackspace() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+" inoremap <silent><expr> <Tab>
+"       \ coc#pum#visible() ? coc#pum#next(1) :
+"       \ CheckBackspace() ? "\<Tab>" :
+"       \ coc#refresh()
+"
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"
+" " Use <c-space> to trigger completion.
+" if has('nvim')
+"   inoremap <silent><expr> <c-space> coc#refresh()
+" else
+"   inoremap <silent><expr> <c-@> coc#refresh()
+" endif
+"
+" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" " Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+"
+" " Highlight symbol under cursor on CursorHold
+" "autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+" " Remap for rename current word
+" nnoremap <leader>rn <Plug>(coc-rename)
+"
+" " Applying codeAction to the selected region.
+" " Example: `<leader>aap` for current paragraph
+" xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+" nnoremap <leader>a  <Plug>(coc-codeaction-selected)
+"
+" " Remap keys for applying codeAction to the current buffer.
+" nnoremap <leader>ac  <Plug>(coc-codeaction)
+" " Apply AutoFix to problem on the current line.
+" nnoremap <leader>qf  <Plug>(coc-fix-current)
+"
+" " GoTo code navigation.
+" nnoremap <silent> gd <Plug>(coc-definition)
+" nnoremap <silent> gy <Plug>(coc-type-definition)
+" nnoremap <silent> gi <Plug>(coc-implementation)
+" nnoremap <silent> gr <Plug>(coc-references)
+"
+" " Use K to show documentation in preview window.
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   elseif (coc#rpc#ready())
+"     call CocActionAsync('doHover')
+"   else
+"     execute '!' . &keywordprg . " " . expand('<cword>')
+"   endif
+" endfunction
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
@@ -936,11 +936,6 @@ require("mini.indentscope").setup({
   }
 })
 
-require("notify").setup({
-  background_colour = "#000000",
-})
-
-vim.notify = require("notify")
 
 -- require("neotest").setup({
 --   adapters = {
@@ -1004,8 +999,17 @@ vim.notify = require("notify")
 -- mapKeys("n", "[t", "<cmd>lua require('neotest').jump.prev()<CR>", opts)
 
 local onedarkColors = require("onedark.colors")
--- vim.print(vim.inspect(onedarkColors))
 
+require("notify").setup({
+  background_colour = onedarkColors.bg0,
+  render = "wrapped-compact",
+  fps = 120,
+  stages = "fade",
+  max_width = 30,
+  timeout = 250,
+})
+
+vim.notify = require("notify")
 require('hlargs').setup({
   color = onedarkColors.yellow,
   paint_catch_blocks = {
