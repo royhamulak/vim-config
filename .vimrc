@@ -100,10 +100,15 @@ Plug 'm4xshen/hardtime.nvim'
 """"""""""""""""""""""""""""""""""""""""
 
 " native lsp stuff
+Plug 'nvimtools/none-ls.nvim'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 Plug 'mfussenegger/nvim-lint'
+Plug 'rshkarin/mason-nvim-lint'
+
+
+Plug 'davidmh/cspell.nvim'
 
 call plug#end()
 
@@ -204,8 +209,7 @@ let g:javascript_plugin_jsdoc = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => jsx
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let g:vim_jsx_pretty_colorful_config = 1
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" "let g:vim_jsx_pretty_colorful_config = 1
 
 """"""""""""""""""""""""""""""
 " => Ale
@@ -300,7 +304,7 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
-
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1025,6 +1029,10 @@ require('hlargs').setup({
 vim.filetype.add({
   extension = {
     mdx = 'javascriptreact',
+    yml = 'yaml',
+  },
+  filename = {
+    ['docker-compose.yml'] = 'yaml.docker-compose',
   },
 })
 
@@ -1095,14 +1103,24 @@ end, opts)
 -- require("hardtime").setup()
 
 -- Native LSP stuff
-
--- require("mason").setup()
+--
+-- require("mason").setup({
+--   ensure_installed = {"cspell"},
+-- })
 -- require("mason-lspconfig").setup({
---   ensure_installed = {"tsserver"},
+--   ensure_installed = {"tsserver", "eslint"},
 -- })
 --
 -- local lspconfig = require('lspconfig')
+--
 -- lspconfig.tsserver.setup({})
+-- lspconfig.eslint.setup({})
+-- lspconfig.vimls.setup({})
+-- lspconfig.lua_ls.setup({})
+-- lspconfig.docker_compose_language_service.setup({})
+-- lspconfig.jsonls.setup({})
+-- lspconfig.yamlls.setup({})
+--
 -- vim.api.nvim_create_autocmd('LspAttach', {
 --   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
 --   callback = function(ev)
@@ -1133,21 +1151,37 @@ end, opts)
 -- })
 --
 --
--- require('lint').linters_by_ft = {
---    javascript= {'eslint'},
---    typescript= {'eslint', 'tslint', 'tsserver'},
---    html= {'stylelint'},
---    css= {'stylelint'},
---    sql= {'sqlfluff'}
--- }
 --
--- vim.api.nvim_create_autocmd({ "BufWritePost" }, {
---   callback = function()
+-- -- require('lint').linters_by_ft = {
+-- --    javascript= {'eslint_d'},
+-- --    typescript= {'eslint_d'},
+-- --    html= {'stylelint'},
+-- --    css= {'stylelint'},
+-- --    sql= {'sqlfluff'}
+-- -- }
 --
---     -- try_lint without arguments runs the linters defined in `linters_by_ft`
---     -- for the current filetype
---     require("lint").try_lint()
+-- -- require('mason-nvim-lint').setup({
+-- --     ensure_installed = {'eslint_d', 'cspell'},
+-- -- })
 --
---   end,
+--
+-- -- vim.api.nvim_create_autocmd({ "BufWinEnter", "TextChanged", "BufWritePost", "InsertLeave"}, {
+-- --   callback = function()
+-- --     -- try_lint without arguments runs the linters defined in `linters_by_ft`
+-- --     -- for the current filetype
+-- --     require("lint").try_lint("cspell")
+-- --
+-- --   end,
+-- -- })
+--
+-- local none_ls = require('null-ls')
+-- local cspell = require('cspell')
+--
+-- none_ls.setup({
+--   sources = {
+--     none_ls.builtins.formatting.prettier,
+--     cspell.diagnostics,
+--     cspell.code_actions,
+--   }
 -- })
 .
