@@ -202,15 +202,6 @@ set rtp+=/usr/local/opt/fzf
 " " Keep gutter line at all times
 " set signcolumn=yes
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => javascript
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:javascript_plugin_jsdoc = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => jsx
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""" "let g:vim_jsx_pretty_colorful_config = 1
-
 """"""""""""""""""""""""""""""
 " => Ale
 """"""""""""""""""""""""""""""
@@ -1104,84 +1095,85 @@ end, opts)
 
 -- Native LSP stuff
 --
--- require("mason").setup({
---   ensure_installed = {"cspell"},
+
+require("mason").setup({
+  ensure_installed = {"cspell"},
+})
+require("mason-lspconfig").setup({
+  ensure_installed = {"tsserver", "eslint"},
+})
+
+local lspconfig = require('lspconfig')
+
+lspconfig.tsserver.setup({})
+lspconfig.eslint.setup({})
+lspconfig.vimls.setup({})
+lspconfig.lua_ls.setup({})
+lspconfig.docker_compose_language_service.setup({})
+lspconfig.jsonls.setup({})
+lspconfig.yamlls.setup({})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
+  end,
+})
+
+
+
+-- require('lint').linters_by_ft = {
+--    javascript= {'eslint_d'},
+--    typescript= {'eslint_d'},
+--    html= {'stylelint'},
+--    css= {'stylelint'},
+--    sql= {'sqlfluff'}
+-- }
+
+-- require('mason-nvim-lint').setup({
+--     ensure_installed = {'eslint_d', 'cspell'},
 -- })
--- require("mason-lspconfig").setup({
---   ensure_installed = {"tsserver", "eslint"},
--- })
+
+
+-- vim.api.nvim_create_autocmd({ "BufWinEnter", "TextChanged", "BufWritePost", "InsertLeave"}, {
+--   callback = function()
+--     -- try_lint without arguments runs the linters defined in `linters_by_ft`
+--     -- for the current filetype
+--     require("lint").try_lint("cspell")
 --
--- local lspconfig = require('lspconfig')
---
--- lspconfig.tsserver.setup({})
--- lspconfig.eslint.setup({})
--- lspconfig.vimls.setup({})
--- lspconfig.lua_ls.setup({})
--- lspconfig.docker_compose_language_service.setup({})
--- lspconfig.jsonls.setup({})
--- lspconfig.yamlls.setup({})
---
--- vim.api.nvim_create_autocmd('LspAttach', {
---   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
---   callback = function(ev)
---     -- Enable completion triggered by <c-x><c-o>
---     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
---
---     -- Buffer local mappings.
---     -- See `:help vim.lsp.*` for documentation on any of the below functions
---     local opts = { buffer = ev.buf }
---     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
---     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
---     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
---     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
---     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
---     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
---     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
---     vim.keymap.set('n', '<leader>wl', function()
---       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
---     end, opts)
---     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
---     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
---     vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
---     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
---     vim.keymap.set('n', '<leader>f', function()
---       vim.lsp.buf.format { async = true }
---     end, opts)
 --   end,
 -- })
---
---
---
--- -- require('lint').linters_by_ft = {
--- --    javascript= {'eslint_d'},
--- --    typescript= {'eslint_d'},
--- --    html= {'stylelint'},
--- --    css= {'stylelint'},
--- --    sql= {'sqlfluff'}
--- -- }
---
--- -- require('mason-nvim-lint').setup({
--- --     ensure_installed = {'eslint_d', 'cspell'},
--- -- })
---
---
--- -- vim.api.nvim_create_autocmd({ "BufWinEnter", "TextChanged", "BufWritePost", "InsertLeave"}, {
--- --   callback = function()
--- --     -- try_lint without arguments runs the linters defined in `linters_by_ft`
--- --     -- for the current filetype
--- --     require("lint").try_lint("cspell")
--- --
--- --   end,
--- -- })
---
--- local none_ls = require('null-ls')
--- local cspell = require('cspell')
---
--- none_ls.setup({
---   sources = {
---     none_ls.builtins.formatting.prettier,
---     cspell.diagnostics,
---     cspell.code_actions,
---   }
--- })
+
+local none_ls = require('null-ls')
+local cspell = require('cspell')
+
+none_ls.setup({
+  sources = {
+    none_ls.builtins.formatting.prettier,
+    cspell.diagnostics,
+    cspell.code_actions,
+  }
+})
 .
