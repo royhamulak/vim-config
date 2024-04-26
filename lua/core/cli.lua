@@ -12,5 +12,4 @@ vim.o.showcmd = true
 vim.o.wildmenu = true
 
 -- Ignore files in autocomplete
-vim.o.wildignore = '*.o,*~,*.pyc,*/.git/*,*/.DS_Store,*.d.ts.map'
-
+vim.o.wildignore = "*.o,*~,*.pyc,*/.git/*,*/.DS_Store,*.d.ts.map"

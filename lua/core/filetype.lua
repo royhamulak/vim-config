@@ -1,43 +1,47 @@
 -- Enable filetype
-vim.cmd('filetype on')
+vim.cmd("filetype on")
 
 -- Enable filetype plugin
-vim.cmd('filetype plugin on')
+vim.cmd("filetype plugin on")
 
 -- Enable filetype indent
-vim.cmd('filetype indent on')
+vim.cmd("filetype indent on")
 
--- Set specifc filetypes
-local specificFiletypes = vim.api.nvim_create_augroup('specificFiletypes', {clear=true})
+-- Set specific filetypes
+local specificFiletypes = vim.api.nvim_create_augroup("specificFiletypes", { clear = true })
 
 vim.api.nvim_create_autocmd({
-  'BufRead', 'BufEnter'
+  "BufRead",
+  "BufEnter",
 }, {
-  pattern = '*.astro',
+  pattern = "*.astro",
   group = specificFiletypes,
-  command = 'set filetype=astro',
+  command = "set filetype=astro",
 })
 
 vim.api.nvim_create_autocmd({
-  'BufRead', 'BufEnter'
+  "BufRead",
+  "BufEnter",
 }, {
-  pattern = '*.mdx',
+  pattern = "*.mdx",
   group = specificFiletypes,
-  command = 'set filetype=jsx',
+  command = "set filetype=jsx",
 })
 
 vim.api.nvim_create_autocmd({
-  'BufRead', 'BufEnter'
+  "BufRead",
+  "BufEnter",
 }, {
-  pattern = '*.sql',
+  pattern = "*.sql",
   group = specificFiletypes,
-  command = 'set filetype=sql',
+  command = "set filetype=sql",
 })
 
 vim.api.nvim_create_autocmd({
-  'BufRead', 'BufEnter'
+  "BufRead",
+  "BufEnter",
 }, {
-  pattern = '*.md',
+  pattern = "*.md",
   group = specificFiletypes,
-  command = 'set filetype=markdown',
+  command = "set filetype=markdown",
 })

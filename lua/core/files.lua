@@ -17,17 +17,17 @@ vim.o.backup = false
 vim.o.writebackup = false
 
 -- Return to last edit position when opening a file
-vim.api.nvim_create_autocmd({'BufReadPost'}, {
-  pattern = {'*'},
+vim.api.nvim_create_autocmd({ "BufReadPost" }, {
+  pattern = { "*" },
   command = [[
     if line("'\"") > 0 && line("'\"") <= line("$") |
       exe "normal! g`\"" |
     endif
-  ]]
+  ]],
 })
 
 -- Remember buffer list when exiting vim
-vim.o.shada = '%,' .. vim.o.shada
+vim.o.shada = "%," .. vim.o.shada
 
--- When switiching buffers use open windows, otherwise split window
-vim.o.switchbuf = 'useopen,vsplit'
+-- When switching buffers use open windows, otherwise split window
+vim.o.switchbuf = "useopen,vsplit"

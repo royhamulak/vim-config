@@ -101,11 +101,10 @@ Plug 'm4xshen/hardtime.nvim'
 
 " native lsp stuff
 Plug 'nvimtools/none-ls.nvim'
+Plug 'nvimtools/none-ls-extras.nvim'
 Plug 'williamboman/mason.nvim'
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
-Plug 'mfussenegger/nvim-lint'
-Plug 'rshkarin/mason-nvim-lint'
 
 
 Plug 'davidmh/cspell.nvim'
@@ -1100,12 +1099,11 @@ end, opts)
 -- Native LSP stuff
 --
 
+
 require("mason").setup({
-  ensure_installed = {"cspell"},
+  ensure_installed = {"cspell", "tsserver", "eslint-lsp", "prettierd"},
 })
-require("mason-lspconfig").setup({
-  ensure_installed = {"tsserver", "eslint"},
-})
+require("mason-lspconfig").setup({ })
 
 local lspconfig = require('lspconfig')
 
@@ -1140,44 +1138,45 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>f', function()
-      vim.lsp.buf.format { async = true }
+    vim.keymap.set('n', '<leader>pr', function()
+      vim.lsp.buf.format { 
+        filter = function(client) return client.name ~= "tsserver" end,
+        async = true 
+      }
     end, opts)
   end,
 })
 
 
-
--- require('lint').linters_by_ft = {
---    javascript= {'eslint_d'},
---    typescript= {'eslint_d'},
---    html= {'stylelint'},
---    css= {'stylelint'},
---    sql= {'sqlfluff'}
--- }
-
--- require('mason-nvim-lint').setup({
---     ensure_installed = {'eslint_d', 'cspell'},
--- })
-
-
--- vim.api.nvim_create_autocmd({ "BufWinEnter", "TextChanged", "BufWritePost", "InsertLeave"}, {
---   callback = function()
---     -- try_lint without arguments runs the linters defined in `linters_by_ft`
---     -- for the current filetype
---     require("lint").try_lint("cspell")
---
---   end,
--- })
-
 local none_ls = require('null-ls')
 local cspell = require('cspell')
 
+
 none_ls.setup({
   sources = {
-    none_ls.builtins.formatting.prettier,
-    cspell.diagnostics,
+    none_ls.builtins.code_actions.proselint.with({filetypes = {}}),
     cspell.code_actions,
+
+    none_ls.builtins.diagnostics.todo_comments,
+    none_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
+    none_ls.builtins.diagnostics.codespell,
+    none_ls.builtins.diagnostics.fish,
+    none_ls.builtins.diagnostics.hadolint,
+    cspell.diagnostics,
+    none_ls.builtins.diagnostics.sqlfluff.with({
+        extra_args = { "--dialect", "postgres" },
+    }),
+
+    none_ls.builtins.formatting.prettierd,
+    none_ls.builtins.formatting.codespell,
+    none_ls.builtins.formatting.fish_indent,
+    none_ls.builtins.formatting.sqlfluff.with({
+        extra_args = { "--dialect", "postgres" },
+    }),
+    none_ls.builtins.formatting.stylua,
+
+    none_ls.builtins.hover.dictionary,
+    none_ls.builtins.hover.printenv,
   }
 })
 .
