@@ -59,7 +59,7 @@ Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'm-demare/hlargs.nvim'
 
 " Coc
-" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
 """"""""""""""""""""""""""""""""""""""""
 
 " markdown
@@ -70,7 +70,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' 
 " Plug 'chentoast/marks.nvim'
 """"""""""""""""""""""""""""""""""""""""
 " Ale
-" Plug 'dense-analysis/ale'
+Plug 'dense-analysis/ale'
 """"""""""""""""""""""""""""""""""""""""
 
 """"""""""""' Git
@@ -204,97 +204,97 @@ set rtp+=/usr/local/opt/fzf
 """"""""""""""""""""""""""""""
 " => Ale
 """"""""""""""""""""""""""""""
-" let g:ale_virtualtext_cursor = 1
-" nnoremap <leader>j <Plug>(ale_next_wrap)
-" nnoremap <leader>k <Plug>(ale_previous_wrap)
-" let g:ale_linters = {
-" \   'javascript': ['eslint'],
-" \   'javascript.jsx': ['eslint'],
-" \   'typescript': ['eslint', 'tslint', 'tsserver'],
-" \   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
-" \   'html': ['stylelint'],
-" \   'css': ['stylelint'],
-" \   'sql': ['sqlfluff'],
-" \}
-" let g:ale_fixers = {
-" \   'javascript': ['prettier', 'eslint'],
-" \   'javascript.jsx': ['prettier', 'eslint'],
-" \   'javascriptreact': ['prettier', 'eslint'],
-" \   'typescript': ['prettier', 'eslint'],
-" \   'typescript.tsx': ['prettier', 'eslint'],
-" \   'json': ['prettier', 'eslint'],
-" \   'css': ['prettier'],
-" \   'html': ['prettier'],
-" \   'sql': ['sqlfluff'],
-" \   '*': ['prettier'],
-" \}
-" nnoremap <leader>pr :ALEFix<CR>
-"
-" let g:ale_sign_error = '❌ '
-" let g:ale_sign_warning = '⚠️ '
+let g:ale_virtualtext_cursor = 1
+nnoremap <leader>j <Plug>(ale_next_wrap)
+nnoremap <leader>k <Plug>(ale_previous_wrap)
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'javascript.jsx': ['eslint'],
+\   'typescript': ['eslint', 'tslint', 'tsserver'],
+\   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
+\   'html': ['stylelint'],
+\   'css': ['stylelint'],
+\   'sql': ['sqlfluff'],
+\}
+let g:ale_fixers = {
+\   'javascript': ['prettier', 'eslint'],
+\   'javascript.jsx': ['prettier', 'eslint'],
+\   'javascriptreact': ['prettier', 'eslint'],
+\   'typescript': ['prettier', 'eslint'],
+\   'typescript.tsx': ['prettier', 'eslint'],
+\   'json': ['prettier', 'eslint'],
+\   'css': ['prettier'],
+\   'html': ['prettier'],
+\   'sql': ['sqlfluff'],
+\   '*': ['prettier'],
+\}
+nnoremap <leader>pr :ALEFix<CR>
+
+let g:ale_sign_error = '❌ '
+let g:ale_sign_warning = '⚠️ '
 
 """"""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 " use <tab> to trigger completion and navigate to the next complete item
-" function! CheckBackspace() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~# '\s'
-" endfunction
-"
-" inoremap <silent><expr> <Tab>
-"       \ coc#pum#visible() ? coc#pum#next(1) :
-"       \ CheckBackspace() ? "\<Tab>" :
-"       \ coc#refresh()
-"
-" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
-"
-" " Use <c-space> to trigger completion.
-" if has('nvim')
-"   inoremap <silent><expr> <c-space> coc#refresh()
-" else
-"   inoremap <silent><expr> <c-@> coc#refresh()
-" endif
-"
-" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" " Coc only does snippet and additional edit on confirm.
-" inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
-"
-" " Highlight symbol under cursor on CursorHold
-" "autocmd CursorHold * silent call CocActionAsync('highlight')
-"
-" " Remap for rename current word
-" nnoremap <leader>rn <Plug>(coc-rename)
-"
-" " Applying codeAction to the selected region.
-" " Example: `<leader>aap` for current paragraph
-" xnoremap <leader>a  <Plug>(coc-codeaction-selected)
-" nnoremap <leader>a  <Plug>(coc-codeaction-selected)
-"
-" " Remap keys for applying codeAction to the current buffer.
-" nnoremap <leader>ac  <Plug>(coc-codeaction)
-" " Apply AutoFix to problem on the current line.
-" nnoremap <leader>qf  <Plug>(coc-fix-current)
-"
-" " GoTo code navigation.
-" nnoremap <silent> gd <Plug>(coc-definition)
-" nnoremap <silent> gy <Plug>(coc-type-definition)
-" nnoremap <silent> gi <Plug>(coc-implementation)
-" nnoremap <silent> gr <Plug>(coc-references)
-"
-" " Use K to show documentation in preview window.
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-"
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   elseif (coc#rpc#ready())
-"     call CocActionAsync('doHover')
-"   else
-"     execute '!' . &keywordprg . " " . expand('<cword>')
-"   endif
-" endfunction
-"
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Use <c-space> to trigger completion.
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+
+" Highlight symbol under cursor on CursorHold
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nnoremap <leader>rn <Plug>(coc-rename)
+
+" Applying codeAction to the selected region.
+" Example: `<leader>aap` for current paragraph
+xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+nnoremap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap keys for applying codeAction to the current buffer.
+nnoremap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nnoremap <leader>qf  <Plug>(coc-fix-current)
+
+" GoTo code navigation.
+nnoremap <silent> gd <Plug>(coc-definition)
+nnoremap <silent> gy <Plug>(coc-type-definition)
+nnoremap <silent> gi <Plug>(coc-implementation)
+nnoremap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1100,83 +1100,83 @@ end, opts)
 --
 
 
-require("mason").setup({
-  ensure_installed = {"cspell", "tsserver", "eslint-lsp", "prettierd"},
-})
-require("mason-lspconfig").setup({ })
-
-local lspconfig = require('lspconfig')
-
-lspconfig.tsserver.setup({})
-lspconfig.eslint.setup({})
-lspconfig.vimls.setup({})
-lspconfig.lua_ls.setup({})
-lspconfig.docker_compose_language_service.setup({})
-lspconfig.jsonls.setup({})
-lspconfig.yamlls.setup({})
-
-vim.api.nvim_create_autocmd('LspAttach', {
-  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-  callback = function(ev)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-
-    -- Buffer local mappings.
-    -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local opts = { buffer = ev.buf }
-    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
-    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
-    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-    vim.keymap.set('n', '<leader>wl', function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, opts)
-    vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-    vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
-    vim.keymap.set('n', '<leader>pr', function()
-      vim.lsp.buf.format { 
-        filter = function(client) return client.name ~= "tsserver" end,
-        async = true 
-      }
-    end, opts)
-  end,
-})
-
-
-local none_ls = require('null-ls')
-local cspell = require('cspell')
-
-
-none_ls.setup({
-  sources = {
-    none_ls.builtins.code_actions.proselint.with({filetypes = {}}),
-    cspell.code_actions,
-
-    none_ls.builtins.diagnostics.todo_comments,
-    none_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
-    none_ls.builtins.diagnostics.codespell,
-    none_ls.builtins.diagnostics.fish,
-    none_ls.builtins.diagnostics.hadolint,
-    cspell.diagnostics,
-    none_ls.builtins.diagnostics.sqlfluff.with({
-        extra_args = { "--dialect", "postgres" },
-    }),
-
-    none_ls.builtins.formatting.prettierd,
-    none_ls.builtins.formatting.codespell,
-    none_ls.builtins.formatting.fish_indent,
-    none_ls.builtins.formatting.sqlfluff.with({
-        extra_args = { "--dialect", "postgres" },
-    }),
-    none_ls.builtins.formatting.stylua,
-
-    none_ls.builtins.hover.dictionary,
-    none_ls.builtins.hover.printenv,
-  }
-})
+-- require("mason").setup({
+--   ensure_installed = {"cspell", "tsserver", "eslint-lsp", "prettierd"},
+-- })
+-- require("mason-lspconfig").setup({ })
+--
+-- local lspconfig = require('lspconfig')
+--
+-- -- lspconfig.tsserver.setup({})
+-- -- lspconfig.eslint.setup({})
+-- -- lspconfig.vimls.setup({})
+-- -- lspconfig.lua_ls.setup({})
+-- -- lspconfig.docker_compose_language_service.setup({})
+-- -- lspconfig.jsonls.setup({})
+-- -- lspconfig.yamlls.setup({})
+--
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+--   callback = function(ev)
+--     -- Enable completion triggered by <c-x><c-o>
+--     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+--
+--     -- Buffer local mappings.
+--     -- See `:help vim.lsp.*` for documentation on any of the below functions
+--     local opts = { buffer = ev.buf }
+--     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+--     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+--     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+--     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+--     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+--     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+--     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+--     vim.keymap.set('n', '<leader>wl', function()
+--       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+--     end, opts)
+--     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
+--     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+--     vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
+--     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+--     vim.keymap.set('n', '<leader>pr', function()
+--       vim.lsp.buf.format { 
+--         filter = function(client) return client.name ~= "tsserver" end,
+--         async = true 
+--       }
+--     end, opts)
+--   end,
+-- })
+--
+--
+-- local none_ls = require('null-ls')
+-- local cspell = require('cspell')
+--
+--
+-- none_ls.setup({
+--   sources = {
+--     none_ls.builtins.code_actions.proselint.with({filetypes = {}}),
+--     cspell.code_actions,
+--
+--     none_ls.builtins.diagnostics.todo_comments,
+--     none_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
+--     none_ls.builtins.diagnostics.codespell,
+--     none_ls.builtins.diagnostics.fish,
+--     none_ls.builtins.diagnostics.hadolint,
+--     cspell.diagnostics,
+--     none_ls.builtins.diagnostics.sqlfluff.with({
+--         extra_args = { "--dialect", "postgres" },
+--     }),
+--
+--     none_ls.builtins.formatting.prettierd,
+--     none_ls.builtins.formatting.codespell,
+--     none_ls.builtins.formatting.fish_indent,
+--     none_ls.builtins.formatting.sqlfluff.with({
+--         extra_args = { "--dialect", "postgres" },
+--     }),
+--     none_ls.builtins.formatting.stylua,
+--
+--     none_ls.builtins.hover.dictionary,
+--     none_ls.builtins.hover.printenv,
+--   }
+-- })
 .
