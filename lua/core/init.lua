@@ -26,6 +26,7 @@ vim.api.nvim_create_autocmd({
   command = 'checktime'
 })
 
+
 -- Make buffers hidden when abandoned
 vim.o.hidden = true
 
