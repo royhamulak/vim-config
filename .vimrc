@@ -55,7 +55,7 @@ Plug 'rktjmp/lush.nvim'
 " Plug 'othree/html5.vim'
 " Plug 'hail2u/vim-css3-syntax'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'm-demare/hlargs.nvim'
+" Plug 'm-demare/hlargs.nvim'
 
 " Coc
 " Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
@@ -118,9 +118,10 @@ Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
 Plug 'SergioRibera/cmp-dotenv'
 Plug 'hrsh7th/nvim-cmp'
 
-Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
+Plug 'folke/neodev.nvim'
 
-Plug 'aznhe21/actions-preview.nvim'
+" UI
+Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
 
@@ -1025,16 +1026,16 @@ require("notify").setup({
 })
 
 vim.notify = require("notify")
-require('hlargs').setup({
-  color = onedarkColors.yellow,
-  paint_catch_blocks = {
-    declarations = true,
-    usages = true,
-  },
-  extras = {
-    named_parameters = true,
-  },
-})
+-- require('hlargs').setup({
+--   color = onedarkColors.yellow,
+--   paint_catch_blocks = {
+--     declarations = true,
+--     usages = true,
+--   },
+--   extras = {
+--     named_parameters = true,
+--   },
+-- })
 
 vim.filetype.add({
   extension = {
@@ -1128,13 +1129,19 @@ vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 -- Native LSP stuff
 --
 
+require('fidget').setup({})
 require('dressing').setup({
   select = {
-    backend = { "nui", "telescope", "fzf_lua", "fzf", "builtin" },
+    backend = {
+      "nui",
+      "fzf_lua",
+      "telescope",
+      "fzf",
+      "builtin"
+   },
   }
 })
 
--- require('fidget').setup({})
 -- require("noice").setup({
 --   lsp = {
 --     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
@@ -1153,6 +1160,9 @@ require('dressing').setup({
 --     lsp_doc_border = false, -- add a border to hover docs and signature help
 --   },
 -- })
+
+require('neodev').setup({
+})
 
 require("mason").setup({
   ensure_installed = {
@@ -1214,11 +1224,11 @@ cmp.setup.cmdline(':', {
   matching = { disallow_symbol_nonprefix_matching = false }
 })
 
+
+
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require('lspconfig')
-
--- local actionPreview = require('actions-preview')
 
 lspconfig.tsserver.setup({
   capabilities = capabilities
@@ -1227,6 +1237,7 @@ lspconfig.tsserver.setup({
 lspconfig.eslint.setup({
   capabilities = capabilities
 })
+
 
 lspconfig.vimls.setup({capabilities = capabilities})
 lspconfig.lua_ls.setup({capabilities = capabilities})
@@ -1290,7 +1301,7 @@ null_ls.setup({
     null_ls.builtins.diagnostics.codespell,
     -- null_ls.builtins.formatting.codespell,
 
-    -- null_ls.builtins.diagnostics.selene,
+    null_ls.builtins.diagnostics.selene,
 
     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
