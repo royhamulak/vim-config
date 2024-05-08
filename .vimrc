@@ -132,6 +132,7 @@ Plug 'MunifTanjim/nui.nvim'
 Plug 'stevearc/dressing.nvim'
 Plug 'j-hui/fidget.nvim'
 
+" Plug 'ndonfris/fish-lsp', {'do' : 'yarn install'}
 " Plug 'folke/noice.nvim'
 call plug#end()
 
@@ -1286,6 +1287,7 @@ lspconfig.lua_ls.setup({capabilities = capabilities})
 lspconfig.docker_compose_language_service.setup({capabilities = capabilities})
 lspconfig.jsonls.setup({capabilities = capabilities})
 lspconfig.yamlls.setup({capabilities = capabilities})
+-- lspconfig.fish_lsp.setup({capabilities = capabilities})
 
 
 vim.api.nvim_create_autocmd('LspAttach', {
