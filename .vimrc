@@ -204,35 +204,35 @@ set rtp+=/usr/local/opt/fzf
 """"""""""""""""""""""""""""""
 " => Ale
 """"""""""""""""""""""""""""""
-let g:ale_virtualtext_cursor = 1
-nnoremap <leader>j <Plug>(ale_next_wrap)
-nnoremap <leader>k <Plug>(ale_previous_wrap)
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'javascript.jsx': ['eslint'],
-\   'typescript': ['eslint', 'tslint', 'tsserver'],
-\   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
-\   'html': ['stylelint'],
-\   'css': ['stylelint'],
-\   'sql': ['sqlfluff'],
-\}
-let g:ale_fixers = {
-\   'javascript': ['prettier', 'eslint'],
-\   'javascript.jsx': ['prettier', 'eslint'],
-\   'javascriptreact': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'eslint'],
-\   'typescript.tsx': ['prettier', 'eslint'],
-\   'json': ['prettier', 'eslint'],
-\   'css': ['prettier'],
-\   'html': ['prettier'],
-\   'sql': ['sqlfluff'],
-\   '*': ['prettier'],
-\}
-nnoremap <leader>pr :ALEFix<CR>
-
-let g:ale_sign_error = '❌ '
-let g:ale_sign_warning = '⚠️ '
-
+" let g:ale_virtualtext_cursor = 1
+" nnoremap <leader>j <Plug>(ale_next_wrap)
+" nnoremap <leader>k <Plug>(ale_previous_wrap)
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \   'javascript.jsx': ['eslint'],
+" \   'typescript': ['eslint', 'tslint', 'tsserver'],
+" \   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
+" \   'html': ['stylelint'],
+" \   'css': ['stylelint'],
+" \   'sql': ['sqlfluff'],
+" \}
+" let g:ale_fixers = {
+" \   'javascript': ['prettier', 'eslint'],
+" \   'javascript.jsx': ['prettier', 'eslint'],
+" \   'javascriptreact': ['prettier', 'eslint'],
+" \   'typescript': ['prettier', 'eslint'],
+" \   'typescript.tsx': ['prettier', 'eslint'],
+" \   'json': ['prettier', 'eslint'],
+" \   'css': ['prettier'],
+" \   'html': ['prettier'],
+" \   'sql': ['sqlfluff'],
+" \   '*': ['prettier'],
+" \}
+" nnoremap <leader>pr :ALEFix<CR>
+"
+" let g:ale_sign_error = '❌ '
+" let g:ale_sign_warning = '⚠️ '
+"
 """"""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
@@ -294,6 +294,13 @@ function! s:show_documentation()
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif
 endfunction
+
+nnoremap <leader>pr <Plug>(coc-format)
+
+xmap <leader>f  <Plug>(coc-format-selected)
+
+nnoremap ]d <Plug>(coc-diagnostic-next)
+nnoremap [d <Plug>(coc-diagnostic-prev)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => FZF
