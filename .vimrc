@@ -109,11 +109,15 @@ Plug 'neovim/nvim-lspconfig'
 
 Plug 'davidmh/cspell.nvim'
 
+Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
+
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General section
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:doge_mapping = '<leader>dd'
 " set ; to : in normal mode
 nnoremap ; :
 
@@ -595,7 +599,7 @@ let g:tcomment_mapleader2 = '<leader>c'
 " => Diffview
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-nnoremap <leader>d :DiffviewOpen<cr>
+nnoremap <leader>df :DiffviewOpen<cr>
 nnoremap <leader>h :DiffviewFileHistory %<cr>
 nnoremap <leader>dq :DiffviewClose<cr>
 
