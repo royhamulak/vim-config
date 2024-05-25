@@ -14,7 +14,11 @@ Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'RRethy/vim-illuminate'
 
+Plug 'nvim-tree/nvim-web-devicons'
+" Plug 'ryanoasis/vim-devicons'
+
 Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
@@ -24,7 +28,6 @@ Plug 'rcarriga/nvim-notify'
 """"""""""""""""""""""""""""""""""""""""
 
 " General
-Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-surround'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'tomtom/tcomment_vim'
@@ -33,7 +36,6 @@ Plug 'tomtom/tcomment_vim'
 Plug 'echasnovski/mini.indentscope'
 
 """"" File tree plugin
-Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -716,6 +718,20 @@ local mapKeys = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 
+require("nvim-web-devicons").setup()
+
+require("bufferline").setup({
+  options = {
+    indicator = {
+      style = 'underline',
+    },
+    numbers = "ordinal",
+    diagnostics = "coc",
+    color_icons = true,
+    truncate_names = false,
+  }
+})
+
 require('lualine').setup({
   sections = {
     lualine_a = {'mode'},
@@ -725,25 +741,25 @@ require('lualine').setup({
     lualine_y = {'progress'},
     lualine_z = {'location'}
   },
-  tabline = {
-    lualine_a = {
-      {
-        'buffers',
-        mode = 2,
-        use_mode_colors = true,
-        symbols = {
-          modified = ' +',      -- Text to show when the buffer is modified
-          alternate_file = '#', -- Text to show to identify the alternate file
-          directory =  '',     -- Text to show when the buffer is a directory
-        },
-      }
-    },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {'tabs'}
-  }
+  -- tabline = {
+  --   lualine_a = {
+  --     {
+  --       'buffers',
+  --       mode = 2,
+  --       use_mode_colors = true,
+  --       symbols = {
+  --         modified = ' +',      -- Text to show when the buffer is modified
+  --         alternate_file = '#', -- Text to show to identify the alternate file
+  --         directory =  '',     -- Text to show when the buffer is a directory
+  --       },
+  --     }
+  --   },
+  --   lualine_b = {},
+  --   lualine_c = {},
+  --   lualine_x = {},
+  --   lualine_y = {},
+  --   lualine_z = {'tabs'}
+  -- }
 })
 
 require('colorizer').setup()
@@ -854,7 +870,6 @@ local function open_middle_win(partial)
 end
 
 
-require("nvim-web-devicons").setup()
 require("nvim-tree").setup({
     on_attach = my_on_attach,
     view = {
