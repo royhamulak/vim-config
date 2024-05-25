@@ -13,10 +13,13 @@ call plug#begin(stdpath('data') . '/plugged')
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'RRethy/vim-illuminate'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-" Plug 'nvim-lualine/lualine.nvim'
-" Plug 'nvim-tree/nvim-web-devicons'
+
+Plug 'nvim-tree/nvim-web-devicons'
+" Plug 'ryanoasis/vim-devicons'
+
+Plug 'nvim-lualine/lualine.nvim'
+Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
+
 Plug 'nvim-lua/plenary.nvim'
 Plug 'antoinemadec/FixCursorHold.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.x' }
@@ -25,7 +28,6 @@ Plug 'rcarriga/nvim-notify'
 """"""""""""""""""""""""""""""""""""""""
 
 " General
-Plug 'ryanoasis/vim-devicons'
 Plug 'tpope/vim-surround'
 Plug 'norcalli/nvim-colorizer.lua'
 Plug 'tomtom/tcomment_vim'
@@ -34,7 +36,6 @@ Plug 'tomtom/tcomment_vim'
 Plug 'echasnovski/mini.indentscope'
 
 """"" File tree plugin
-Plug 'nvim-tree/nvim-web-devicons'
 Plug 'nvim-tree/nvim-tree.lua'
 " Plug 'scrooloose/nerdtree'
 " Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -68,9 +69,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' 
 
 " Marks
 " Plug 'chentoast/marks.nvim'
-""""""""""""""""""""""""""""""""""""""""
-" Ale
-Plug 'dense-analysis/ale'
 """"""""""""""""""""""""""""""""""""""""
 
 """"""""""""' Git
@@ -206,38 +204,6 @@ set rtp+=/usr/local/opt/fzf
 " set signcolumn=yes
 
 """"""""""""""""""""""""""""""
-" => Ale
-""""""""""""""""""""""""""""""
-" let g:ale_virtualtext_cursor = 1
-" nnoremap <leader>j <Plug>(ale_next_wrap)
-" nnoremap <leader>k <Plug>(ale_previous_wrap)
-" let g:ale_linters = {
-" \   'javascript': ['eslint'],
-" \   'javascript.jsx': ['eslint'],
-" \   'typescript': ['eslint', 'tslint', 'tsserver'],
-" \   'typescript.tsx': ['eslint', 'tslint', 'tsserver'],
-" \   'html': ['stylelint'],
-" \   'css': ['stylelint'],
-" \   'sql': ['sqlfluff'],
-" \}
-" let g:ale_fixers = {
-" \   'javascript': ['prettier', 'eslint'],
-" \   'javascript.jsx': ['prettier', 'eslint'],
-" \   'javascriptreact': ['prettier', 'eslint'],
-" \   'typescript': ['prettier', 'eslint'],
-" \   'typescript.tsx': ['prettier', 'eslint'],
-" \   'json': ['prettier', 'eslint'],
-" \   'css': ['prettier'],
-" \   'html': ['prettier'],
-" \   'sql': ['sqlfluff'],
-" \   '*': ['prettier'],
-" \}
-" nnoremap <leader>pr :ALEFix<CR>
-"
-" let g:ale_sign_error = '❌ '
-" let g:ale_sign_warning = '⚠️ '
-"
-""""""""""""""""""""""""""""""
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 " use <tab> to trigger completion and navigate to the next complete item
@@ -307,31 +273,8 @@ nnoremap ]d <Plug>(coc-diagnostic-next)
 nnoremap [d <Plug>(coc-diagnostic-prev)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => FZF
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" noremap <C-p> :Files<CR>
-" noremap <C-f> :Ag<CR>
-
-" noremap <C-p> <cmd>Telescope git_files<cr>
-" noremap <C-f> <cmd>Telescope live_grep<cr>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Airline 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set airline font
-let g:airline_theme='onedark'
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline_powerline_fonts = 1
-" let g:airline#extensions#coc#enabled = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" let NERDTreeIgnore=['\.git$', '\.hg$']
-" map <C-x> :NERDTreeToggle<CR>
-" let NERDTreeShowHidden=1
 noremap <C-x> :NvimTreeFindFileToggle<CR>
 
 
@@ -775,6 +718,50 @@ local mapKeys = vim.api.nvim_set_keymap
 local opts = { noremap = true, silent = true }
 
 
+require("nvim-web-devicons").setup()
+
+require("bufferline").setup({
+  options = {
+    indicator = {
+      style = 'underline',
+    },
+    numbers = "ordinal",
+    diagnostics = "coc",
+    color_icons = true,
+    truncate_names = false,
+  }
+})
+
+require('lualine').setup({
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {'filename', 'g:coc_status'},
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+  -- tabline = {
+  --   lualine_a = {
+  --     {
+  --       'buffers',
+  --       mode = 2,
+  --       use_mode_colors = true,
+  --       symbols = {
+  --         modified = ' +',      -- Text to show when the buffer is modified
+  --         alternate_file = '#', -- Text to show to identify the alternate file
+  --         directory =  '',     -- Text to show when the buffer is a directory
+  --       },
+  --     }
+  --   },
+  --   lualine_b = {},
+  --   lualine_c = {},
+  --   lualine_x = {},
+  --   lualine_y = {},
+  --   lualine_z = {'tabs'}
+  -- }
+})
+
 require('colorizer').setup()
 require'nvim-treesitter.configs'.setup {
     ensure_installed = {
@@ -883,7 +870,6 @@ local function open_middle_win(partial)
 end
 
 
-require("nvim-web-devicons").setup()
 require("nvim-tree").setup({
     on_attach = my_on_attach,
     view = {
