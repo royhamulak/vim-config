@@ -95,7 +95,7 @@ Plug 'johmsalas/text-case.nvim'
 
 Plug 'otavioschwanck/arrow.nvim'
 
-Plug 'MunifTanjim/nui.nvim'
+" Plug 'MunifTanjim/nui.nvim'
 Plug 'm4xshen/hardtime.nvim'
 
 """"""""""""""""""""""""""""""""""""""""
@@ -103,7 +103,9 @@ Plug 'm4xshen/hardtime.nvim'
 " native lsp stuff
 Plug 'nvimtools/none-ls.nvim'
 Plug 'nvimtools/none-ls-extras.nvim'
-Plug 'williamboman/mason.nvim'
+Plug 'zeioth/none-ls-autoload.nvim'
+
+Plug 'williamboman/mason.nvim', {'do': ':MasonUpdate'}
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 
@@ -130,10 +132,10 @@ Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
 Plug 'MunifTanjim/nui.nvim'
 
 Plug 'stevearc/dressing.nvim'
-Plug 'j-hui/fidget.nvim'
+" Plug 'j-hui/fidget.nvim'
 
 " Plug 'ndonfris/fish-lsp', {'do' : 'yarn install'}
-" Plug 'folke/noice.nvim'
+Plug 'folke/noice.nvim'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -180,7 +182,7 @@ tnoremap <C-l> <C-\><C-n><C-w>l
 " autocmd BufEnter *.test.* Neotest summary open
 " autocmd BufHidden *.test.* Neotest summary close
 
-let g:mkdp_auto_start = 1
+" let g:mkdp_auto_start = 1
 
 " set to 1, the nvim will auto close current preview window when changing
 " from Markdown buffer to another buffer
@@ -1172,37 +1174,44 @@ vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 -- Native LSP stuff
 --
 
-require('fidget').setup({})
-require('dressing').setup({
-  select = {
-    backend = {
-      "nui",
-      "fzf_lua",
-      "telescope",
-      "fzf",
-      "builtin"
-   },
-  }
-})
-
--- require("noice").setup({
---   lsp = {
---     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
---     override = {
---       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
---       ["vim.lsp.util.stylize_markdown"] = true,
---       ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
---     },
---   },
---   -- you can enable a preset for easier configuration
---   presets = {
---     bottom_search = true, -- use a classic bottom cmdline for search
---     command_palette = true, -- position the cmdline and popupmenu together
---     long_message_to_split = true, -- long messages will be sent to a split
---     inc_rename = false, -- enables an input dialog for inc-rename.nvim
---     lsp_doc_border = false, -- add a border to hover docs and signature help
---   },
+-- require('fidget').setup({})
+-- require('dressing').setup({
+--   select = {
+--     backend = {
+--       "nui",
+--       "fzf_lua",
+--       "telescope",
+--       "fzf",
+--       "builtin"
+--    },
+--   }
 -- })
+
+require("noice").setup({
+  cmdline = {
+    enabled = true,
+    view = "cmdline",
+    format = {
+      conceal = false,
+    },
+  },
+  lsp = {
+    -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+    override = {
+      ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+      ["vim.lsp.util.stylize_markdown"] = true,
+      ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+    },
+  },
+  -- -- you can enable a preset for easier configuration
+  -- presets = {
+  --   bottom_search = true, -- use a classic bottom cmdline for search
+  --   command_palette = true, -- position the cmdline and popupmenu together
+  --   long_message_to_split = true, -- long messages will be sent to a split
+  --   inc_rename = false, -- enables an input dialog for inc-rename.nvim
+  --   lsp_doc_border = false, -- add a border to hover docs and signature help
+  -- },
+})
 
 require('neodev').setup({
 })
@@ -1217,6 +1226,8 @@ require("mason").setup({
     "stylua",
   }
 })
+
+local masonReg = require('mason-registry')
 
 require("mason-lspconfig").setup({ })
 
@@ -1273,6 +1284,7 @@ local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 local lspconfig = require('lspconfig')
 
+
 lspconfig.tsserver.setup({
   capabilities = capabilities
 })
@@ -1281,12 +1293,25 @@ lspconfig.eslint.setup({
   capabilities = capabilities
 })
 
+lspconfig.vimls.setup({
+  capabilities = capabilities
+})
 
-lspconfig.vimls.setup({capabilities = capabilities})
-lspconfig.lua_ls.setup({capabilities = capabilities})
-lspconfig.docker_compose_language_service.setup({capabilities = capabilities})
-lspconfig.jsonls.setup({capabilities = capabilities})
-lspconfig.yamlls.setup({capabilities = capabilities})
+lspconfig.lua_ls.setup({
+  capabilities = capabilities
+})
+
+lspconfig.docker_compose_language_service.setup({
+  -- capabilities = capabilities
+})
+
+lspconfig.jsonls.setup({
+  -- capabilities = capabilities
+})
+
+lspconfig.yamlls.setup({
+  -- capabilities = capabilities
+})
 -- lspconfig.fish_lsp.setup({capabilities = capabilities})
 
 
@@ -1335,33 +1360,36 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 local null_ls = require('null-ls')
-local cspell = require('cspell')
+-- local cspell = require('cspell')
 
 null_ls.setup({
-  sources = {
-    cspell.code_actions,
-    cspell.diagnostics,
-
-    null_ls.builtins.diagnostics.codespell,
-    -- null_ls.builtins.formatting.codespell,
-
-    null_ls.builtins.diagnostics.selene,
-
-    -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
-    -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
-
-    null_ls.builtins.diagnostics.sqlfluff.with({
-        extra_args = { "--dialect", "postgres" },
-    }),
-    null_ls.builtins.formatting.sqlfluff.with({
-        extra_args = { "--dialect", "postgres" },
-    }),
-
-    null_ls.builtins.formatting.prettier,
-
-    -- null_ls.builtins.formatting.stylua,
-  }
+--   sources = {
+--     cspell.code_actions,
+--     cspell.diagnostics,
+--     null_ls.builtins.diagnostics.codespell,
+--     -- null_ls.builtins.formatting.codespell,
+--
+--     null_ls.builtins.diagnostics.selene,
+--
+--     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
+--     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
+--
+--     null_ls.builtins.diagnostics.sqlfluff.with({
+--         extra_args = { "--dialect", "postgres" },
+--     }),
+--     null_ls.builtins.formatting.sqlfluff.with({
+--         extra_args = { "--dialect", "postgres" },
+--     }),
+--
+--     null_ls.builtins.formatting.prettier,
+--
+--     -- null_ls.builtins.formatting.stylua,
+--   }
 })
 
-
-.
+require('none-ls-autoload').setup({
+  external_sources = {
+    'cspell.code_actions',
+    'cspell.diagnostics',
+  }
+})
