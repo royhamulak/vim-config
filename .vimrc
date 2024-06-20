@@ -56,7 +56,6 @@ Plug 'rktjmp/lush.nvim'
 " Plug 'othree/html5.vim'
 " Plug 'hail2u/vim-css3-syntax'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'm-demare/hlargs.nvim'
 
 " Coc
@@ -113,6 +112,26 @@ Plug 'davidmh/cspell.nvim'
 
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
+
+" Completion
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'SergioRibera/cmp-dotenv'
+Plug 'hrsh7th/nvim-cmp'
+
+Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
+
+Plug 'aznhe21/actions-preview.nvim'
+
+Plug 'MunifTanjim/nui.nvim'
+
+Plug 'stevearc/dressing.nvim'
+Plug 'j-hui/fidget.nvim'
+
+" Plug 'folke/noice.nvim'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -121,6 +140,7 @@ call plug#end()
 
 let g:doge_mapping = '<leader>dd'
 " set ; to : in normal mode
+set foldenable
 nnoremap ; :
 
 set cursorline
@@ -211,70 +231,71 @@ set rtp+=/usr/local/opt/fzf
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 " use <tab> to trigger completion and navigate to the next complete item
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+" function! CheckBackspace() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+" inoremap <silent><expr> <Tab>
+"       \ coc#pum#visible() ? coc#pum#next(1) :
+"       \ CheckBackspace() ? "\<Tab>" :
+"       \ coc#refresh()
+"
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"
+" " Use <c-space> to trigger completion.
+" if has('nvim')
+"   inoremap <silent><expr> <c-space> coc#refresh()
+" else
+"   inoremap <silent><expr> <c-@> coc#refresh()
+" endif
+"
+" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" " Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+"
+" " Highlight symbol under cursor on CursorHold
+" "autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+" " Remap for rename current word
+" nnoremap <leader>rn <Plug>(coc-rename)
+"
+" " Applying codeAction to the selected region.
+" " Example: `<leader>aap` for current paragraph
+" xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+" nnoremap <leader>a  <Plug>(coc-codeaction-selected)
+"
+" " Remap keys for applying codeAction to the current buffer.
+" nnoremap <leader>ac  <Plug>(coc-codeaction)
+" " Apply AutoFix to problem on the current line.
+" nnoremap <leader>qf  <Plug>(coc-fix-current)
+"
+" " GoTo code navigation.
+" nnoremap <silent> gd <Plug>(coc-definition)
+" nnoremap <silent> gy <Plug>(coc-type-definition)
+" nnoremap <silent> gi <Plug>(coc-implementation)
+" nnoremap <silent> gr <Plug>(coc-references)
+"
+" " Use K to show documentation in preview window.
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   elseif (coc#rpc#ready())
+"     call CocActionAsync('doHover')
+"   else
+"     execute '!' . &keywordprg . " " . expand('<cword>')
+"   endif
+" endfunction
 
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" nnoremap <leader>pr <Plug>(coc-format)
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" xmap <leader>f  <Plug>(coc-format-selected)
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
-
-" Highlight symbol under cursor on CursorHold
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nnoremap <leader>rn <Plug>(coc-rename)
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nnoremap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nnoremap <leader>qf  <Plug>(coc-fix-current)
-
-" GoTo code navigation.
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-nnoremap <leader>pr <Plug>(coc-format)
-
-xmap <leader>f  <Plug>(coc-format-selected)
-
-nnoremap ]d <Plug>(coc-diagnostic-next)
-nnoremap [d <Plug>(coc-diagnostic-prev)
+" nnoremap ]d <Plug>(coc-diagnostic-next)
+" nnoremap [d <Plug>(coc-diagnostic-prev)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
@@ -286,9 +307,9 @@ noremap <C-x> :NvimTreeFindFileToggle<CR>
 " => fugitive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fugitive Conflict Resolution
-nnoremap <leader>gd :Gvdiffsplit!<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
+" nnoremap <leader>gd :Gvdiffsplit!<CR>
+" nnoremap gdh :diffget //2<CR>
+" nnoremap gdl :diffget //3<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -638,6 +659,7 @@ let s:fakerUpdateCommands=[
       \ '%s/faker.name/faker.person/g',
       \ '%s/faker.finance.account(\(\d*\))/faker.finance.accountNumber(\1)/g',
       \ '%s/\(faker.finance.amount(\)\(\d\+\), undefined, \(\d\+\)/\1{min: \2, dec: \3}',
+      \ '%s/\(faker.finance.amount(\)\(\d\+\), \(\d\+\)/\1{min: \2, max: \3}',
       \]
 
 command! FakerUpdate call s:updateFaker()
@@ -854,7 +876,6 @@ require('treesitter-context').setup({
 
 
 mapKeys("n", "<leader><C-c>", "<cmd>TSContextToggle<cr>", opts)
-
 
 local function my_on_attach(bufnr)
   local api = require "nvim-tree.api"
@@ -1090,14 +1111,24 @@ require("arrow").setup({
 
 
 local telescope = require('telescope')
+local telescopeThemes = require('telescope.themes')
 
+telescope.load_extension('lsp_handlers')
 telescope.setup({
   defaults = {
-    dynamic_preview_title = true
+    dynamic_preview_title = true,
+    initial_mode = 'normal',
   },
   pickers = {
     git_files = {
       use_git_root = false,
+      initial_mode = 'insert',
+    },
+    live_grep = {
+      initial_mode = 'insert',
+    },
+    find_files = {
+      initial_mode = 'insert',
     },
   },
 })
@@ -1129,6 +1160,9 @@ vim.keymap.set("n", "<C-P>", function ()
   end
 end, opts)
 
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
+
 -- require("marks").setup({
 -- })
 -- require("hardtime").setup()
@@ -1136,84 +1170,185 @@ end, opts)
 -- Native LSP stuff
 --
 
+require('dressing').setup({
+  select = {
+    backend = { "nui", "telescope", "fzf_lua", "fzf", "builtin" },
+  }
+})
 
--- require("mason").setup({
---   ensure_installed = {"cspell", "tsserver", "eslint-lsp", "prettierd"},
+-- require('fidget').setup({})
+-- require("noice").setup({
+--   lsp = {
+--     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+--     override = {
+--       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+--       ["vim.lsp.util.stylize_markdown"] = true,
+--       ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+--     },
+--   },
+--   -- you can enable a preset for easier configuration
+--   presets = {
+--     bottom_search = true, -- use a classic bottom cmdline for search
+--     command_palette = true, -- position the cmdline and popupmenu together
+--     long_message_to_split = true, -- long messages will be sent to a split
+--     inc_rename = false, -- enables an input dialog for inc-rename.nvim
+--     lsp_doc_border = false, -- add a border to hover docs and signature help
+--   },
 -- })
--- require("mason-lspconfig").setup({ })
---
--- local lspconfig = require('lspconfig')
---
--- -- lspconfig.tsserver.setup({})
--- -- lspconfig.eslint.setup({})
--- -- lspconfig.vimls.setup({})
--- -- lspconfig.lua_ls.setup({})
--- -- lspconfig.docker_compose_language_service.setup({})
--- -- lspconfig.jsonls.setup({})
--- -- lspconfig.yamlls.setup({})
---
--- vim.api.nvim_create_autocmd('LspAttach', {
---   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
---   callback = function(ev)
---     -- Enable completion triggered by <c-x><c-o>
---     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
---
---     -- Buffer local mappings.
---     -- See `:help vim.lsp.*` for documentation on any of the below functions
---     local opts = { buffer = ev.buf }
---     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
---     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
---     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
---     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
---     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
---     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
---     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
---     vim.keymap.set('n', '<leader>wl', function()
---       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
---     end, opts)
---     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
---     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
---     vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
---     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
---     vim.keymap.set('n', '<leader>pr', function()
---       vim.lsp.buf.format { 
---         filter = function(client) return client.name ~= "tsserver" end,
---         async = true 
---       }
---     end, opts)
---   end,
--- })
---
---
--- local none_ls = require('null-ls')
--- local cspell = require('cspell')
---
---
--- none_ls.setup({
---   sources = {
---     none_ls.builtins.code_actions.proselint.with({filetypes = {}}),
---     cspell.code_actions,
---
---     none_ls.builtins.diagnostics.todo_comments,
---     none_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
---     none_ls.builtins.diagnostics.codespell,
---     none_ls.builtins.diagnostics.fish,
---     none_ls.builtins.diagnostics.hadolint,
---     cspell.diagnostics,
---     none_ls.builtins.diagnostics.sqlfluff.with({
---         extra_args = { "--dialect", "postgres" },
---     }),
---
---     none_ls.builtins.formatting.prettierd,
---     none_ls.builtins.formatting.codespell,
---     none_ls.builtins.formatting.fish_indent,
---     none_ls.builtins.formatting.sqlfluff.with({
---         extra_args = { "--dialect", "postgres" },
---     }),
---     none_ls.builtins.formatting.stylua,
---
---     none_ls.builtins.hover.dictionary,
---     none_ls.builtins.hover.printenv,
---   }
--- })
+
+require("mason").setup({
+  ensure_installed = {
+    "cspell",
+    "codespell",
+    "tsserver",
+    "eslint-lsp",
+    "prettier",
+    "stylua",
+  }
+})
+
+require("mason-lspconfig").setup({ })
+
+local cmp = require('cmp')
+
+cmp.setup({
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
+      end
+    end,
+    ['<S-Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      else
+        fallback()
+      end
+    end
+  }),
+  sources = cmp.config.sources({
+    {name = 'nvim_lsp'},
+    { name = 'nvim_lsp_signature_help' },
+  }, {{name = 'buffer'}})
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  }),
+  matching = { disallow_symbol_nonprefix_matching = false }
+})
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+local lspconfig = require('lspconfig')
+
+-- local actionPreview = require('actions-preview')
+
+lspconfig.tsserver.setup({
+  capabilities = capabilities
+})
+
+lspconfig.eslint.setup({
+  capabilities = capabilities
+})
+
+lspconfig.vimls.setup({capabilities = capabilities})
+lspconfig.lua_ls.setup({capabilities = capabilities})
+lspconfig.docker_compose_language_service.setup({capabilities = capabilities})
+lspconfig.jsonls.setup({capabilities = capabilities})
+lspconfig.yamlls.setup({capabilities = capabilities})
+
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+  callback = function(ev)
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Buffer local mappings.
+    -- See `:help vim.lsp.*` for documentation on any of the below functions
+    local opts = { buffer = ev.buf }
+    vim.keymap.set('n', ']d', function()
+      vim.diagnostic.goto_next()
+    end, opts)
+    vim.keymap.set('n', '[d', function()
+      vim.diagnostic.goto_prev()
+    end, opts)
+
+
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+    vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+    vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
+    vim.keymap.set('n', '<leader>wl', function()
+      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+    end, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+    -- vim.keymap.set({ 'n', 'v' }, '<leader>ac', actionPreview.code_actions, opts)
+    vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
+    -- vim.keymap.set('n', 'gr', tele_builtins.lsp_references, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    
+    vim.keymap.set('n', '<leader>ld', function()
+      tele_builtins.diagnostics({bufnr = 0})
+    end, opts)
+    vim.keymap.set('n', '<leader>pr', function()
+      vim.lsp.buf.format { 
+        filter = function(client) return client.name ~= "tsserver" end,
+        async = true 
+      }
+     end, opts)
+  end,
+})
+
+local null_ls = require('null-ls')
+local cspell = require('cspell')
+
+null_ls.setup({
+  sources = {
+    cspell.code_actions,
+    cspell.diagnostics,
+
+    null_ls.builtins.diagnostics.codespell,
+    -- null_ls.builtins.formatting.codespell,
+
+    -- null_ls.builtins.diagnostics.selene,
+
+    -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
+    -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
+
+    null_ls.builtins.diagnostics.sqlfluff.with({
+        extra_args = { "--dialect", "postgres" },
+    }),
+    null_ls.builtins.formatting.sqlfluff.with({
+        extra_args = { "--dialect", "postgres" },
+    }),
+
+    null_ls.builtins.formatting.prettier,
+
+    -- null_ls.builtins.formatting.stylua,
+  }
+})
+
+
 .
