@@ -857,10 +857,6 @@ require('gitsigns').setup({
     },
 })
 
-require('treesitter-context').setup({
-  enable = false,
-})
-
 
 -- {{{ Regex
 
