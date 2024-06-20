@@ -82,6 +82,10 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'neoclide/npm.nvim', {'do' : 'npm install'}
 """"""""""""""""""""""""""""""""""""""""
 
+" Regex
+Plug 'rclawlor/regex-railroad.nvim'
+""""""""""""""""""""""""""""""""""""""""
+
 """" Tests
 Plug 'nvim-neotest/neotest'
 Plug 'nvim-neotest/neotest-jest'
@@ -762,6 +766,19 @@ require('lualine').setup({
   -- }
 })
 
+require('onedark').setup({
+    style = 'warmer',
+    transparent = true,
+    highlights = {
+      ["@type"] = {fg = '$red'},
+      ["@variable.parameter"] = {fg= '$yellow'},
+    },
+})
+
+require('onedark').load()
+
+local onedarkColors = require("onedark.colors")
+
 require('colorizer').setup()
 require'nvim-treesitter.configs'.setup {
     ensure_installed = {
@@ -783,6 +800,7 @@ require'nvim-treesitter.configs'.setup {
         "markdown",
         "astro",
         "sql",
+        "regex",
     },
     auto_install = true,
     highlight = {
@@ -817,19 +835,26 @@ require('treesitter-context').setup({
   enable = false,
 })
 
+
+-- {{{ Regex
+
+-- require("regex-railroad").setup({
+--     --- Github release of plugin
+--     tag = "v0.0.1",
+--     --- Highlight group used in :RegexText
+--     highlight = {
+--         bold = true,
+--         fg = onedarkColors.fg,
+--         bg = onedarkColors.bg0,
+--     }})
+--
+-- vim.api.nvim_set_keymap("n", "<leader>re", "<cmd>RegexText<CR>", {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "<leader>rr", "<cmd>RegexRailroad<CR>", {noremap = true, silent = true})
+-- }}}
+
+
 mapKeys("n", "<leader><C-c>", "<cmd>TSContextToggle<cr>", opts)
 
-
-require('onedark').setup({
-    style = 'warmer',
-    transparent = true,
-    highlights = {
-      ["@type"] = {fg = '$red'},
-      ["@variable.parameter"] = {fg= '$yellow'},
-    },
-})
-
-require('onedark').load()
 
 local function my_on_attach(bufnr)
   local api = require "nvim-tree.api"
@@ -994,7 +1019,6 @@ require("mini.indentscope").setup({
 -- mapKeys("n", "]t", "<cmd>lua require('neotest').jump.next()<CR>", opts)
 -- mapKeys("n", "[t", "<cmd>lua require('neotest').jump.prev()<CR>", opts)
 
-local onedarkColors = require("onedark.colors")
 
 require("notify").setup({
   background_colour = onedarkColors.bg0,
