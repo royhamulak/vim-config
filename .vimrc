@@ -115,6 +115,8 @@ Plug 'davidmh/cspell.nvim'
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
 
+Plug 'yioneko/nvim-vtsls'
+
 " Completion
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -1216,7 +1218,7 @@ require("mason").setup({
   ensure_installed = {
     "cspell",
     "codespell",
-    "tsserver",
+    "vtsls",
     "eslint-lsp",
     "prettier",
     "stylua",
@@ -1278,10 +1280,11 @@ cmp.setup.cmdline(':', {
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
+require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
 local lspconfig = require('lspconfig')
 
 
-lspconfig.tsserver.setup({
+lspconfig.vtsls.setup({
   capabilities = capabilities
 })
 
