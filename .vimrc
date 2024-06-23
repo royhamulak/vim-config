@@ -1217,7 +1217,7 @@ require('neodev').setup({
 require("mason").setup({
   ensure_installed = {
     "cspell",
-    "codespell",
+    --"codespell",
     "vtsls",
     "eslint-lsp",
     "prettier",
@@ -1351,7 +1351,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end, opts)
     vim.keymap.set('n', '<leader>pr', function()
       vim.lsp.buf.format { 
-        filter = function(client) return client.name ~= "tsserver" end,
+        filter = function(client) return client.name ~= "vtsls" end,
         async = true 
       }
      end, opts)
@@ -1388,7 +1388,7 @@ null_ls.setup({
 
 require('none-ls-autoload').setup({
   external_sources = {
-    'cspell.code_actions',
-    'cspell.diagnostics',
+   'cspell.code_actions',
+   'cspell.diagnostics',
   }
 })
