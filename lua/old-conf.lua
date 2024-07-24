@@ -508,7 +508,7 @@ cmp.setup({
   }),
   sources = cmp.config.sources({
     { name = "nvim_lsp" },
-    { name = "nvim_lsp_signature_help" },
+    -- { name = "nvim_lsp_signature_help" },
   }, { { name = "buffer" } }),
 })
 
@@ -665,7 +665,7 @@ null_ls.setup({
 
 require("none-ls-autoload").setup({
   external_sources = {
-    "cspell.code_actions",
-    "cspell.diagnostics",
+    -- "cspell.code_actions",
+    -- "cspell.diagnostics",
   },
 })
