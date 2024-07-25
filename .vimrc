@@ -59,7 +59,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'm-demare/hlargs.nvim'
 
 " Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
 """"""""""""""""""""""""""""""""""""""""
 
 " markdown
