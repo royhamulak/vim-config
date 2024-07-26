@@ -25,7 +25,7 @@ require("lualine").setup({
 		lualine_a = { "mode" },
 		lualine_b = { "branch", "diff", "diagnostics" },
 		lualine_c = {
-			"filename"
+			"filename",
 			-- "g:coc_status"
 		},
 		lualine_x = { "encoding", "fileformat", "filetype" },
@@ -512,7 +512,8 @@ cmp.setup({
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp" },
 		-- { name = "nvim_lsp_signature_help" },
-	}, { { name = "buffer" } }),
+		-- {name = "buffer"}
+	}),
 })
 
 cmp.setup.cmdline({ "/", "?" }, {
