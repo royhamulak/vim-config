@@ -191,9 +191,9 @@ require("nvim-tree").setup({
 		highlight_opened_files = "all",
 		full_name = true,
 		special_files = {},
-		-- indent_markers = {
-		--   enable = true,
-		-- },
+		indent_markers = {
+			enable = true,
+		},
 		icons = {
 			web_devicons = {
 				folder = {
@@ -233,11 +233,11 @@ require("nvim-tree").setup({
 	},
 })
 
-require("mini.indentscope").setup({
-	draw = {
-		animation = require("mini.indentscope").gen_animation.none(),
-	},
-})
+-- require("mini.indentscope").setup({
+-- 	draw = {
+-- 		animation = require("mini.indentscope").gen_animation.none(),
+-- 	},
+-- })
 
 -- require("neotest").setup({
 --   adapters = {
@@ -534,8 +534,93 @@ cmp.setup.cmdline(":", {
 })
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local customLspConfigs = {
+	vtsls = {
+		vtsls = {
+			autoUseWorkspaceTsdk = true,
+			experimental = {
+				completion = {
+					enableServerSideFuzzyMatch = true,
+				},
+			},
+		},
+		javascript = {
+			preferences = {
+				quoteStyle = "single",
+				importModuleSpecifierEnding = "js",
+			},
+			referencesCodeLens = {
+				enabled = true,
+				showOnAllFunction = true,
+			},
+			inlayHints = {
+				-- parameterNames = {
+				-- 	enabled = "all",
+				-- },
+				-- parameterTypes = {
+				-- 	enabled = true,
+				-- },
+				-- variableTypes = {
+				-- 	enabled = true,
+				-- },
+				-- propertyDeclarationTypes = {
+				-- 	enabled = true,
+				-- },
+				-- functionLikeReturnTypes = {
+				-- 	enabled = true,
+				-- },
+				-- enumMemberValues = {
+				-- 	enabled = true,
+				-- },
+			},
+		},
+		typescript = {
+			preferGoToSourceDefinition = true,
+			workspaceSymbols = {
+				scope = "currentProject",
+			},
+			preferences = {
+				quoteStyle = "single",
+				importModuleSpecifierEnding = "js",
+				preferTypeOnlyAutoImports = true,
+			},
+			referencesCodeLens = {
+				enabled = true,
+				showOnAllFunction = true,
+			},
+			inlayHints = {
+				-- parameterNames = {
+				-- 	enabled = "all",
+				-- },
+				-- parameterTypes = {
+				-- 	enabled = true,
+				-- },
+				-- variableTypes = {
+				-- 	enabled = true,
+				-- },
+				-- propertyDeclarationTypes = {
+				-- 	enabled = true,
+				-- },
+				-- functionLikeReturnTypes = {
+				-- 	enabled = true,
+				-- },
+				-- enumMemberValues = {
+				-- 	enabled = true,
+				-- },
+			},
+			suggest = {
+				completeFunctionCalls = true,
+			},
+			implementationsCodeLens = {
+				enabled = true,
+				showOnInterfaceMethods = true,
+			},
+		},
+	},
+}
 
 require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
+
 local lspconfig = require("lspconfig")
 
 local function isLSP(pkg)
@@ -552,9 +637,14 @@ local function loadLSPs()
 	for _, pkg in pairs(regs) do
 		if isLSP(pkg) then
 			local ali = pkg:get_aliases()[1] or pkg.name
-			lspconfig[ali].setup({
+			-- vim.print(ali)
+			-- vim.print(customLspConfigs[ali])
+			local settings = {
 				capabilities = capabilities,
-			})
+				settings = customLspConfigs[ali],
+			}
+
+			lspconfig[ali].setup(settings)
 		end
 	end
 end
@@ -599,6 +689,13 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		-- Enable completion triggered by <c-x><c-o>
 		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
+		vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+
+		vim.api.nvim_create_autocmd({ "LspTokenUpdate", "BufEnter", "FocusGained" }, {
+			callback = function(_ev)
+				vim.lsp.codelens.refresh({ bufnr = _ev.buf })
+			end,
+		})
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -643,28 +740,28 @@ local null_ls = require("null-ls")
 -- local cspell = require('cspell')
 
 null_ls.setup({
-	--   sources = {
-	--     cspell.code_actions,
-	--     cspell.diagnostics,
-	--     null_ls.builtins.diagnostics.codespell,
-	--     -- null_ls.builtins.formatting.codespell,
-	--
-	--     null_ls.builtins.diagnostics.selene,
-	--
-	--     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
-	--     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
-	--
-	--     null_ls.builtins.diagnostics.sqlfluff.with({
-	--         extra_args = { "--dialect", "postgres" },
-	--     }),
-	--     null_ls.builtins.formatting.sqlfluff.with({
-	--         extra_args = { "--dialect", "postgres" },
-	--     }),
-	--
-	--     null_ls.builtins.formatting.prettier,
-	--
-	--     -- null_ls.builtins.formatting.stylua,
-	--   }
+	sources = {
+		--     cspell.code_actions,
+		--     cspell.diagnostics,
+		--     null_ls.builtins.diagnostics.codespell,
+		--     -- null_ls.builtins.formatting.codespell,
+		--
+		--     null_ls.builtins.diagnostics.selene,
+		--
+		--     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
+		--     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
+		--
+		null_ls.builtins.diagnostics.sqlfluff.with({
+			extra_args = { "--dialect", "postgres" },
+		}),
+		null_ls.builtins.formatting.sqlfluff.with({
+			extra_args = { "--dialect", "postgres" },
+		}),
+		--
+		--     null_ls.builtins.formatting.prettier,
+		--
+		--     -- null_ls.builtins.formatting.stylua,
+	},
 })
 
 require("none-ls-autoload").setup({
