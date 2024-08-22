@@ -538,11 +538,11 @@ local customLspConfigs = {
 	vtsls = {
 		vtsls = {
 			autoUseWorkspaceTsdk = true,
-			experimental = {
-				completion = {
-					enableServerSideFuzzyMatch = true,
-				},
-			},
+			-- experimental = {
+			-- 	completion = {
+			-- 		enableServerSideFuzzyMatch = true,
+			-- 	},
+			-- },
 		},
 		javascript = {
 			preferences = {
@@ -575,7 +575,7 @@ local customLspConfigs = {
 			},
 		},
 		typescript = {
-			preferGoToSourceDefinition = true,
+			-- preferGoToSourceDefinition = true,
 			workspaceSymbols = {
 				scope = "currentProject",
 			},
@@ -632,24 +632,22 @@ local function isLSP(pkg)
 	return false
 end
 
-local function loadLSPs()
+local function loadLSPs(caps)
 	local regs = masonReg.get_installed_packages()
 	for _, pkg in pairs(regs) do
 		if isLSP(pkg) then
 			local ali = pkg:get_aliases()[1] or pkg.name
-			-- vim.print(ali)
-			-- vim.print(customLspConfigs[ali])
-			local settings = {
-				capabilities = capabilities,
-				settings = customLspConfigs[ali],
-			}
 
-			lspconfig[ali].setup(settings)
+			if not customLspConfigs[ali] then
+				lspconfig[ali].setup({ capabilities = caps })
+			else
+				lspconfig[ali].setup({ capabilities = caps, settings = customLspConfigs[ali] })
+			end
 		end
 	end
 end
 
-loadLSPs()
+loadLSPs(capabilities)
 
 -- lspconfig.vtsls.setup({
 --   capabilities = capabilities,
@@ -684,18 +682,26 @@ loadLSPs()
 -- })
 -- lspconfig.fish_lsp.setup({ capabilities = capabilities })
 
+local lspAUGroup = vim.api.nvim_create_augroup("UserLspConfig", {})
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+	group = lspAUGroup,
 	callback = function(ev)
 		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-		vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+		local bufnr = ev.buf
+		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		-- if client.server_capabilities.completionProvider then
+			vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+		-- end
+		-- if client.server_capabilities.definitionProvider then
+			vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
+		-- end
+		-- vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 
-		vim.api.nvim_create_autocmd({ "LspTokenUpdate", "BufEnter", "FocusGained" }, {
-			callback = function(_ev)
-				vim.lsp.codelens.refresh({ bufnr = _ev.buf })
-			end,
-		})
+		-- vim.api.nvim_create_autocmd({ "LspTokenUpdate", "BufEnter", "FocusGained" }, {
+		-- 	callback = function(_ev)
+		-- 		vim.lsp.codelens.refresh({ bufnr = _ev.buf })
+		-- 	end,
+		-- })
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
@@ -736,6 +742,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
+-- vim.api.nvim_create_autocmd("LspDetach", {
+-- 	group = lspAUGroup,
+-- 	callback = function(args)
+-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
+-- 		-- Do something with the client
+-- 		vim.cmd("setlocal tagfunc< omnifunc<")
+-- 	end,
+-- })
+
 local null_ls = require("null-ls")
 -- local cspell = require('cspell')
 
@@ -752,13 +767,11 @@ null_ls.setup({
 		--     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
 		--
 		null_ls.builtins.diagnostics.sqlfluff.with({
-			extra_args = { "--dialect", "postgres" },
+			extra_args = { "--dialect", "snowflake" },
 		}),
 		null_ls.builtins.formatting.sqlfluff.with({
-			extra_args = { "--dialect", "postgres" },
+			extra_args = { "--dialect", "snowflake" },
 		}),
-		--
-		--     null_ls.builtins.formatting.prettier,
 		--
 		--     -- null_ls.builtins.formatting.stylua,
 	},

@@ -13,6 +13,6 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup(
   {
-    require("core.plugins.onedark")
+    require("lentent.plugins.onedark")
   }
 )
