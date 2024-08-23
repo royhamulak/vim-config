@@ -56,15 +56,17 @@ Plug 'rktjmp/lush.nvim'
 " Plug 'othree/html5.vim'
 " Plug 'hail2u/vim-css3-syntax'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-context'
-Plug 'm-demare/hlargs.nvim'
+" Plug 'm-demare/hlargs.nvim'
 
+
+Plug 'ziontee113/syntax-tree-surfer',
 " Coc
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
 """"""""""""""""""""""""""""""""""""""""
 
 " markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
+" Plug 'MeanderingProgrammer/markdown.nvim'
 """"""""""""""""""""""""""""""""""""""""
 
 " Marks
@@ -96,7 +98,7 @@ Plug 'johmsalas/text-case.nvim'
 
 Plug 'otavioschwanck/arrow.nvim'
 
-Plug 'MunifTanjim/nui.nvim'
+" Plug 'MunifTanjim/nui.nvim'
 Plug 'm4xshen/hardtime.nvim'
 
 """"""""""""""""""""""""""""""""""""""""
@@ -104,7 +106,9 @@ Plug 'm4xshen/hardtime.nvim'
 " native lsp stuff
 Plug 'nvimtools/none-ls.nvim'
 Plug 'nvimtools/none-ls-extras.nvim'
-Plug 'williamboman/mason.nvim'
+Plug 'zeioth/none-ls-autoload.nvim'
+
+Plug 'williamboman/mason.nvim', {'do': ':MasonUpdate'}
 Plug 'williamboman/mason-lspconfig.nvim'
 Plug 'neovim/nvim-lspconfig'
 
@@ -113,6 +117,32 @@ Plug 'davidmh/cspell.nvim'
 
 Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
 
+
+Plug 'yioneko/nvim-vtsls'
+
+" Completion
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
+Plug 'SergioRibera/cmp-dotenv'
+Plug 'hrsh7th/nvim-cmp'
+
+Plug 'folke/neodev.nvim'
+
+" UI
+Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
+
+Plug 'MunifTanjim/nui.nvim'
+
+Plug 'stevearc/dressing.nvim'
+" Plug 'j-hui/fidget.nvim'
+
+" Plug 'ndonfris/fish-lsp', {'do' : 'yarn install'}
+Plug 'folke/noice.nvim'
+
+Plug 'folke/neoconf.nvim'
 call plug#end()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -121,6 +151,7 @@ call plug#end()
 
 let g:doge_mapping = '<leader>dd'
 " set ; to : in normal mode
+set foldenable
 nnoremap ; :
 
 set cursorline
@@ -158,7 +189,7 @@ tnoremap <C-l> <C-\><C-n><C-w>l
 " autocmd BufEnter *.test.* Neotest summary open
 " autocmd BufHidden *.test.* Neotest summary close
 
-let g:mkdp_auto_start = 1
+" let g:mkdp_auto_start = 1
 
 " set to 1, the nvim will auto close current preview window when changing
 " from Markdown buffer to another buffer
@@ -211,70 +242,71 @@ set rtp+=/usr/local/opt/fzf
 " => Coc.nvim
 """"""""""""""""""""""""""""""
 " use <tab> to trigger completion and navigate to the next complete item
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
 
-inoremap <silent><expr> <Tab>
-      \ coc#pum#visible() ? coc#pum#next(1) :
-      \ CheckBackspace() ? "\<Tab>" :
-      \ coc#refresh()
+" function! CheckBackspace() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+"
+" inoremap <silent><expr> <Tab>
+"       \ coc#pum#visible() ? coc#pum#next(1) :
+"       \ CheckBackspace() ? "\<Tab>" :
+"       \ coc#refresh()
+"
+" inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+"
+" " Use <c-space> to trigger completion.
+" if has('nvim')
+"   inoremap <silent><expr> <c-space> coc#refresh()
+" else
+"   inoremap <silent><expr> <c-@> coc#refresh()
+" endif
+"
+" " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" " Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
+"
+" " Highlight symbol under cursor on CursorHold
+" "autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+" " Remap for rename current word
+" nnoremap <leader>rn <Plug>(coc-rename)
+"
+" " Applying codeAction to the selected region.
+" " Example: `<leader>aap` for current paragraph
+" xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+" nnoremap <leader>a  <Plug>(coc-codeaction-selected)
+"
+" " Remap keys for applying codeAction to the current buffer.
+" nnoremap <leader>ac  <Plug>(coc-codeaction)
+" " Apply AutoFix to problem on the current line.
+" nnoremap <leader>qf  <Plug>(coc-fix-current)
+"
+" " GoTo code navigation.
+" nnoremap <silent> gd <Plug>(coc-definition)
+" nnoremap <silent> gy <Plug>(coc-type-definition)
+" nnoremap <silent> gi <Plug>(coc-implementation)
+" nnoremap <silent> gr <Plug>(coc-references)
+"
+" " Use K to show documentation in preview window.
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   elseif (coc#rpc#ready())
+"     call CocActionAsync('doHover')
+"   else
+"     execute '!' . &keywordprg . " " . expand('<cword>')
+"   endif
+" endfunction
 
-inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+" nnoremap <leader>pr <Plug>(coc-format)
 
-" Use <c-space> to trigger completion.
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
-endif
+" xmap <leader>f  <Plug>(coc-format-selected)
 
-" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-" Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> coc#pum#visible() ? coc#_select_confirm() : "\<CR>"
-
-" Highlight symbol under cursor on CursorHold
-"autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Remap for rename current word
-nnoremap <leader>rn <Plug>(coc-rename)
-
-" Applying codeAction to the selected region.
-" Example: `<leader>aap` for current paragraph
-xnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>a  <Plug>(coc-codeaction-selected)
-
-" Remap keys for applying codeAction to the current buffer.
-nnoremap <leader>ac  <Plug>(coc-codeaction)
-" Apply AutoFix to problem on the current line.
-nnoremap <leader>qf  <Plug>(coc-fix-current)
-
-" GoTo code navigation.
-nnoremap <silent> gd <Plug>(coc-definition)
-nnoremap <silent> gy <Plug>(coc-type-definition)
-nnoremap <silent> gi <Plug>(coc-implementation)
-nnoremap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
-  else
-    execute '!' . &keywordprg . " " . expand('<cword>')
-  endif
-endfunction
-
-nnoremap <leader>pr <Plug>(coc-format)
-
-xmap <leader>f  <Plug>(coc-format-selected)
-
-nnoremap ]d <Plug>(coc-diagnostic-next)
-nnoremap [d <Plug>(coc-diagnostic-prev)
+" nnoremap ]d <Plug>(coc-diagnostic-next)
+" nnoremap [d <Plug>(coc-diagnostic-prev)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
@@ -286,9 +318,9 @@ noremap <C-x> :NvimTreeFindFileToggle<CR>
 " => fugitive
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fugitive Conflict Resolution
-nnoremap <leader>gd :Gvdiffsplit!<CR>
-nnoremap gdh :diffget //2<CR>
-nnoremap gdl :diffget //3<CR>
+" nnoremap <leader>gd :Gvdiffsplit!<CR>
+" nnoremap gdh :diffget //2<CR>
+" nnoremap gdl :diffget //3<CR>
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -638,6 +670,7 @@ let s:fakerUpdateCommands=[
       \ '%s/faker.name/faker.person/g',
       \ '%s/faker.finance.account(\(\d*\))/faker.finance.accountNumber(\1)/g',
       \ '%s/\(faker.finance.amount(\)\(\d\+\), undefined, \(\d\+\)/\1{min: \2, dec: \3}',
+      \ '%s/\(faker.finance.amount(\)\(\d\+\), \(\d\+\)/\1{min: \2, max: \3}',
       \]
 
 command! FakerUpdate call s:updateFaker()
@@ -706,514 +739,9 @@ function! VisualSelection(direction) range
     let @" = l:saved_reg
 endfunction
 
-
 " autocmd BufReadPost quickfix nnoremap <buffer> <CR> <CR>
 " autocmd BufReadPost quickfix setlocal nowrap
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Lua stuff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Gitsigns
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-lua <<
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.opt.termguicolors = true
-local mapKeys = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
-
-
-require("nvim-web-devicons").setup()
-
-require("bufferline").setup({
-  options = {
-    indicator = {
-      style = 'underline',
-    },
-    numbers = "ordinal",
-    diagnostics = "coc",
-    color_icons = true,
-    truncate_names = false,
-  }
-})
-
-require('lualine').setup({
-  sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', 'diagnostics'},
-    lualine_c = {'filename', 'g:coc_status'},
-    lualine_x = {'encoding', 'fileformat', 'filetype'},
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
-  },
-  -- tabline = {
-  --   lualine_a = {
-  --     {
-  --       'buffers',
-  --       mode = 2,
-  --       use_mode_colors = true,
-  --       symbols = {
-  --         modified = ' +',      -- Text to show when the buffer is modified
-  --         alternate_file = '#', -- Text to show to identify the alternate file
-  --         directory =  '',     -- Text to show when the buffer is a directory
-  --       },
-  --     }
-  --   },
-  --   lualine_b = {},
-  --   lualine_c = {},
-  --   lualine_x = {},
-  --   lualine_y = {},
-  --   lualine_z = {'tabs'}
-  -- }
-})
-
-require('onedark').setup({
-    style = 'warmer',
-    transparent = true,
-    highlights = {
-      ["@type"] = {fg = '$red'},
-      ["@variable.parameter"] = {fg= '$yellow'},
-    },
-})
-
-require('onedark').load()
-
-local onedarkColors = require("onedark.colors")
-
-require('colorizer').setup()
-require'nvim-treesitter.configs'.setup {
-    ensure_installed = {
-        "typescript",
-        "json",
-        "javascript",
-        "yaml",
-        "jsonc",
-        "html",
-        "vim",
-        "vimdoc",
-        "lua",
-        "css",
-        "bash",
-        "csv",
-        "dockerfile",
-        "elm",
-        "fish",
-        "markdown",
-        "astro",
-        "sql",
-        "regex",
-    },
-    auto_install = true,
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = true,
-    },
-    incremental_selection = {
-      enable = false,
-      -- keymaps = {
-      --   init_selection = "<leader>s",
-      --   node_incremental = "s",
-      --   scope_incremental = "S",
-      --   node_decremental = "d",
-      -- }
-    },
-}
-
-require('gitsigns').setup({
-    signs = {
-        add = {text = '+'},
-        change = {text = '+'}
-    },
-    signcolumn = true,
-    numhl = true,
-    current_line_blame = true,
-    current_line_blame_opts = {
-        delay = 100,
-    },
-})
-
-require('treesitter-context').setup({
-  enable = false,
-})
-
-
--- {{{ Regex
-
--- require("regex-railroad").setup({
---     --- Github release of plugin
---     tag = "v0.0.1",
---     --- Highlight group used in :RegexText
---     highlight = {
---         bold = true,
---         fg = onedarkColors.fg,
---         bg = onedarkColors.bg0,
---     }})
---
--- vim.api.nvim_set_keymap("n", "<leader>re", "<cmd>RegexText<CR>", {noremap = true, silent = true})
--- vim.api.nvim_set_keymap("n", "<leader>rr", "<cmd>RegexRailroad<CR>", {noremap = true, silent = true})
--- }}}
-
-
-mapKeys("n", "<leader><C-c>", "<cmd>TSContextToggle<cr>", opts)
-
-
-local function my_on_attach(bufnr)
-  local api = require "nvim-tree.api"
-
-  local function opts(desc)
-    return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-  end
-
-  -- default mappings
-  api.config.mappings.default_on_attach(bufnr)
-
-  -- custom mappings
-  vim.keymap.del('n', '<C-x>', { buffer = bufnr })
-  -- vim.keymap.del('n', '<2-LeftMouse>', { buffer = bufnr })
-  -- vim.keymap.del('n', '<2-RighMouse>', { buffer = bufnr })
-  vim.keymap.set('n', '<C-s>',   api.node.open.horizontal,            opts('Open: Horizontal Split'))
-  vim.keymap.set('n', '?',     api.tree.toggle_help,                  opts('Help'))
-end
-
-local function open_middle_win(partial)
-  return function ()
-    local win_height = vim.go.lines
-    local win_width = vim.go.columns
-    local height = win_height * partial
-    local width = win_width * partial
-    local row = (win_height - height) / 2
-    local col = (win_width - width) / 2
-    return {
-      relative = "editor",
-      border = "rounded",
-      height = math.floor(height),
-      width = math.floor(width),
-      row = row,
-      col = col,
-      focusable = true,
-    }
-  end
-end
-
-
-require("nvim-tree").setup({
-    on_attach = my_on_attach,
-    view = {
-      float = {
-        enable = false,
-        open_win_config = open_middle_win(0.7),
-      },
-    },
-    renderer = {
-      add_trailing = true,
-      highlight_git = true,
-      highlight_diagnostics = true,
-      highlight_opened_files = 'all',
-      full_name = true,
-      special_files = {},
-      -- indent_markers = {
-      --   enable = true,
-      -- },
-      icons = {
-        web_devicons = {
-          folder = {
-            enable = true,
-          },
-        },
-      },
-    },
-    update_focused_file = {
-      enable = true,
-    },
-    modified = {
-      enable = true,
-    },
-    diagnostics = {
-      enable = true,
-      show_on_dirs = true,
-    },
-    filters = {
-      -- git_ignored = false,
-    },
-    filesystem_watchers = {
-      ignore_dirs = {
-        "build$", "node_modules"
-      },
-    },
-    actions = {
-      file_popup = {
-        open_win_config = {
-          border = "rounded",
-        }
-      },
-      open_file = {
-        quit_on_open = true,
-      },
-    },
-})
-
-require("mini.indentscope").setup({
-  draw = {
-    animation = require('mini.indentscope').gen_animation.none()
-  }
-})
-
-
--- require("neotest").setup({
---   adapters = {
---     require("neotest-jest")({
---       jestCommand = "npm run test:jest --",
---       -- jestConfigFile = function()
---       --   local file = vim.fn.expand('%:p')
---       --   if string.find(file, "/packages/") then
---       --     return string.match(file, "(.-/[^/]+/)src") .. "jest.config.ts"
---       --   end
---       --
---       --   return vim.fn.getcwd() .. "/jest.config.ts"
---       -- end,
---       -- cwd = function () 
---       --   return vim.fn.getcwd()
---       -- end,
---       jest_test_discovery = true,
---     })
---   },
---   summary = {
---     mappings = {
---       expand = "e",
---       expand_all = "E",
---     },
---     open = "botright vsplit | vertical resize 80"
---   },
---   discovery = {
---     enabled = false,
---     filter_dir = function(name, rel_path)
---       if string.find(rel_path, "test") then 
---         vim.print("yes " .. rel_path)
---         return true
---       end
---       vim.print("no " .. rel_path)
---       -- vim.print(root)
---       return false
---     end
---   },
---   -- output = {
---   --   enabled = true,
---   --   open_on_run = true,
---   -- },
---   -- status = {
---   --   enabled = true,
---   --   virtual_text = true,
---   -- },
---   -- state = {
---   --   enabled = true,
---   -- },
--- })
---
---
--- mapKeys("n", "<leader>t", "<cmd>lua require('neotest').run.run()<CR>", opts)
--- mapKeys("n", "<leader>ta", "<cmd>Neotest attach<CR>", opts)
--- mapKeys("n", "<leader>to", "<cmd>lua require('neotest').output.open({last_run=true})<CR>", opts)
--- mapKeys("n", "<leader>tw", "<cmd>lua require('neotest').run.run({ jestCommand = 'npm run test:jest -- --watch' })<CR>", opts)
--- mapKeys("n", "<leader>tt", "<cmd>lua require('neotest').run.run({vim.fn.expand('%'), jestCommand = 'npm run test:jest -- --watch' })<CR>", opts)
--- mapKeys("n", "<leader>tl", "<cmd>lua require('neotest').run.run_last()<CR>", opts)
---
--- mapKeys("n", "]t", "<cmd>lua require('neotest').jump.next()<CR>", opts)
--- mapKeys("n", "[t", "<cmd>lua require('neotest').jump.prev()<CR>", opts)
-
-
-require("notify").setup({
-  background_colour = onedarkColors.bg0,
-  render = "wrapped-compact",
-  fps = 120,
-  stages = "fade",
-  max_width = 30,
-  timeout = 250,
-})
-
-vim.notify = require("notify")
-require('hlargs').setup({
-  color = onedarkColors.yellow,
-  paint_catch_blocks = {
-    declarations = true,
-    usages = true,
-  },
-  extras = {
-    named_parameters = true,
-  },
-})
-
-vim.filetype.add({
-  extension = {
-    mdx = 'javascriptreact',
-    yml = 'yaml',
-  },
-  filename = {
-    ['docker-compose.yml'] = 'yaml.docker-compose',
-  },
-})
-
-require('nvim-test').setup({
-runners = {               -- setup tests runners
-    cs = "nvim-test.runners.dotnet",
-    go = "nvim-test.runners.go-test",
-    haskell = "nvim-test.runners.hspec",
-    javascriptreact = "nvim-test.runners.jest",
-    javascript = "nvim-test.runners.jest",
-    lua = "nvim-test.runners.busted",
-    python = "nvim-test.runners.pytest",
-    ruby = "nvim-test.runners.rspec",
-    rust = "nvim-test.runners.cargo-test",
-    typescript = "nvim-test.runners.jest",
-    typescriptreact = "nvim-test.runners.jest",
-}})
-
-require('nvim-test.runners.jest'):setup {
-  command = "npm",
-  args = { "run", "test:jest", "--", "--collectCoverage=false" },
-  file_pattern = "\\v((__tests__|tests)/.*|(spec|test))\\.(js|jsx|coffee|ts|tsx)$",
-  find_files = { "{name}.test.{ext}", "{name}.spec.{ext}" },
-  filename_modifier = nil,
-  working_directory = nil,
-}
-mapKeys("n", "<leader>t", "<cmd>TestNearest<CR>", opts)
-mapKeys("n", "<leader>tf", "<cmd>TestFile<CR>", opts)
-mapKeys("n", "<leader>ta", "<cmd>TestSuite<CR>", opts)
-mapKeys("n", "<leader>tt", "<cmd>TestLast<CR>", opts)
-mapKeys("n", "<leader>tv", "<cmd>TestVisit<CR>", opts)
-
-require("textcase").setup({})
-
-require("arrow").setup({
-  always_show_path = true,
-  show_icons = true,
-  leader_key = "\\",
-})
-
-
-local telescope = require('telescope')
-
-telescope.setup({
-  defaults = {
-    dynamic_preview_title = true
-  },
-  pickers = {
-    git_files = {
-      use_git_root = false,
-    },
-  },
-})
-
-vim.cmd [[
-nnoremap gau :lua require('textcase').current_word('to_upper_case')<CR>
-nnoremap gal :lua require('textcase').current_word('to_lower_case')<CR>
-nnoremap gas :lua require('textcase').current_word('to_snake_case')<CR>
-nnoremap gad :lua require('textcase').current_word('to_dash_case')<CR>
-nnoremap gan :lua require('textcase').current_word('to_constant_case')<CR>
-nnoremap gad :lua require('textcase').current_word('to_dot_case')<CR>
-nnoremap gaa :lua require('textcase').current_word('to_phrase_case')<CR>
-nnoremap gac :lua require('textcase').current_word('to_camel_case')<CR>
-nnoremap gap :lua require('textcase').current_word('to_pascal_case')<CR>
-nnoremap gat :lua require('textcase').current_word('to_title_case')<CR>
-nnoremap gaf :lua require('textcase').current_word('to_path_case')<CR>
-]]
-
-telescope.load_extension("textcase")
-
-local tele_builtins = require('telescope.builtin')
-
-vim.keymap.set("n", "<C-F>", "<cmd>Telescope live_grep<cr>", opts)
-vim.keymap.set("n", "<C-P>", function ()
-  if os.execute("git rev-parse --show-top-level 2> /dev/null") == 0 then
-    tele_builtins.git_files({show_untracked = true})
-  else
-    tele_builtins.find_files()
-  end
-end, opts)
-
--- require("marks").setup({
--- })
--- require("hardtime").setup()
-
--- Native LSP stuff
---
-
-
--- require("mason").setup({
---   ensure_installed = {"cspell", "tsserver", "eslint-lsp", "prettierd"},
--- })
--- require("mason-lspconfig").setup({ })
---
--- local lspconfig = require('lspconfig')
---
--- -- lspconfig.tsserver.setup({})
--- -- lspconfig.eslint.setup({})
--- -- lspconfig.vimls.setup({})
--- -- lspconfig.lua_ls.setup({})
--- -- lspconfig.docker_compose_language_service.setup({})
--- -- lspconfig.jsonls.setup({})
--- -- lspconfig.yamlls.setup({})
---
--- vim.api.nvim_create_autocmd('LspAttach', {
---   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
---   callback = function(ev)
---     -- Enable completion triggered by <c-x><c-o>
---     vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
---
---     -- Buffer local mappings.
---     -- See `:help vim.lsp.*` for documentation on any of the below functions
---     local opts = { buffer = ev.buf }
---     vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
---     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
---     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
---     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
---     vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
---     vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
---     vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
---     vim.keymap.set('n', '<leader>wl', function()
---       print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
---     end, opts)
---     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
---     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
---     vim.keymap.set({ 'n', 'v' }, '<leader>ac', vim.lsp.buf.code_action, opts)
---     vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
---     vim.keymap.set('n', '<leader>pr', function()
---       vim.lsp.buf.format { 
---         filter = function(client) return client.name ~= "tsserver" end,
---         async = true 
---       }
---     end, opts)
---   end,
--- })
---
---
--- local none_ls = require('null-ls')
--- local cspell = require('cspell')
---
---
--- none_ls.setup({
---   sources = {
---     none_ls.builtins.code_actions.proselint.with({filetypes = {}}),
---     cspell.code_actions,
---
---     none_ls.builtins.diagnostics.todo_comments,
---     none_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
---     none_ls.builtins.diagnostics.codespell,
---     none_ls.builtins.diagnostics.fish,
---     none_ls.builtins.diagnostics.hadolint,
---     cspell.diagnostics,
---     none_ls.builtins.diagnostics.sqlfluff.with({
---         extra_args = { "--dialect", "postgres" },
---     }),
---
---     none_ls.builtins.formatting.prettierd,
---     none_ls.builtins.formatting.codespell,
---     none_ls.builtins.formatting.fish_indent,
---     none_ls.builtins.formatting.sqlfluff.with({
---         extra_args = { "--dialect", "postgres" },
---     }),
---     none_ls.builtins.formatting.stylua,
---
---     none_ls.builtins.hover.dictionary,
---     none_ls.builtins.hover.printenv,
---   }
--- })
-.
+lua require('old-conf')

@@ -1,6 +1,6 @@
 function _G.ReloadConfig()
   for name,_ in pairs(package.loaded) do
-    if name:match('^core') and not name:match('nvim-tree') then
+    if name:match('^lentent') and not name:match('nvim-tree') then
       print(name)
       package.loaded[name] = nil
     end
