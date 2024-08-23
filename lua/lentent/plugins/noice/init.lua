@@ -3,13 +3,18 @@ require("noice").setup({
 		enabled = true,
 		view = "cmdline",
 		format = {
-      cmdline = { pattern = "^:", icon = "", lang = "vim" , conceal = false},
-      search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" , conceal = false},
-      search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" , conceal = false},
-      filter = { pattern = "^:%s*!", icon = "$", lang = "bash" , conceal = false},
-      lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" , conceal = false},
-      help = { pattern = "^:%s*he?l?p?%s+", icon = "" , conceal = false},
-      input = { view = "cmdline_input", icon = "󰥻 " , conceal = false}, -- Used by input()
+			cmdline = { pattern = "^:", icon = "", lang = "vim", conceal = false },
+			search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex", conceal = false },
+			search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex", conceal = false },
+			filter = { pattern = "^:%s*!", icon = "$", lang = "bash", conceal = false },
+			lua = {
+				pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" },
+				icon = "",
+				lang = "lua",
+				conceal = false,
+			},
+			help = { pattern = "^:%s*he?l?p?%s+", icon = "", conceal = false },
+			input = { view = "cmdline_input", icon = "󰥻 ", conceal = false }, -- Used by input()
 		},
 	},
 	lsp = {

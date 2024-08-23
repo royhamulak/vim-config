@@ -4,8 +4,8 @@ notify.setup({
 	render = "wrapped-compact",
 	fps = 120,
 	stages = "fade",
-	max_width = 30,
-	timeout = 250,
+	-- max_width = 30,
+	timeout = 500,
 })
 
 vim.notify = notify
