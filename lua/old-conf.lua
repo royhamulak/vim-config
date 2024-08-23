@@ -783,3 +783,5 @@ require("none-ls-autoload").setup({
 		-- "cspell.diagnostics",
 	},
 })
+
+require('lentent.plugins.treesitter')

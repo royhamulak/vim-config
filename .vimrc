@@ -58,6 +58,8 @@ Plug 'rktjmp/lush.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'm-demare/hlargs.nvim'
 
+
+Plug 'ziontee113/syntax-tree-surfer',
 " Coc
 " Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
 """"""""""""""""""""""""""""""""""""""""
