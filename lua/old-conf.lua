@@ -1,237 +1,52 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
-local mapKeys = vim.api.nvim_set_keymap
-local opts = { noremap = true, silent = true }
 
-require("neoconf").setup({})
-
-require("nvim-web-devicons").setup()
-
-require("bufferline").setup({
-	options = {
-		indicator = {
-			style = "underline",
-		},
-		numbers = "ordinal",
-		-- diagnostics = "coc",
-		color_icons = true,
-		truncate_names = false,
+vim.filetype.add({
+	extension = {
+		mdx = "javascriptreact",
+		yml = "yaml",
+	},
+	filename = {
+		["docker-compose.yml"] = "yaml.docker-compose",
 	},
 })
 
-require("lualine").setup({
-	sections = {
-		lualine_a = { "mode" },
-		lualine_b = { "branch", "diff", "diagnostics" },
-		lualine_c = {
-			"filename",
-			-- "g:coc_status"
-		},
-		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
-	},
-	-- tabline = {
-	--   lualine_a = {
-	--     {
-	--       'buffers',
-	--       mode = 2,
-	--       use_mode_colors = true,
-	--       symbols = {
-	--         modified = ' +',      -- Text to show when the buffer is modified
-	--         alternate_file = '#', -- Text to show to identify the alternate file
-	--         directory =  '',     -- Text to show when the buffer is a directory
-	--       },
-	--     }
-	--   },
-	--   lualine_b = {},
-	--   lualine_c = {},
-	--   lualine_x = {},
-	--   lualine_y = {},
-	--   lualine_z = {'tabs'}
-	-- }
-})
+require("lentent.plugins.neoconf")
 
-require("onedark").setup({
-	style = "warmer",
-	transparent = true,
-	highlights = {
-		["@type"] = { fg = "$red" },
-		["@variable.parameter"] = { fg = "$yellow" },
-	},
-})
+require("lentent.plugins.nvim-web-devicons")
 
-require("onedark").load()
+require("lentent.plugins.bufferline")
 
-local onedarkColors = require("onedark.colors")
+require("lentent.plugins.lualine")
 
-require("colorizer").setup()
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {
-		"typescript",
-		"json",
-		"javascript",
-		"yaml",
-		"jsonc",
-		"html",
-		"vim",
-		"vimdoc",
-		"lua",
-		"css",
-		"bash",
-		"csv",
-		"dockerfile",
-		"elm",
-		"fish",
-		"markdown",
-		"astro",
-		"sql",
-		"regex",
-	},
-	auto_install = true,
-	highlight = {
-		enable = true,
-		additional_vim_regex_highlighting = true,
-	},
-	incremental_selection = {
-		enable = false,
-		-- keymaps = {
-		--   init_selection = "<leader>s",
-		--   node_incremental = "s",
-		--   scope_incremental = "S",
-		--   node_decremental = "d",
-		-- }
-	},
-})
+require("lentent.plugins.onedark")
 
--- require('render-markdown').setup({})
+require("lentent.plugins.colorizer")
 
-require("gitsigns").setup({
-	signs = {
-		add = { text = "+" },
-		change = { text = "+" },
-	},
-	signcolumn = true,
-	numhl = true,
-	current_line_blame = true,
-	current_line_blame_opts = {
-		delay = 100,
-	},
-})
+require("lentent.plugins.treesitter")
 
--- {{{ Regex
+require("lentent.plugins.gitsigns")
 
--- require("regex-railroad").setup({
---     --- Github release of plugin
---     tag = "v0.0.1",
---     --- Highlight group used in :RegexText
---     highlight = {
---         bold = true,
---         fg = onedarkColors.fg,
---         bg = onedarkColors.bg0,
---     }})
+require("lentent.plugins.nvim-tree")
+
+require("lentent.plugins.notify")
+
+require("lentent.plugins.nvim-test")
+
+require("lentent.plugins.textcase")
+
+require("lentent.plugins.arrow")
+
+require("lentent.plugins.telescope")
+
+require("lentent.plugins.neodev")
+
+require("lentent.plugins.noice")
+
+-- require("lentent.plugins.render-markdown")
 --
--- vim.api.nvim_set_keymap("n", "<leader>re", "<cmd>RegexText<CR>", {noremap = true, silent = true})
--- vim.api.nvim_set_keymap("n", "<leader>rr", "<cmd>RegexRailroad<CR>", {noremap = true, silent = true})
--- }}}
-
-mapKeys("n", "<leader><C-c>", "<cmd>TSContextToggle<cr>", opts)
-
-local function my_on_attach(bufnr)
-	local api = require("nvim-tree.api")
-
-	local function opts(desc)
-		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-	end
-
-	-- default mappings
-	api.config.mappings.default_on_attach(bufnr)
-
-	-- custom mappings
-	vim.keymap.del("n", "<C-x>", { buffer = bufnr })
-	-- vim.keymap.del('n', '<2-LeftMouse>', { buffer = bufnr })
-	-- vim.keymap.del('n', '<2-RighMouse>', { buffer = bufnr })
-	vim.keymap.set("n", "<C-s>", api.node.open.horizontal, opts("Open: Horizontal Split"))
-	vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
-end
-
-local function open_middle_win(partial)
-	return function()
-		local win_height = vim.go.lines
-		local win_width = vim.go.columns
-		local height = win_height * partial
-		local width = win_width * partial
-		local row = (win_height - height) / 2
-		local col = (win_width - width) / 2
-		return {
-			relative = "editor",
-			border = "rounded",
-			height = math.floor(height),
-			width = math.floor(width),
-			row = row,
-			col = col,
-			focusable = true,
-		}
-	end
-end
-
-require("nvim-tree").setup({
-	on_attach = my_on_attach,
-	view = {
-		float = {
-			enable = false,
-			open_win_config = open_middle_win(0.7),
-		},
-	},
-	renderer = {
-		add_trailing = true,
-		highlight_git = true,
-		highlight_diagnostics = true,
-		highlight_opened_files = "all",
-		full_name = true,
-		special_files = {},
-		indent_markers = {
-			enable = true,
-		},
-		icons = {
-			web_devicons = {
-				folder = {
-					enable = true,
-				},
-			},
-		},
-	},
-	update_focused_file = {
-		enable = true,
-	},
-	modified = {
-		enable = true,
-	},
-	diagnostics = {
-		enable = true,
-		show_on_dirs = true,
-	},
-	filters = {
-		-- git_ignored = false,
-	},
-	filesystem_watchers = {
-		ignore_dirs = {
-			"build$",
-			"node_modules",
-		},
-	},
-	actions = {
-		file_popup = {
-			open_win_config = {
-				border = "rounded",
-			},
-		},
-		open_file = {
-			quit_on_open = true,
-		},
-	},
-})
+-- require("lentent.plugins.regex-railroad")
 
 -- require("mini.indentscope").setup({
 -- 	draw = {
@@ -300,16 +115,6 @@ require("nvim-tree").setup({
 -- mapKeys("n", "]t", "<cmd>lua require('neotest').jump.next()<CR>", opts)
 -- mapKeys("n", "[t", "<cmd>lua require('neotest').jump.prev()<CR>", opts)
 
-require("notify").setup({
-	background_colour = onedarkColors.bg0,
-	render = "wrapped-compact",
-	fps = 120,
-	stages = "fade",
-	max_width = 30,
-	timeout = 250,
-})
-
-vim.notify = require("notify")
 -- require('hlargs').setup({
 --   color = onedarkColors.yellow,
 --   paint_catch_blocks = {
@@ -320,107 +125,6 @@ vim.notify = require("notify")
 --     named_parameters = true,
 --   },
 -- })
-
-vim.filetype.add({
-	extension = {
-		mdx = "javascriptreact",
-		yml = "yaml",
-	},
-	filename = {
-		["docker-compose.yml"] = "yaml.docker-compose",
-	},
-})
-
-require("nvim-test").setup({
-	runners = { -- setup tests runners
-		cs = "nvim-test.runners.dotnet",
-		go = "nvim-test.runners.go-test",
-		haskell = "nvim-test.runners.hspec",
-		javascriptreact = "nvim-test.runners.jest",
-		javascript = "nvim-test.runners.jest",
-		lua = "nvim-test.runners.busted",
-		python = "nvim-test.runners.pytest",
-		ruby = "nvim-test.runners.rspec",
-		rust = "nvim-test.runners.cargo-test",
-		typescript = "nvim-test.runners.jest",
-		typescriptreact = "nvim-test.runners.jest",
-	},
-})
-
-require("nvim-test.runners.jest"):setup({
-	command = "npm",
-	args = { "run", "test:jest", "--", "--collectCoverage=false" },
-	file_pattern = "\\v((__tests__|tests)/.*|(spec|test))\\.(js|jsx|coffee|ts|tsx)$",
-	find_files = { "{name}.test.{ext}", "{name}.spec.{ext}" },
-	filename_modifier = nil,
-	working_directory = nil,
-})
-mapKeys("n", "<leader>t", "<cmd>TestNearest<CR>", opts)
-mapKeys("n", "<leader>tf", "<cmd>TestFile<CR>", opts)
-mapKeys("n", "<leader>ta", "<cmd>TestSuite<CR>", opts)
-mapKeys("n", "<leader>tt", "<cmd>TestLast<CR>", opts)
-mapKeys("n", "<leader>tv", "<cmd>TestVisit<CR>", opts)
-
-require("textcase").setup({})
-
-require("arrow").setup({
-	always_show_path = true,
-	show_icons = true,
-	leader_key = "\\",
-})
-
-local telescope = require("telescope")
-local telescopeThemes = require("telescope.themes")
-
-telescope.load_extension("lsp_handlers")
-telescope.setup({
-	defaults = {
-		dynamic_preview_title = true,
-		initial_mode = "normal",
-	},
-	pickers = {
-		git_files = {
-			use_git_root = false,
-			initial_mode = "insert",
-		},
-		live_grep = {
-			initial_mode = "insert",
-		},
-		find_files = {
-			initial_mode = "insert",
-		},
-	},
-})
-
-vim.cmd([[
-nnoremap gau :lua require('textcase').current_word('to_upper_case')<CR>
-nnoremap gal :lua require('textcase').current_word('to_lower_case')<CR>
-nnoremap gas :lua require('textcase').current_word('to_snake_case')<CR>
-nnoremap gad :lua require('textcase').current_word('to_dash_case')<CR>
-nnoremap gan :lua require('textcase').current_word('to_constant_case')<CR>
-nnoremap gad :lua require('textcase').current_word('to_dot_case')<CR>
-nnoremap gaa :lua require('textcase').current_word('to_phrase_case')<CR>
-nnoremap gac :lua require('textcase').current_word('to_camel_case')<CR>
-nnoremap gap :lua require('textcase').current_word('to_pascal_case')<CR>
-nnoremap gat :lua require('textcase').current_word('to_title_case')<CR>
-nnoremap gaf :lua require('textcase').current_word('to_path_case')<CR>
-]])
-
-telescope.load_extension("textcase")
-
-local tele_builtins = require("telescope.builtin")
-
-vim.keymap.set("n", "<C-F>", "<cmd>Telescope live_grep<cr>", opts)
-vim.keymap.set("n", "<C-P>", function()
-	if os.execute("git rev-parse --show-top-level 2> /dev/null") == 0 then
-		tele_builtins.git_files({ show_untracked = true })
-	else
-		tele_builtins.find_files()
-	end
-end, opts)
-
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 
 -- require("marks").setup({
 -- })
@@ -442,33 +146,8 @@ vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
 --   }
 -- })
 
-require("noice").setup({
-	cmdline = {
-		enabled = true,
-		view = "cmdline",
-		format = {
-			conceal = false,
-		},
-	},
-	lsp = {
-		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-		override = {
-			["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-			["vim.lsp.util.stylize_markdown"] = true,
-			["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-		},
-	},
-	-- -- you can enable a preset for easier configuration
-	-- presets = {
-	--   bottom_search = true, -- use a classic bottom cmdline for search
-	--   command_palette = true, -- position the cmdline and popupmenu together
-	--   long_message_to_split = true, -- long messages will be sent to a split
-	--   inc_rename = false, -- enables an input dialog for inc-rename.nvim
-	--   lsp_doc_border = false, -- add a border to hover docs and signature help
-	-- },
-})
 
-require("neodev").setup({})
+
 
 require("mason").setup({
 	ensure_installed = {
@@ -688,12 +367,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ev)
 		-- Enable completion triggered by <c-x><c-o>
 		local bufnr = ev.buf
-		local client = vim.lsp.get_client_by_id(ev.data.client_id)
+		-- local client = vim.lsp.get_client_by_id(ev.data.client_id)
 		-- if client.server_capabilities.completionProvider then
-			vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
 		-- end
 		-- if client.server_capabilities.definitionProvider then
-			vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
+		vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
 		-- end
 		-- vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 
@@ -729,12 +408,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 
 		vim.keymap.set("n", "<leader>ld", function()
-			tele_builtins.diagnostics({ bufnr = 0 })
+			require("telescope.builtin").diagnostics({ bufnr = 0 })
 		end, opts)
 		vim.keymap.set("n", "<leader>pr", function()
 			vim.lsp.buf.format({
-				filter = function(client)
-					return client.name ~= "vtsls"
+				filter = function(_client)
+					return _client.name ~= "vtsls"
 				end,
 				async = true,
 			})
@@ -783,5 +462,3 @@ require("none-ls-autoload").setup({
 		-- "cspell.diagnostics",
 	},
 })
-
-require('lentent.plugins.treesitter')
