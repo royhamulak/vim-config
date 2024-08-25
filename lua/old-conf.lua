@@ -12,37 +12,7 @@ vim.filetype.add({
 	},
 })
 
-require("lentent.plugins.neoconf")
-
-require("lentent.plugins.nvim-web-devicons")
-
-require("lentent.plugins.bufferline")
-
-require("lentent.plugins.lualine")
-
-require("lentent.plugins.onedark")
-
-require("lentent.plugins.colorizer")
-
-require("lentent.plugins.treesitter")
-
-require("lentent.plugins.gitsigns")
-
-require("lentent.plugins.nvim-tree")
-
-require("lentent.plugins.notify")
-
-require("lentent.plugins.nvim-test")
-
-require("lentent.plugins.textcase")
-
-require("lentent.plugins.arrow")
-
-require("lentent.plugins.telescope")
-
-require("lentent.plugins.neodev")
-
-require("lentent.plugins.noice")
+require("lentent.plugins")
 
 -- require("lentent.plugins.render-markdown")
 --
@@ -145,9 +115,6 @@ require("lentent.plugins.noice")
 --    },
 --   }
 -- })
-
-
-
 
 require("mason").setup({
 	ensure_installed = {

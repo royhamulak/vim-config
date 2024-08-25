@@ -1,18 +1,19 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system({
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  })
-end
-vim.opt.rtp:prepend(lazypath)
-
-require("lazy").setup(
-  {
-    require("lentent.plugins.onedark")
-  }
-)
+return {
+	require("lentent.plugins.neoconf"),
+  require("lentent.plugins.lazydev"),
+	require("lentent.plugins.nvim-web-devicons"),
+	require("lentent.plugins.bufferline"),
+	require("lentent.plugins.lualine"),
+	require("lentent.plugins.onedark"),
+	require("lentent.plugins.colorizer"),
+	require("lentent.plugins.treesitter"),
+	require("lentent.plugins.gitsigns"),
+	require("lentent.plugins.nvim-tree"),
+	require("lentent.plugins.notify"),
+	require("lentent.plugins.nvim-test"),
+	require("lentent.plugins.textcase"),
+	require("lentent.plugins.arrow"),
+	require("lentent.plugins.telescope"),
+	-- require("lentent.plugins.neodev"),
+	require("lentent.plugins.noice"),
+}
