@@ -147,4 +147,8 @@ Plug("folke/neoconf.nvim")
 Plug("folke/lazydev.nvim")
 Plug("Bilal2453/luvit-meta")
 
+Plug('nvimdev/lspsaga.nvim')
+
 vim.call("plug#end")
+
+require("lentent.plugins")

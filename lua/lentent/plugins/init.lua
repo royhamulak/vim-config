@@ -1,6 +1,6 @@
 return {
 	require("lentent.plugins.neoconf"),
-  require("lentent.plugins.lazydev"),
+	require("lentent.plugins.lazydev"),
 	require("lentent.plugins.nvim-web-devicons"),
 	require("lentent.plugins.bufferline"),
 	require("lentent.plugins.lualine"),
@@ -16,4 +16,5 @@ return {
 	require("lentent.plugins.telescope"),
 	-- require("lentent.plugins.neodev"),
 	require("lentent.plugins.noice"),
+	-- require("lentent.plugins.lspsaga"),
 }

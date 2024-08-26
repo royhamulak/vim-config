@@ -8,7 +8,6 @@ endif
 " => Plugins section
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-lua require('lentent.plugin-managers.vim-plug')
 
 " vim plug section 
 " call plug#begin(stdpath('data') . '/plugged')
@@ -416,7 +415,7 @@ set encoding=utf8
 set ffs=unix,dos,mac
 
 " Set colorscheme
-colorscheme onedark
+"colorscheme onedark
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
