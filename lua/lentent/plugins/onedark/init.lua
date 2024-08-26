@@ -7,12 +7,13 @@ local config = {
 	},
 }
 
-require("onedark").setup(config)
-require("onedark").load()
+-- require("onedark").setup(config)
+-- require("onedark").load()
 
 return {
 	"navarasu/onedark.nvim",
-	config = function()
+	priority = 1000,
+	init = function()
 		require("onedark").setup(config)
 		require("onedark").load()
 		-- vim.cmd('colorscheme onedark')

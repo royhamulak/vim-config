@@ -1,13 +1,13 @@
-require("lazydev").setup({
-	library = {
-		-- See the configuration section for more details
-		-- Load luvit types when the `vim.uv` word is found
-		-- { path = "luvit-meta/library", words = { "vim%.uv" } },
-		"~/my-stuff/vim-config",
-		"~/local/share/nvim/plugged",
-    "luvit-meta/library",
-	},
-})
+-- require("lazydev").setup({
+-- 	library = {
+-- 		-- See the configuration section for more details
+-- 		-- Load luvit types when the `vim.uv` word is found
+-- 		-- { path = "luvit-meta/library", words = { "vim%.uv" } },
+-- 		"~/my-stuff/vim-config",
+-- 		"~/local/share/nvim/nvim-plugins",
+-- 		"luvit-meta/library",
+-- 	},
+-- })
 
 return {
 	{
@@ -15,11 +15,16 @@ return {
 		ft = "lua", -- only load on lua files
 		opts = {
 			library = {
+
+				"~/my-stuff/vim-config",
+				"~/local/share/nvim/plugged",
+				"luvit-meta/library",
 				-- See the configuration section for more details
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 			},
 		},
+		name = "lazydev",
 	},
 	{ -- optional completion source for require statements and module annotations
 		"hrsh7th/nvim-cmp",

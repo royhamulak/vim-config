@@ -1,3 +1,3 @@
-require("neoconf").setup({})
+-- require("neoconf").setup({})
 
-return { "folke/neoconf.nvim" }
+return { "folke/neoconf.nvim", { name = "neoconf", priority = 1000, opts = {} } }
