@@ -7,6 +7,15 @@ M.orderedPlugins = {}
 
 local createConfig = require("but-plug").createConfig
 
+---@param plug ButPlugConfig
+local function createPlugHooks(plug)
+	---@class VimPlugHooks
+	return {
+		["do"] = plug.build,
+		tag = plug.tag,
+	}
+end
+
 ---@param options ButPlugConfig
 ---@return VimPlugConfig
 local function createPlugConfig(options)
@@ -14,6 +23,7 @@ local function createPlugConfig(options)
 	local vimPlugConf = {
 		init = function() end,
 		priority = 50,
+		plug = createPlugHooks(options),
 		table.unpack(createConfig(options)),
 	}
 
@@ -37,7 +47,7 @@ M.load = function(plugs, nonInitPlugs)
 	vim.call("plug#begin")
 	for _, pPlugs in ipairs(M.orderedPlugins) do
 		for _, plug in pairs(pPlugs) do
-			Plug(plug, plug.custom.plug)
+			Plug(plug, plug.plug)
 		end
 	end
 	vim.call("plug#end")

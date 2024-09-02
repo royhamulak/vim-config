@@ -1,5 +1,5 @@
+---@module lazy
 ---@class ButPlugConfig: LazyPluginSpec
----@field custom? table
 
 ---@class ButConfig
 ---@field plugins? ButPlugConfig[]
