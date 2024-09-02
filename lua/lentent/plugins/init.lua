@@ -17,5 +17,5 @@ return {
 	-- require("lentent.plugins.neodev"),
 	require("lentent.plugins.noice"),
 	-- require("lentent.plugins.lspsaga"),
-	require("lentent.plugins.precognition"),
+	-- require("lentent.plugins.precognition"),
 }
