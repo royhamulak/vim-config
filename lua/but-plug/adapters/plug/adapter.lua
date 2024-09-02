@@ -1,7 +1,7 @@
 local M = {}
 local vim = vim
 local Plug = vim.fn["plug#"]
-local createConfig = require("lentent.plugin-managers").createConfig
+local createConfig = require("but-plug").createConfig
 
 ---@param options GeneralConfig
 ---@return VimPlugConfig

@@ -150,7 +150,7 @@ Plug("Bilal2453/luvit-meta")
 Plug("nvimdev/lspsaga.nvim")
 
 Plug("tris203/precognition.nvim")
-Plug("folke/lazy.nvim.git")
+Plug("folke/lazy.nvim")
 
 vim.call("plug#end")
 
