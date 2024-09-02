@@ -1,0 +1,2 @@
+---@class VimPlugConfig: GeneralConfig
+---@field init fun()
