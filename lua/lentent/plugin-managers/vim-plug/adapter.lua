@@ -33,7 +33,7 @@ M.load = function(plugs, nonInitPlugs)
 	vim.call("plug#begin")
 	for _, pPlugs in ipairs(ordered) do
 		for _, plug in pairs(pPlugs) do
-			Plug(plug, plug.plug)
+			Plug(plug, plug.custom.plug)
 		end
 	end
 	vim.call("plug#end")

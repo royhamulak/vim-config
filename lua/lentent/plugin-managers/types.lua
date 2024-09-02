@@ -1,5 +1,6 @@
+---@module lazy
 ---@class GeneralConfig: LazyPluginSpec
----@field plug? table
+---@field custom? table
 
 ---@class SuperPlugConfig
 ---@field lazy? boolean
