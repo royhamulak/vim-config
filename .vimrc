@@ -678,6 +678,9 @@ let s:fakerUpdateCommands=[
       \ '%s/faker.finance.account(\(\d*\))/faker.finance.accountNumber(\1)/g',
       \ '%s/\(faker.finance.amount(\)\(\d\+\), undefined, \(\d\+\)/\1{min: \2, dec: \3}',
       \ '%s/\(faker.finance.amount(\)\(\d\+\), \(\d\+\)/\1{min: \2, max: \3}',
+      \ '%s/datatype.float/number.float/g',
+      \ '%s/faker.helpers.replaceSymbolWithNumber(\(.*\))/\1.replace(\/#+\/g, (m) => faker.string.numeric(m.length))',
+      \ '%s/\(faker\.number\.float({\)\(.*\)precision: \(0\.1\)\(.*})\)/\1\2multipleOf: \3\4/g',
       \]
 
 command! FakerUpdate call s:updateFaker()
