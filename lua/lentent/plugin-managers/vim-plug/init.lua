@@ -147,8 +147,12 @@ Plug("folke/neoconf.nvim")
 Plug("folke/lazydev.nvim")
 Plug("Bilal2453/luvit-meta")
 
-Plug('nvimdev/lspsaga.nvim')
+Plug("nvimdev/lspsaga.nvim")
 
 vim.call("plug#end")
 
-require("lentent.plugins")
+local plugins = require("lentent.plugins")
+
+for _, val in pairs(plugins) do
+	val.plugged()
+end

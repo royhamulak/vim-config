@@ -11,7 +11,7 @@ vim.filetype.add({
 		["docker-compose.yml"] = "yaml.docker-compose",
 	},
 })
-require('lentent.plugin-managers.vim-plug')
+require('lentent.plugin-managers')(false)
 -- require('lentent.plugin-managers.lazy')
 
 -- require("lentent.plugins")

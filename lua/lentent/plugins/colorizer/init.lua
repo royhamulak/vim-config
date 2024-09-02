@@ -1,1 +1,5 @@
-require("colorizer").setup()
+return {
+	plugged = function()
+		require("colorizer").setup()
+	end,
+}

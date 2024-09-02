@@ -1,2 +1,6 @@
--- require("nvim-web-devicons").setup()
-return { "nvim-tree/nvim-web-devicons", { name = "nvim-web-devicons" } }
+return {
+	lazy = { "nvim-tree/nvim-web-devicons", { name = "nvim-web-devicons" } },
+	plugged = function()
+		require("nvim-web-devicons").setup()
+	end,
+}
