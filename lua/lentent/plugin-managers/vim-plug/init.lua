@@ -149,6 +149,8 @@ Plug("Bilal2453/luvit-meta")
 
 Plug("nvimdev/lspsaga.nvim")
 
+Plug("tris203/precognition.nvim")
+
 vim.call("plug#end")
 
 local plugins = require("lentent.plugins")
