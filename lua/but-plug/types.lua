@@ -1,13 +1,9 @@
----@module lazy
----@class GeneralConfig: LazyPluginSpec
+---@class ButPlugConfig: LazyPluginSpec
 ---@field custom? table
 
----@class PluginConfigs
----@field plugins? GeneralConfig[]
+---@class ButConfig
+---@field plugins? ButPlugConfig[]
 ---
----@alias ButPlug
+---@alias ButPlugType
 ---| '"plug"' vim-plug
 ---| '"lazy"' lazy plugin maanger
-
----@generic T
----@alias SetupDef fun(options: T, plugins?: GeneralConfig[])

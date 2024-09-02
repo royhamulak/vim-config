@@ -1,9 +1,9 @@
 local M = {}
 
----@param options PluginConfigs
+---@param options ButConfig
 M.setup = function(options)
 	return {
-		---@param butPlug ButPlug
+		---@param butPlug ButPlugType
 		but = function(butPlug)
 			require("but-plug.adapters." .. butPlug).setup(options.plugins)
 		end,
@@ -16,8 +16,8 @@ M.setup = function(options)
 end
 
 --- create a config def for plug
----@param options GeneralConfig
----@return GeneralConfig
+---@param options ButPlugConfig
+---@return ButPlugConfig
 M.createConfig = function(options)
 	local newOptions = { table.unpack(options) }
 	return newOptions

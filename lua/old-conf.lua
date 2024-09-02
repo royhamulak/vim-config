@@ -12,7 +12,7 @@ vim.filetype.add({
 	},
 })
 
-require("but-plug").setup({ lazy = false })
+require("but-plug").setup({}).but("plug")
 -- require('lentent.plugin-managers.lazy')
 
 -- require("lentent.plugins")

@@ -1,7 +1,63 @@
 -- local plugins = require("lentent.plugins")
-
+local M = {}
 local vim = vim
 local Plug = vim.fn["plug#"]
+
+M.orderedPlugins = {}
+
+local createConfig = require("but-plug").createConfig
+
+---@param options ButPlugConfig
+---@return VimPlugConfig
+local function createPlugConfig(options)
+	---@type VimPlugConfig
+	local vimPlugConf = {
+		init = function() end,
+		priority = 50,
+		table.unpack(createConfig(options)),
+	}
+
+	return vimPlugConf
+end
+
+---Load plugins
+---@param plugs ButPlugConfig[]
+---@param nonInitPlugs string[]
+M.load = function(plugs, nonInitPlugs)
+	---@type ButPlugConfig[]
+	for _, plug in pairs(nonInitPlugs) do
+		table.insert(plugs, createPlugConfig({ plug }))
+	end
+	---@type {[number]: VimPlugConfig[]}
+	M.orderedPlugins = {}
+	for _, val in pairs(plugs) do
+		M.orderedPlugins[val.priority] = table.insert((M.orderedPlugins[val.priority] or {}), val)
+	end
+
+	vim.call("plug#begin")
+	for _, pPlugs in ipairs(M.orderedPlugins) do
+		for _, plug in pairs(pPlugs) do
+			Plug(plug, plug.custom.plug)
+		end
+	end
+	vim.call("plug#end")
+
+	for _, pPlugs in ipairs(M.orderedPlugins) do
+		for _, plug in pairs(pPlugs) do
+			plug.init()
+		end
+	end
+end
+
+---@param _ ButPlugConfig[]
+M.setup = function(_)
+	local plugins = require("lentent.plugins")
+
+	for _, val in pairs(plugins) do
+		val.plugged()
+	end
+	-- M.load(plugins, {})
+end
 
 vim.call("plug#begin")
 -- " Core Stuff
@@ -154,8 +210,4 @@ Plug("folke/lazy.nvim")
 
 vim.call("plug#end")
 
-local plugins = require("lentent.plugins")
-
-for _, val in pairs(plugins) do
-	val.plugged()
-end
+return M

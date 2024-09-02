@@ -14,7 +14,7 @@ local default = {
 	checker = { enabled = true },
 }
 
----@param plugins GeneralConfig[]
+---@param plugins ButPlugConfig[]
 ---@param options? LazyConfig
 M.setup = function(plugins, options)
 	local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
