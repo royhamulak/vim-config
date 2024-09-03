@@ -1,5 +1,6 @@
-return {
-	plugged = function()
+return createButPlugConfig({
+	"klen/nvim-test",
+	init = function()
 		local mapKeys = vim.api.nvim_set_keymap
 		local opts = { noremap = true, silent = true }
 		require("nvim-test").setup({
@@ -32,4 +33,4 @@ return {
 		mapKeys("n", "<leader>tt", "<cmd>TestLast<CR>", opts)
 		mapKeys("n", "<leader>tv", "<cmd>TestVisit<CR>", opts)
 	end,
-}
+})

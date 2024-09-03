@@ -1,5 +1,6 @@
-return {
-	plugged = function()
+return createButPlugConfig({
+	"nvim-telescope/telescope.nvim",
+	init = function()
 		local opts = { noremap = true, silent = true }
 		local telescope = require("telescope")
 		-- local telescopeThemes = require("telescope.themes")
@@ -34,7 +35,7 @@ return {
 				tele_builtins.find_files()
 			end
 		end, opts)
-
-		return telescope
 	end,
-}
+	tag = "0.1.x",
+	priority = 51,
+})

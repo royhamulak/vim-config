@@ -12,7 +12,11 @@ vim.filetype.add({
 	},
 })
 
-require("but-plug").setup({}).but("plug")
+require("but-plug")
+	.setup({
+		plugins = require("lentent.plugins"),
+	})
+	.but("plug")
 -- require('lentent.plugin-managers.lazy')
 
 -- require("lentent.plugins")
@@ -119,20 +123,20 @@ require("but-plug").setup({}).but("plug")
 --   }
 -- })
 
-require("mason").setup({
-	ensure_installed = {
-		"cspell",
-		--"codespell",
-		"vtsls",
-		"eslint-lsp",
-		"prettier",
-		"stylua",
-	},
-})
-
+-- require("mason").setup({
+-- 	ensure_installed = {
+-- 		"cspell",
+-- 		--"codespell",
+-- 		"vtsls",
+-- 		"eslint-lsp",
+-- 		"prettier",
+-- 		"stylua",
+-- 	},
+-- })
+--
 local masonReg = require("mason-registry")
 
-require("mason-lspconfig").setup({})
+-- require("mason-lspconfig").setup({})
 
 local cmp = require("cmp")
 

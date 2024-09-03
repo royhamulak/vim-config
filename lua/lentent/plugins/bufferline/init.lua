@@ -1,22 +1,21 @@
-return {
-	lazy = {
-		"akinsho/bufferline.nvim",
-		{
-			name = "bufferline",
-			opts = {
-				options = {
-					indicator = {
-						style = "underline",
-					},
-					numbers = "ordinal",
-					-- diagnostics = "coc",
-					color_icons = true,
-					truncate_names = false,
-				},
-			},
-		},
-	},
-	plugged = function()
+return createButPlugConfig({
+	"akinsho/bufferline.nvim",
+	-- 	{
+	-- 		name = "bufferline",
+	-- 		opts = {
+	-- 			options = {
+	-- 				indicator = {
+	-- 					style = "underline",
+	-- 				},
+	-- 				numbers = "ordinal",
+	-- 				-- diagnostics = "coc",
+	-- 				color_icons = true,
+	-- 				truncate_names = false,
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
+	init = function()
 		require("bufferline").setup({
 			options = {
 				indicator = {
@@ -29,4 +28,4 @@ return {
 			},
 		})
 	end,
-}
+})

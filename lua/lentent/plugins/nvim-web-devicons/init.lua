@@ -1,6 +1,7 @@
-return {
-	lazy = { "nvim-tree/nvim-web-devicons", { name = "nvim-web-devicons" } },
-	plugged = function()
+return createButPlugConfig({
+	"nvim-tree/nvim-web-devicons",
+	init = function()
 		require("nvim-web-devicons").setup()
 	end,
-}
+  priority = 1,
+})

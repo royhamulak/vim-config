@@ -1,3 +1,1 @@
----@class VimPlugConfig: ButPlugConfig
----@field init fun()
----@field plug table
+

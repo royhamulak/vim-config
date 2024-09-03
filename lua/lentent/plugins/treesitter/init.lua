@@ -1,5 +1,7 @@
-return {
-	plugged = function()
+return createButPlugConfig({
+	"nvim-treesitter/nvim-treesitter",
+	build = ":TSUpdate",
+	init = function()
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = {
 				"typescript",
@@ -40,7 +42,5 @@ return {
 
 		vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 		vim.opt.foldtext = "v:lua.vim.treesitter.foldtext()"
-
-		require("lentent.plugins.treesitter.syntax-tree-surfer")
 	end,
-}
+})

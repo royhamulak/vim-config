@@ -1,5 +1,6 @@
-return {
-	plugged = function()
+return createButPlugConfig({
+	"nvim-tree/nvim-tree.lua",
+	init = function()
 		local function my_on_attach(bufnr)
 			local api = require("nvim-tree.api")
 
@@ -95,4 +96,4 @@ return {
 			},
 		})
 	end,
-}
+})

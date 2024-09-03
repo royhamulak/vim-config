@@ -1,5 +1,6 @@
-return {
-	plugged = function()
+return createButPlugConfig({
+	"norcalli/nvim-colorizer.lua",
+	init = function()
 		require("colorizer").setup()
 	end,
-}
+})
