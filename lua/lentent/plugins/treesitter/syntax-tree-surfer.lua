@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"ziontee113/syntax-tree-surfer",
-	init = function()
+	config = function()
 		local sts = require("syntax-tree-surfer")
 		sts.setup({
 			highlight_group = "STS_highlight",

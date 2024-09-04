@@ -9,10 +9,9 @@ local config = {
 
 return createButPlugConfig({
 	"navarasu/onedark.nvim",
-	-- priority = ,
-	init = function()
+	priority = 10000,
+	config = function()
 		require("onedark").setup(config)
 		require("onedark").load()
-		vim.cmd("colorscheme onedark")
 	end,
 })

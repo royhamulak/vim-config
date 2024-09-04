@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"rclawlor/regex-railroad.nvim",
-	init = function()
+	config = function()
 		local colors = require("lentent.plugins.onedark.colors")
 
 		require("regex-railroad").setup({

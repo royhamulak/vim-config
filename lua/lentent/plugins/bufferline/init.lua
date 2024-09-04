@@ -15,7 +15,7 @@ return createButPlugConfig({
 	-- 		},
 	-- 	},
 	-- },
-	init = function()
+	config = function()
 		require("bufferline").setup({
 			options = {
 				indicator = {

@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"klen/nvim-test",
-	init = function()
+	config = function()
 		local mapKeys = vim.api.nvim_set_keymap
 		local opts = { noremap = true, silent = true }
 		require("nvim-test").setup({

@@ -1,6 +1,6 @@
 return createButPlugConfig({
   "johmsalas/text-case.nvim",
-  init = function()
+  config = function()
     require("textcase").setup({})
     vim.cmd([[
 nnoremap gau :lua require('textcase').current_word('to_upper_case')<CR>

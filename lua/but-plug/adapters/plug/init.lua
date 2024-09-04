@@ -25,6 +25,8 @@ local function flatten(arr, level)
 	return res
 end
 
+local DEFAULT_PRIO = 50
+local DEFAULT_CONFIG = function() end
 M.orderedPlugins = {}
 
 ---@param plug ButPlugConfig
@@ -45,8 +47,8 @@ end
 local function createPlugConfig(options)
 	---@class VimPlugConfig
 	local defaults = {
-		init = function() end,
-		priority = 50,
+		config = DEFAULT_CONFIG,
+		priority = DEFAULT_PRIO,
 		plug = createPlugHooks(options),
 	}
 
@@ -55,18 +57,13 @@ end
 
 ---@param plugins ButPlugConfig[]
 local function orderPlugins(plugins)
+	local conf = vim.tbl_map(createPlugConfig, plugins)
+	table.sort(conf, function(a, b)
+		return a.priority > b.priority
+	end)
 	---@type {[number]: VimPlugConfig[]}
-	local ordered = {}
 
-	for _, val in pairs(plugins) do
-		local vimPlugConf = createPlugConfig(val)
-		if not ordered[vimPlugConf.priority] then
-			ordered[vimPlugConf.priority] = {}
-		end
-		table.insert(ordered[vimPlugConf.priority], vimPlugConf)
-	end
-
-	return flatten(ordered)
+	return conf
 end
 
 ---Add the plugins to vim plug
@@ -88,7 +85,7 @@ end
 ---@param plugins VimPlugConfig[]
 local function initPlugins(plugins)
 	for _, plug in pairs(plugins) do
-		plug.init()
+		plug.config()
 	end
 end
 

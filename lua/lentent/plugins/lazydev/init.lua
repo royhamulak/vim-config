@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"folke/lazydev.nvim",
-	init = function()
+	config = function()
 		require("lazydev").setup({
 			library = {
 				-- See the configuration section for more details
@@ -13,7 +13,7 @@ return createButPlugConfig({
 		})
 		-- require("cmp").
 	end,
-	priority = 51,
+	priority = 49,
 	-- lazy = {
 	-- 	{
 	-- 		"folke/lazydev.nvim",

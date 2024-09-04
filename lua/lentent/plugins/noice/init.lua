@@ -1,6 +1,6 @@
 return createButPlugConfig({
   "folke/noice.nvim",
-  init = function()
+  config = function()
     require("noice").setup({
       cmdline = {
         enabled = true,

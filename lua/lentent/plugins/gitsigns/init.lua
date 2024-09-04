@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"lewis6991/gitsigns.nvim",
-	init = function()
+	config = function()
 		require("gitsigns").setup({
 			signs = {
 				add = { text = "+" },

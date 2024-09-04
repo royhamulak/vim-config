@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"rcarriga/nvim-notify",
-	init = function()
+	config = function()
 		local notify = require("notify")
 		notify.setup({
 			background_colour = require("lentent.plugins.onedark.colors").bg0,
@@ -13,5 +13,5 @@ return createButPlugConfig({
 
 		vim.notify = notify
 	end,
-	priority = 51,
+	priority = 49,
 })

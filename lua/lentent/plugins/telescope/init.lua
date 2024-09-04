@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"nvim-telescope/telescope.nvim",
-	init = function()
+	config = function()
 		local opts = { noremap = true, silent = true }
 		local telescope = require("telescope")
 		-- local telescopeThemes = require("telescope.themes")
@@ -36,5 +36,5 @@ return createButPlugConfig({
 			end
 		end, opts)
 	end,
-	priority = 51,
+	priority = 49,
 })

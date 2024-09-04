@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"otavioschwanck/arrow.nvim",
-	init = function()
+	config = function()
 		require("arrow").setup({
 			always_show_path = true,
 			show_icons = true,

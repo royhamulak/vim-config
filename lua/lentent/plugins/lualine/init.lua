@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"nvim-lualine/lualine.nvim",
-	init = function()
+	config = function()
 		require("lualine").setup({
 			sections = {
 				lualine_a = { "mode" },
