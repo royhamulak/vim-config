@@ -25,6 +25,7 @@ return createButPlugConfig({
 		})
 
 		telescope.load_extension("lsp_handlers")
+    telescope.load_extension("attempt")
 		local tele_builtins = require("telescope.builtin")
 
 		vim.keymap.set("n", "<C-F>", "<cmd>Telescope live_grep<cr>", opts)
