@@ -2,7 +2,7 @@
 ---@class ButPlugConfig: LazyPluginSpec
 
 ---@class ButConfig
----@field plugins? ButPlugConfig[]
+---@field plugins ButPlugConfig[]
 ---
 ---@alias ButPlugType
 ---| '"plug"' vim-plug

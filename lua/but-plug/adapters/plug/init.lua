@@ -3,78 +3,111 @@ local M = {}
 local vim = vim
 local Plug = vim.fn["plug#"]
 
+---Flatten an array up to certain level
+---@generic T
+---@param arr {[any]: T}
+---@param level? number
+---@return T
+local function flatten(arr, level)
+	level = level or 1
+	local res = {}
+	if level > 0 then
+		if type(arr) == "table" then
+			vim.tbl_map(function(v)
+				vim.list_extend(res, flatten(v, level - 1))
+			end, arr)
+		else
+			table.insert(res, arr)
+		end
+	else
+		return arr
+	end
+	return res
+end
+
 M.orderedPlugins = {}
 
 ---@param plug ButPlugConfig
 local function createPlugHooks(plug)
-  ---@class VimPlugHooks
-  local plugHooks = {
-    ["do"] = plug.build,
-    tag = plug.tag,
-  }
-  if next(plugHooks) == nil then
-    return nil
-  end
+	---@class VimPlugHooks
+	local plugHooks = {
+		["do"] = plug.build,
+		tag = plug.tag,
+	}
+	if next(plugHooks) == nil then
+		return nil
+	end
 
-  return plugHooks
+	return plugHooks
 end
 
 ---@param options ButPlugConfig
 local function createPlugConfig(options)
-  ---@class VimPlugConfig
-  local defaults = {
-    init = function() end,
-    priority = 50,
-    plug = createPlugHooks(options),
-  }
+	---@class VimPlugConfig
+	local defaults = {
+		init = function() end,
+		priority = 50,
+		plug = createPlugHooks(options),
+	}
 
-  return customMerge(defaults, createButPlugConfig(options))
+	return vim.tbl_deep_extend("force", defaults, createButPlugConfig(options))
+end
+
+---@param plugins ButPlugConfig[]
+local function orderPlugins(plugins)
+	---@type {[number]: VimPlugConfig[]}
+	local ordered = {}
+
+	for _, val in pairs(plugins) do
+		local vimPlugConf = createPlugConfig(val)
+		if not ordered[vimPlugConf.priority] then
+			ordered[vimPlugConf.priority] = {}
+		end
+		table.insert(ordered[vimPlugConf.priority], vimPlugConf)
+	end
+
+	return flatten(ordered)
+end
+
+---Add the plugins to vim plug
+---@param plugins VimPlugConfig[]
+local function addPlugins(plugins)
+	vim.call("plug#begin")
+	for _, plug in pairs(plugins) do
+		if plug.plug then
+			Plug(plug[1], plug.plug)
+		else
+			Plug(plug[1])
+		end
+	end
+
+	vim.call("plug#end")
+end
+
+---Init the plugins
+---@param plugins VimPlugConfig[]
+local function initPlugins(plugins)
+	for _, plug in pairs(plugins) do
+		plug.init()
+	end
 end
 
 ---Load plugins
 ---@param plugs ButPlugConfig[]
-M.load = function(plugs)
-  -- vim.print(vim.inspect(plugs))
-  ---@type {[number]: VimPlugConfig[]}
-  for _, val in pairs(plugs) do
-    local vimPlugConf = createPlugConfig(val)
-    if not M.orderedPlugins[vimPlugConf.priority] then
-      M.orderedPlugins[vimPlugConf.priority] = {}
-    end
-    table.insert(M.orderedPlugins[vimPlugConf.priority], vimPlugConf)
-  end
-  -- vim.print(vim.inspect(M.orderedPlugins))
-  -- vim.print(vim.inspect(M.orderedPlugins))
+M.reload = function(plugs)
+	---@type {[number]: VimPlugConfig[]}
 
-  local shit = {}
-  for _, v in pairs(M.orderedPlugins) do
-    for _, p in pairs(v) do
-      table.insert(shit, p)
-    end
-  end
-  M.orderedPlugins = shit
+	M.orderedPlugins = orderPlugins(plugs)
+	-- vim.print(vim.inspect(M.orderedPlugins))
 
-  vim.call("plug#begin")
+	addPlugins(M.orderedPlugins)
 
-  for _, plug in pairs(M.orderedPlugins) do
-    if plug.plug then
-      Plug(plug[1], plug.plug)
-    else
-      Plug(plug[1])
-    end
-  end
-
-  vim.call("plug#end")
-
-  for _, plug in pairs(M.orderedPlugins) do
-    plug.init()
-  end
+	initPlugins(M.orderedPlugins)
 end
 
 ---@param plugins ButPlugConfig[]
 M.setup = function(plugins)
-  M.load(plugins)
-  -- vim.cmd(":PlugInstall")
+	M.reload(plugins)
 end
 
 -- vim.call("plug#begin")

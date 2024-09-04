@@ -36,6 +36,5 @@ return createButPlugConfig({
 			end
 		end, opts)
 	end,
-	tag = "0.1.x",
 	priority = 51,
 })

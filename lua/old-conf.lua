@@ -16,7 +16,7 @@ require("but-plug")
 	.setup({
 		plugins = require("lentent.plugins"),
 	})
-	.but("plug")
+	.but("lazy")
 -- require('lentent.plugin-managers.lazy')
 
 -- require("lentent.plugins")

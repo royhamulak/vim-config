@@ -2,17 +2,23 @@ local M = {}
 
 M.options = {}
 
-local default = {
-	spec = {
-		-- import your plugins
-		{ import = "lentent.plugins" },
-	},
-	-- Configure any other settings here. See the documentation for more details.
-	-- colorscheme that will be used when installing plugins.
-	install = {},
-	-- automatically check for plugin updates
-	checker = { enabled = true },
-}
+---Parse the config for lazy-vim
+---@param config ButPlugConfig
+---@return LazyPluginSpec
+local function parseConfig(config)
+	return config
+end
+
+---@param  plugins ButPlugConfig[]
+---@return LazyConfig
+local function defaults(plugins)
+	---@type LazyPluginSpec[]
+	local spec = vim.tbl_map(parseConfig, plugins)
+
+	return {
+		spec = spec,
+	}
+end
 
 ---@param plugins ButPlugConfig[]
 ---@param options? LazyConfig
@@ -38,7 +44,9 @@ M.setup = function(plugins, options)
 	-- This is also a good place to setup other settings (vim.opt)
 	-- Setup lazy.nvim
 
-	M.options = vim.tbl_deep_extend("force", default, options or {})
+	M.options = vim.tbl_deep_extend("force", defaults(plugins), options or {})
 	local lazy = require("lazy")
 	lazy.setup(M.options)
 end
+
+return M

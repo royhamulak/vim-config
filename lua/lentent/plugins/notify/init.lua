@@ -13,4 +13,5 @@ return createButPlugConfig({
 
 		vim.notify = notify
 	end,
+	priority = 51,
 })
