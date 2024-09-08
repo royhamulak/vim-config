@@ -61,6 +61,7 @@ return {
 	createButPlugConfig({ "MunifTanjim/nui.nvim" }),
 	createButPlugConfig({ "stevearc/dressing.nvim" }),
 	createButPlugConfig({ "Bilal2453/luvit-meta" }),
+	createButPlugConfig({ "dmmulroy/ts-error-translator.nvim" }),
 	require("lentent.plugins.lspsaga"),
 	createButPlugConfig({
 		"kevinhwang91/nvim-bqf",
