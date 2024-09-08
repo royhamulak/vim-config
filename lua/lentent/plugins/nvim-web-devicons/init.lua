@@ -1,2 +1,4 @@
-
-require("nvim-web-devicons").setup()
+return createButPlugConfig({
+	"nvim-tree/nvim-web-devicons",
+	priority = 10000,
+})

@@ -9,7 +9,7 @@ local opt = {
 
 -- Map leader
 vim.g.mapleader = ','
-vim.g.maplocalleader = ','
+vim.g.maplocalleader = '\\'
 
 -- Set ; to : in normal mode
 vim.keymap.set('n', ';', ':', opt)

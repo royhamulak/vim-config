@@ -1,3 +1,3 @@
 return createButPlugConfig({
-	"norcalli/nvim-colorizer.lua",
+	"RRethy/vim-illuminate",
 })

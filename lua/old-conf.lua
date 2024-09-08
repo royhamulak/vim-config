@@ -12,37 +12,14 @@ vim.filetype.add({
 	},
 })
 
-require("lentent.plugins.neoconf")
+require("but-plug")
+	.setup({
+		plugins = require("lentent.plugins"),
+	})
+	.but("lazy")
+-- require('lentent.plugin-managers.lazy')
 
-require("lentent.plugins.nvim-web-devicons")
-
-require("lentent.plugins.bufferline")
-
-require("lentent.plugins.lualine")
-
-require("lentent.plugins.onedark")
-
-require("lentent.plugins.colorizer")
-
-require("lentent.plugins.treesitter")
-
-require("lentent.plugins.gitsigns")
-
-require("lentent.plugins.nvim-tree")
-
-require("lentent.plugins.notify")
-
-require("lentent.plugins.nvim-test")
-
-require("lentent.plugins.textcase")
-
-require("lentent.plugins.arrow")
-
-require("lentent.plugins.telescope")
-
-require("lentent.plugins.neodev")
-
-require("lentent.plugins.noice")
+-- require("lentent.plugins")
 
 -- require("lentent.plugins.render-markdown")
 --
@@ -146,23 +123,20 @@ require("lentent.plugins.noice")
 --   }
 -- })
 
-
-
-
-require("mason").setup({
-	ensure_installed = {
-		"cspell",
-		--"codespell",
-		"vtsls",
-		"eslint-lsp",
-		"prettier",
-		"stylua",
-	},
-})
-
+-- require("mason").setup({
+-- 	ensure_installed = {
+-- 		"cspell",
+-- 		--"codespell",
+-- 		"vtsls",
+-- 		"eslint-lsp",
+-- 		"prettier",
+-- 		"stylua",
+-- 	},
+-- })
+--
 local masonReg = require("mason-registry")
 
-require("mason-lspconfig").setup({})
+-- require("mason-lspconfig").setup({})
 
 local cmp = require("cmp")
 
