@@ -9,7 +9,7 @@ return {
 	createButPlugConfig({ "iamcco/markdown-preview.nvim", build = "cd app && npx --yes yarn install" }),
 	createButPlugConfig({ "tpope/vim-fugitive" }),
 	createButPlugConfig({ "sindrets/diffview.nvim" }),
-	createButPlugConfig({ "neoclide/npm.nvim", build = "npm install" }),
+	-- createButPlugConfig({ "neoclide/npm.nvim", build = "npm install", dependencies = "Shougo/denite.nvim" }),
 	createButPlugConfig({ "nvimtools/none-ls.nvim" }),
 	createButPlugConfig({ "nvimtools/none-ls-extras.nvim" }),
 	createButPlugConfig({ "zeioth/none-ls-autoload.nvim" }),
@@ -78,6 +78,7 @@ return {
 	require("lentent.plugins.colorizer"),
 	require("lentent.plugins.treesitter"),
 	require("lentent.plugins.treesitter.syntax-tree-surfer"),
+	require("lentent.plugins.treesitter.textobjects"),
 	require("lentent.plugins.gitsigns"),
 	require("lentent.plugins.nvim-tree"),
 	require("lentent.plugins.notify"),
@@ -90,4 +91,5 @@ return {
 	-- require("lentent.plugins.precognition"),
 	-- require("lentent.plugins.ufo"),
 	require("lentent.plugins.attempt"),
+	require("lentent.plugins.neo-composer"),
 }

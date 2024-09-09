@@ -1,5 +1,6 @@
 return createButPlugConfig({
 	"nvim-lualine/lualine.nvim",
+	dependencies = { "ecthelionvi/NeoComposer.nvim" },
 	opts = {
 
 		sections = {
@@ -8,6 +9,7 @@ return createButPlugConfig({
 			lualine_c = {
 				"filename",
 				-- "g:coc_status"
+				{ function () return require("NeoComposer.ui").status_recording() end },
 			},
 			lualine_x = { "encoding", "fileformat", "filetype" },
 			lualine_y = { "searchcount", "selectioncount", "progress" },
