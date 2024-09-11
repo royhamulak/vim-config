@@ -1,5 +1,6 @@
 return createButPlugConfig({
 	"ziontee113/syntax-tree-surfer",
+	dependencies = { "nvim-treesitter/nvim-treesitter" },
 	config = function()
 		local sts = require("syntax-tree-surfer")
 		sts.setup({

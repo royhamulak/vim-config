@@ -1,15 +1,26 @@
 return createButPlugConfig({
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "ecthelionvi/NeoComposer.nvim" },
+	dependencies = { "ecthelionvi/NeoComposer.nvim", "gennaro-tedesco/nvim-possession" },
 	opts = {
-
 		sections = {
 			lualine_a = { "mode" },
 			lualine_b = { "branch", "diff", "diagnostics" },
 			lualine_c = {
 				"filename",
 				-- "g:coc_status"
-				{ function () return require("NeoComposer.ui").status_recording() end },
+				{
+					function()
+						return require("nvim-possession").status()
+					end,
+					cond = function()
+						return require("nvim-possession").status() ~= nil
+					end,
+				},
+				{
+					function()
+						return require("NeoComposer.ui").status_recording()
+					end,
+				},
 			},
 			lualine_x = { "encoding", "fileformat", "filetype" },
 			lualine_y = { "searchcount", "selectioncount", "progress" },

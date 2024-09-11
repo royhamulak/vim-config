@@ -6,7 +6,8 @@ M.setup = function(options)
 		---@param butPlug ButPlugType
 		---@param pluginManagerOptions? LazyConfig
 		but = function(butPlug, pluginManagerOptions)
-			require("but-plug.adapters." .. butPlug).setup(options.plugins, pluginManagerOptions)
+      local opts = (type(options.plugins) == 'function' and options.plugins or function () return options.plugins end)()
+			require("but-plug.adapters." .. butPlug).setup(opts, pluginManagerOptions)
 		end,
 	}
 	-- if options.lazy == true then

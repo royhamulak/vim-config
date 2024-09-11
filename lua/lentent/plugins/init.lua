@@ -73,6 +73,8 @@ return {
 	require("lentent.plugins.lazydev"),
 	require("lentent.plugins.nvim-web-devicons"),
 	require("lentent.plugins.bufferline"),
+	require("lentent.plugins.posessions"),
+	require("lentent.plugins.posessions"),
 	require("lentent.plugins.lualine"),
 	require("lentent.plugins.onedark"),
 	require("lentent.plugins.colorizer"),
@@ -92,4 +94,18 @@ return {
 	-- require("lentent.plugins.ufo"),
 	require("lentent.plugins.attempt"),
 	require("lentent.plugins.neo-composer"),
+	createButPlugConfig({ "dmmulroy/ts-error-translator.nvim" }),
+	createButPlugConfig({
+		"OXY2DEV/helpview.nvim",
+		lazy = false, -- Recommended
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+	}),
+	createButPlugConfig({
+		"danymat/neogen",
+		config = true,
+		-- Uncomment next line if you want to follow only stable versions
+		-- version = "*"
+	}),
 }
