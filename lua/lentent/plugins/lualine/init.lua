@@ -8,14 +8,14 @@ return createButPlugConfig({
 			lualine_c = {
 				"filename",
 				-- "g:coc_status"
-				{
-					function()
-						return require("nvim-possession").status()
-					end,
-					cond = function()
-						return require("nvim-possession").status() ~= nil
-					end,
-				},
+				-- {
+				-- 	function()
+				-- 		return require("nvim-possession").status()
+				-- 	end,
+				-- 	cond = function()
+				-- 		return require("nvim-possession").status() ~= nil
+				-- 	end,
+				-- },
 				{
 					function()
 						return require("NeoComposer.ui").status_recording()

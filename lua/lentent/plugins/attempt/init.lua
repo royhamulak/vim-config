@@ -1,7 +1,7 @@
 return createButPlugConfig({
 	"m-demare/attempt.nvim", -- No need to specify plenary as dependency
 	opts = {
-		ext_options = { "lua", "ts", "sql", "js", "fish", "" },
+		ext_options = { "lua", "ts", "sql", "js", "fish", "json", "yaml", "" },
 		format_opts = { [""] = "[None]" },
 		run = {
 			js = { "w !node" },

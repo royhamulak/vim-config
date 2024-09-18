@@ -2,6 +2,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 vim.api.nvim_create_user_command("NpmInstall", "hor bo 4sv +term\\ npm\\ install", { desc = "run npm install" })
+-- vim.o.foldmethod='expr'
 
 vim.filetype.add({
 	extension = {
@@ -188,6 +189,10 @@ cmp.setup.cmdline(":", {
 })
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
 local customLspConfigs = {
 	vtsls = {
 		vtsls = {
@@ -292,6 +297,7 @@ local function loadLSPs(caps)
 		if isLSP(pkg) then
 			local ali = pkg:get_aliases()[1] or pkg.name
 
+			-- local customCaps = vim.table.
 			if not customLspConfigs[ali] then
 				lspconfig[ali].setup({ capabilities = caps })
 			else
