@@ -1,7 +1,25 @@
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
-vim.api.nvim_create_user_command("NpmInstall", "hor bo 4sv +term\\ npm\\ install", { desc = "run npm install" })
+-- vim.api.nvim_create_user_command("NpmInstall", function(opts)
+-- 	print(vim.inspect(opts))
+-- 	local command = {
+-- 		"hor",
+-- 		"bo",
+-- 		vim.fn.join({
+-- 			"+term",
+-- 			"npm",
+-- 			"install",
+-- 			unpack((opts.fargs or {})),
+-- 		}, "\\ "),
+-- 	}
+-- 	print(vim.inspect(command))
+-- 	print(vim.fn.join(command, " "))
+-- 	vim.cmd(vim.fn.join(command, " "))
+-- 	-- 	vim.cmd([[
+-- 	-- hor bo sv +term\ npm\ install
+-- 	--   ]] .. )
+-- end, { desc = "run npm install", nargs = "*" })
 -- vim.o.foldmethod='expr'
 
 vim.filetype.add({
