@@ -358,7 +358,7 @@ loadLSPs(capabilities)
 -- lspconfig.sqls.setup({
 --   capabilities = capabilities,
 -- })
--- lspconfig.fish_lsp.setup({ capabilities = capabilities })
+lspconfig.fish_lsp.setup({ capabilities = capabilities })
 
 local lspAUGroup = vim.api.nvim_create_augroup("UserLspConfig", {})
 vim.api.nvim_create_autocmd("LspAttach", {
