@@ -434,12 +434,12 @@ local null_ls = require("null-ls")
 
 null_ls.setup({
   sources = {
-    --     cspell.code_actions,
-    --     cspell.diagnostics,
-    --     null_ls.builtins.diagnostics.codespell,
-    --     -- null_ls.builtins.formatting.codespell,
+    -- cspell.code_actions,
+    -- cspell.diagnostics,
+    null_ls.builtins.diagnostics.codespell,
+    null_ls.builtins.formatting.codespell,
     --
-    --     null_ls.builtins.diagnostics.selene,
+    null_ls.builtins.diagnostics.selene,
     --
     --     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
     --     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
@@ -457,9 +457,9 @@ null_ls.setup({
   },
 })
 
-require("none-ls-autoload").setup({
-  external_sources = {
-    -- "cspell.code_actions",
-    -- "cspell.diagnostics",
-  },
-})
+-- require("none-ls-autoload").setup({
+--   external_sources = {
+--     "cspell.code_actions",
+--     "cspell.diagnostics",
+--   },
+-- })

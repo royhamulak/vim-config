@@ -19,8 +19,8 @@ return {
 		config = function()
 			require("mason").setup({
 				ensure_installed = {
-					"cspell",
-					--"codespell",
+					-- "cspell",
+					"codespell",
 					"vtsls",
 					"eslint-lsp",
 					"prettier",
