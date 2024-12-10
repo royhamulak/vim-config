@@ -2,7 +2,7 @@ return {
 	require("lentent.plugins.fzf"),
 	require("lentent.plugins.fzf-nvim"),
 	require("lentent.plugins.illuminate"),
-	createButPlugConfig({ "nvim-lua/plenary.nvim", priority = 10000 }),
+  require("lentent.plugins.plenary"),
 	createButPlugConfig({ "antoinemadec/FixCursorHold.nvim" }),
 	createButPlugConfig({ "tpope/vim-surround" }),
 	createButPlugConfig({ "tomtom/tcomment_vim" }),
