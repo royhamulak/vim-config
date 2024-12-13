@@ -115,9 +115,10 @@ return {
   createButPlugConfig({
     "ndonfris/fish-lsp",
     build = "yarn install",
-  })
+  }),
+  -- require("lentent.plugins.recorder"),
   -- createButPlugConfig({ "neoclide/npm.nvim", build = "npm install", dependencies = "Shougo/denite.nvim" }),
-  -- require("lentent.plugins.neo-composer"),
+  require("lentent.plugins.neo-composer"),
   -- require("lentent.plugins.lspsaga"),
   -- require("lentent.plugins.regex-railroad"),
   -- require("lentent.plugins.mini.indentscope"),
