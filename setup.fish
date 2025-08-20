@@ -1,4 +1,6 @@
-#! /usr/local/bin/fish
+#!/usr/bin/env nix-shell
+#! nix-shell -i fish --pure
+#! nix-shell -p fish
 
 if test -e $XDG_CONFIG_HOME/nvim/init.vim
   mv $XDG_CONFIG_HOME/nvim/init.vim $XDG_CONFIG_HOME/nvim/init.vim.old
