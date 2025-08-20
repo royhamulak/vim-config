@@ -294,10 +294,25 @@ local customLspConfigs = {
       },
     },
   },
+  nil_ls = {}
 }
+
+customLspConfigs["nil_ls"]["nil"] = {
+    formatting = {
+      command = {"nixfmt"}
+    },
+    nix = {
+      flake = {
+        autoEvalInputs = true,
+        nixpkgsInputName = "nixpkgs",
+      }
+      
+    }
+  }
 
 require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
 
+-- require("lspconfig.configs").nil = require("lspconfig.configs").nil_ls
 local lspconfig = require("lspconfig")
 
 local function isLSP(pkg)
@@ -309,23 +324,40 @@ local function isLSP(pkg)
   return false
 end
 
+local al = {
+}
+al["lua-language-server"] = {"lua_ls"}
+al["nil"] = {"nil_ls"}
+masonReg.register_package_aliases(al)
+-- local al = {
+--   "lua-language-server" = {"lua_ls"},
+--   "nil" = {"nil_ls"},
+--   }
+-- -- masonReg.register_package_aliases({
+--   ["lua-language-server"] = ["lua_ls"],
+--   ["nil"] = ["nil_ls"]
+-- })
+
 local function loadLSPs(caps)
   local regs = masonReg.get_installed_packages()
   for _, pkg in pairs(regs) do
     if isLSP(pkg) then
-      local ali = pkg:get_aliases()[1] or pkg.name
-
+      local ali = masonReg.get_package_aliases(pkg.name)[1] or pkg.name
+      -- print(vim.inspect(pkg))
       -- local customCaps = vim.table.
       if not customLspConfigs[ali] then
         lspconfig[ali].setup({ capabilities = caps })
       else
         lspconfig[ali].setup({ capabilities = caps, settings = customLspConfigs[ali] })
       end
+      vim.lsp.enable(ali)
     end
   end
 end
 
 loadLSPs(capabilities)
+-- vim.lsp.enable("lua_ls")
+-- vim.lsp.enable("nil_ls")
 
 -- lspconfig.vtsls.setup({
 --   capabilities = capabilities,
