@@ -24,7 +24,7 @@ return createButPlugConfig({
 			},
 		})
 
-		telescope.load_extension("lsp_handlers")
+		-- telescope.load_extension("lsp_handlers")
 		telescope.load_extension("attempt")
 		telescope.load_extension("macros")
 

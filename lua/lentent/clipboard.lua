@@ -1,0 +1,24 @@
+-- Set up native clipboard integration
+--
+vim.o.clipboard = "unnamedplus"
+-- vim.g.clipboard = {
+--   name = 'OSC 52',
+--   copy = {
+--     ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+--   },
+--   paste = {
+--     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+--   },
+-- }
+--
+-- -- Make all yanks and pastes use the system clipboard
+-- -- In Normal mode, make 'yy' (yank line) copy to system clipboard
+-- vim.keymap.set('n', 'yy', '"+yy')
+--
+-- -- In Normal mode, make 'y' followed by a motion (e.g., 'yw') copy to system clipboard
+-- vim.keymap.set('n', 'y', '"+y')
+--
+-- -- In Visual mode, make 'y' copy the selection to system clipboard
+-- vim.keymap.set('v', 'y', '"+y')

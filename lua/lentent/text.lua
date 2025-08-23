@@ -22,8 +22,5 @@ vim.o.autoindent = true
 -- Enable smart indenting
 vim.o.smartindent = true
 
--- Enable wrap lines 
+-- Enable wrap lines
 vim.o.wrap = true
-
--- Set unnamed register to "*"
-vim.o.clipboard = 'unnamed'

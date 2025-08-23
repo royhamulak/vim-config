@@ -1,8 +1,8 @@
 return createButPlugConfig({
-  "johmsalas/text-case.nvim",
-  config = function()
-    require("textcase").setup({})
-    vim.cmd([[
+	"johmsalas/text-case.nvim",
+	config = function()
+		require("textcase").setup({})
+		vim.cmd([[
 nnoremap gau :lua require('textcase').current_word('to_upper_case')<CR>
 nnoremap gal :lua require('textcase').current_word('to_lower_case')<CR>
 nnoremap gas :lua require('textcase').current_word('to_snake_case')<CR>
@@ -16,6 +16,6 @@ nnoremap gat :lua require('textcase').current_word('to_title_case')<CR>
 nnoremap gaf :lua require('textcase').current_word('to_path_case')<CR>
 ]])
 
-    -- require("lentent.plugins.telescope").load_extension("textcase")
-  end,
+		-- require("lentent.plugins.telescope").load_extension("textcase")
+	end,
 })

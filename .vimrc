@@ -451,7 +451,7 @@ set si "Smart indent
 set wrap "Wrap lines
 
 " Clipboard
-set clipboard=unnamed
+" set clipboard+=unnamedplus
 
 " CTRL-A is Select all
 noremap  <C-A> gggH<C-O>G

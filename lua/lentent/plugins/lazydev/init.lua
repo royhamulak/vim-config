@@ -7,7 +7,7 @@ return createButPlugConfig({
 				-- Load luvit types when the `vim.uv` word is found
 				{ path = "luvit-meta/library", words = { "vim%.uv" } },
 				"~/my-stuff/vim-config",
-				"~/local/share/nvim/nvim-plugins",
+				"~/.local/share/nvim/lazy",
 				"luvit-meta/library",
 			},
 		})

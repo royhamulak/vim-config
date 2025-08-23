@@ -1,8 +1,8 @@
 return createButPlugConfig({
-  "chrisgrieser/nvim-recorder",
-  opts = {
-    mapping = {
-      addBreakPoint = "~~~"
-    }
-  }
+	"chrisgrieser/nvim-recorder",
+	opts = {
+		mapping = {
+			addBreakPoint = "~~~",
+		},
+	},
 })
