@@ -69,11 +69,4 @@ return {
 	-- require("lentent.plugins.mini.indentscope"),
 	-- require("lentent.plugins.possessions"),
 	-- require("lentent.plugins.treesitter.textobjects"),
-	createButPlugConfig({
-		"neoclide/coc.nvim",
-		lazy = false,
-		priority = 1,
-		build = "npm ci",
-		branch = "master",
-	}),
 }

@@ -22,5 +22,5 @@ return createButPlugConfig({
 		"nvim-treesitter/nvim-treesitter", -- optional
 		"nvim-tree/nvim-web-devicons", -- optional
 	},
-	enabled = false,
+	enabled = true,
 })

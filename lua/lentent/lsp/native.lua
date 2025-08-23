@@ -1,62 +1,119 @@
-local plugins = {
-	createButPlugConfig({ "nvimtools/none-ls.nvim", enabled = false }),
-	createButPlugConfig({ "nvimtools/none-ls-extras.nvim", enabled = false }),
-	createButPlugConfig({ "zeioth/none-ls-autoload.nvim", enabled = false }),
+local _M = {}
+
+_M.plugins = {
+	createButPlugConfig({ "nvimtools/none-ls.nvim", enabled = true }),
+	createButPlugConfig({ "nvimtools/none-ls-extras.nvim", enabled = true }),
+	-- createButPlugConfig({ "zeioth/none-ls-autoload.nvim", enabled = true }),
 	createButPlugConfig({
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate",
-		config = function()
-			require("mason").setup({
-				ensure_installed = {
-					-- "cspell",
-					"codespell",
-					"vtsls",
-					"eslint-lsp",
-					"prettier",
-					"stylua",
-				},
-			})
-		end,
+    opts = {
+      PATH = "append",
+    },
 		priority = 999,
-		enabled = false,
+		enabled = true,
 	}),
 	createButPlugConfig({
 		"williamboman/mason-lspconfig.nvim",
+    dependencies = {
+		"williamboman/mason.nvim",
+        "neovim/nvim-lspconfig",
+    },
 		config = function()
-			require("mason-lspconfig").setup({})
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					-- "cspell",
+					-- "codespell",
+					"vtsls",
+					-- "eslint-lsp",
+					-- "prettier",
+					-- "stylua",
+          "nil_ls",
+          -- "nixfmt",
+          "lua_ls",
+				},
+        automatic_enable = true
+      })
 		end,
-		enabled = false,
+		enabled = true,
 	}),
-	createButPlugConfig({ "neovim/nvim-lspconfig", enabled = false }),
-	createButPlugConfig({ "davidmh/cspell.nvim", enabled = false }),
-	createButPlugConfig({ "yioneko/nvim-vtsls", enabled = false }),
+	createButPlugConfig({ "neovim/nvim-lspconfig", enabled = true }),
+	createButPlugConfig({ "davidmh/cspell.nvim", enabled = true }),
+	createButPlugConfig({ "yioneko/nvim-vtsls", enabled = true }),
 	createButPlugConfig({
 		"hrsh7th/nvim-cmp",
 		config = function()
-			require("cmp")
+			local cmp = require("cmp")
+
+			cmp.setup({
+				mapping = cmp.mapping.preset.insert({
+					["<C-b>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+					["<C-e>"] = cmp.mapping.abort(),
+					["<CR>"] = cmp.mapping.confirm({ select = true }),
+					["<Tab>"] = function(fallback)
+						if cmp.visible() then
+							cmp.select_next_item()
+						else
+							fallback()
+						end
+					end,
+					["<S-Tab>"] = function(fallback)
+						if cmp.visible() then
+							cmp.select_prev_item()
+						else
+							fallback()
+						end
+					end,
+				}),
+				sources = cmp.config.sources({
+					{ name = "nvim_lsp" },
+					-- { name = "nvim_lsp_signature_help" },
+					-- {name = "buffer"}
+				}),
+			})
+
+			cmp.setup.cmdline({ "/", "?" }, {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = {
+					{ name = "buffer" },
+				},
+			})
+
+			cmp.setup.cmdline(":", {
+				mapping = cmp.mapping.preset.cmdline(),
+				sources = cmp.config.sources({
+					{ name = "path" },
+				}, {
+					{ name = "cmdline" },
+				}),
+				matching = { disallow_symbol_nonprefix_matching = false },
+			})
 		end,
-		enabled = false,
+		enabled = true,
 	}),
-	createButPlugConfig({ "hrsh7th/cmp-nvim-lsp", enabled = false }),
-	createButPlugConfig({ "hrsh7th/cmp-buffer", enabled = false }),
-	createButPlugConfig({ "hrsh7th/cmp-path", enabled = false }),
-	createButPlugConfig({ "hrsh7th/cmp-cmdline", enabled = false }),
-	createButPlugConfig({ "hrsh7th/cmp-nvim-lsp-signature-help", enabled = false }),
-	createButPlugConfig({ "SergioRibera/cmp-dotenv", enabled = false }),
-	createButPlugConfig({ "gbrlsnchs/telescope-lsp-handlers.nvim", enabled = false }),
-	createButPlugConfig({ "Bilal2453/luvit-meta", enabled = false }),
+	createButPlugConfig({ "hrsh7th/cmp-nvim-lsp", enabled = true }),
+	createButPlugConfig({ "hrsh7th/cmp-buffer", enabled = true }),
+	createButPlugConfig({ "hrsh7th/cmp-path", enabled = true }),
+	createButPlugConfig({ "hrsh7th/cmp-cmdline", enabled = true }),
+	createButPlugConfig({ "hrsh7th/cmp-nvim-lsp-signature-help", enabled = true }),
+	createButPlugConfig({ "SergioRibera/cmp-dotenv", enabled = true }),
+	createButPlugConfig({ "gbrlsnchs/telescope-lsp-handlers.nvim", enabled = true }),
+	createButPlugConfig({ "Bilal2453/luvit-meta", enabled = true }),
 	require("lentent.plugins.lspsaga"),
 	createButPlugConfig({
 		"kevinhwang91/nvim-bqf",
 		ft = "qf",
-		enabled = false,
+		enabled = true,
 	}),
 	require("lentent.plugins.neoconf"),
 	require("lentent.plugins.lazydev"),
-	createButPlugConfig({ "dmmulroy/ts-error-translator.nvim", enabled = false }),
+	createButPlugConfig({ "dmmulroy/ts-error-translator.nvim", enabled = true }),
 	createButPlugConfig({
 		"ndonfris/fish-lsp",
 		build = "yarn install",
+		dependencies = { "nvim-tree/nvim-tree.lua" },
 	}),
 }
 
@@ -145,164 +202,61 @@ local customLspConfigs = {
 	},
 	nil_ls = {},
 }
-local _M = {
-	plugins = plugins,
+
+customLspConfigs["nil_ls"]["nil"] = {
+	formatting = {
+		command = { "nixfmt" },
+	},
+	nix = {
+		flake = {
+			autoEvalInputs = true,
+			nixpkgsInputName = "nixpkgs",
+		},
+	},
 }
 
-function _M.setup()
-	local masonReg = require("mason-registry")
+local lspAliases = {}
+lspAliases["lua-language-server"] = { "lua_ls" }
+lspAliases["nil"] = { "nil_ls" }
 
-	-- require("mason-lspconfig").setup({})
-
-	local cmp = require("cmp")
-
-	cmp.setup({
-		mapping = cmp.mapping.preset.insert({
-			["<C-b>"] = cmp.mapping.scroll_docs(-4),
-			["<C-f>"] = cmp.mapping.scroll_docs(4),
-			["<C-Space>"] = cmp.mapping.complete(),
-			["<C-e>"] = cmp.mapping.abort(),
-			["<CR>"] = cmp.mapping.confirm({ select = true }),
-			["<Tab>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_next_item()
-				else
-					fallback()
-				end
-			end,
-			["<S-Tab>"] = function(fallback)
-				if cmp.visible() then
-					cmp.select_prev_item()
-				else
-					fallback()
-				end
-			end,
-		}),
-		sources = cmp.config.sources({
-			{ name = "nvim_lsp" },
-			-- { name = "nvim_lsp_signature_help" },
-			-- {name = "buffer"}
-		}),
-	})
-
-	cmp.setup.cmdline({ "/", "?" }, {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = "buffer" },
-		},
-	})
-
-	cmp.setup.cmdline(":", {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = cmp.config.sources({
-			{ name = "path" },
-		}, {
-			{ name = "cmdline" },
-		}),
-		matching = { disallow_symbol_nonprefix_matching = false },
-	})
-
+local function getCmpCapabilities()
 	local capabilities = require("cmp_nvim_lsp").default_capabilities()
 	capabilities.textDocument.foldingRange = {
 		dynamicRegistration = false,
 		lineFoldingOnly = true,
 	}
+	return capabilities
+end
 
-	customLspConfigs["nil_ls"]["nil"] = {
-		formatting = {
-			command = { "nixfmt" },
-		},
-		nix = {
-			flake = {
-				autoEvalInputs = true,
-				nixpkgsInputName = "nixpkgs",
-			},
-		},
-	}
+local function isLSP(pkg)
+	for _, cat in pairs(pkg.spec.categories) do
+		if cat == "LSP" then
+			return true
+		end
+	end
+	return false
+end
 
-	require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
-
-	-- require("lspconfig.configs").nil = require("lspconfig.configs").nil_ls
+local function loadLSPs(caps)
+	local masonReg = require("mason-registry")
 	local lspconfig = require("lspconfig")
-
-	local function isLSP(pkg)
-		for _, cat in pairs(pkg.spec.categories) do
-			if cat == "LSP" then
-				return true
+	local regs = masonReg.get_installed_packages()
+	for _, pkg in pairs(regs) do
+		if isLSP(pkg) then
+			local ali = masonReg.get_package_aliases(pkg.name)[1] or pkg.name
+			-- print(vim.inspect(pkg))
+			-- local customCaps = vim.table.
+			if not customLspConfigs[ali] then
+				lspconfig[ali].setup({ capabilities = caps })
+			else
+				lspconfig[ali].setup({ capabilities = caps, settings = customLspConfigs[ali] })
 			end
-		end
-		return false
-	end
-
-	local al = {}
-	al["lua-language-server"] = { "lua_ls" }
-	al["nil"] = { "nil_ls" }
-	masonReg.register_package_aliases(al)
-	-- local al = {
-	--   "lua-language-server" = {"lua_ls"},
-	--   "nil" = {"nil_ls"},
-	--   }
-	-- -- masonReg.register_package_aliases({
-	--   ["lua-language-server"] = ["lua_ls"],
-	--   ["nil"] = ["nil_ls"]
-	-- })
-
-	local function loadLSPs(caps)
-		local regs = masonReg.get_installed_packages()
-		for _, pkg in pairs(regs) do
-			if isLSP(pkg) then
-				local ali = masonReg.get_package_aliases(pkg.name)[1] or pkg.name
-				-- print(vim.inspect(pkg))
-				-- local customCaps = vim.table.
-				if not customLspConfigs[ali] then
-					lspconfig[ali].setup({ capabilities = caps })
-				else
-					lspconfig[ali].setup({ capabilities = caps, settings = customLspConfigs[ali] })
-				end
-				vim.lsp.enable(ali)
-			end
+			vim.lsp.enable(ali)
 		end
 	end
+end
 
-	masonReg.update(function()
-		loadLSPs(capabilities)
-	end)
-	-- vim.lsp.enable("lua_ls")
-	-- vim.lsp.enable("nil_ls")
-
-	-- lspconfig.vtsls.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.eslint.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.vimls.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.lua_ls.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.docker_compose_language_service.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.jsonls.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.yamlls.setup({
-	--   capabilities = capabilities,
-	-- })
-	--
-	-- lspconfig.sqls.setup({
-	--   capabilities = capabilities,
-	-- })
-	lspconfig.fish_lsp.setup({ capabilities = capabilities })
-
+function setupLspAutoCommand()
 	local lspAUGroup = vim.api.nvim_create_augroup("UserLspConfig", {})
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = lspAUGroup,
@@ -362,16 +316,9 @@ function _M.setup()
 			end, opts)
 		end,
 	})
+end
 
-	-- vim.api.nvim_create_autocmd("LspDetach", {
-	-- 	group = lspAUGroup,
-	-- 	callback = function(args)
-	-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
-	-- 		-- Do something with the client
-	-- 		vim.cmd("setlocal tagfunc< omnifunc<")
-	-- 	end,
-	-- })
-
+function setupNullLs()
 	local null_ls = require("null-ls")
 	-- local cspell = require('cspell')
 
@@ -381,24 +328,64 @@ function _M.setup()
 			-- cspell.diagnostics,
 			null_ls.builtins.diagnostics.codespell,
 			null_ls.builtins.formatting.codespell,
-			--
+
 			null_ls.builtins.diagnostics.selene,
 			--
 			--     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
 			--     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
 			--
-			null_ls.builtins.diagnostics.sqlfluff.with({
-				extra_args = { "--dialect", "snowflake" },
-			}),
-			null_ls.builtins.formatting.sqlfluff.with({
-				extra_args = { "--dialect", "snowflake" },
-			}),
+			-- null_ls.builtins.diagnostics.sqlfluff.with({
+			-- 	extra_args = { "--dialect", "snowflake" },
+			-- }),
+			-- null_ls.builtins.formatting.sqlfluff.with({
+			-- 	extra_args = { "--dialect", "snowflake" },
+			-- }),
 
 			null_ls.builtins.formatting.nixfmt,
-			--
-			--     -- null_ls.builtins.formatting.stylua,
+			-- --
+      null_ls.builtins.formatting.stylua,
 		},
 	})
+end
+
+_M.setup = function()
+	local masonReg = require("mason-registry")
+	local capabilities = getCmpCapabilities()
+
+	require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
+
+	-- require("lspconfig.configs").nil = require("lspconfig.configs").nil_ls
+	local lspconfig = require("lspconfig")
+
+	lspconfig.fish_lsp.setup({ capabilities = capabilities })
+
+	masonReg.register_package_aliases(lspAliases)
+	masonReg.update(function()
+		loadLSPs(capabilities)
+	end)
+	-- vim.lsp.enable("lua_ls")
+	-- vim.lsp.enable("nil_ls")
+
+	setupLspAutoCommand()
+
+	setupNullLs()
+
+	-- vim.api.nvim_create_autocmd("LspDetach", {
+	-- 	group = lspAUGroup,
+	-- 	callback = function(args)
+	-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
+	-- 		-- Do something with the client
+	-- 		vim.cmd("setlocal tagfunc< omnifunc<")
+	-- 	end,
+	-- })
+	--
+	-- require("none-ls-autoload").setup({
+	--   external_sources = {
+	--     "cspell.code_actions",
+	--     "cspell.diagnostics",
+	--   },
+	-- })
+	--
 end
 
 -- require("mason").setup({
@@ -413,11 +400,4 @@ end
 -- })
 --
 
--- require("none-ls-autoload").setup({
---   external_sources = {
---     "cspell.code_actions",
---     "cspell.diagnostics",
---   },
--- })
---
 return _M

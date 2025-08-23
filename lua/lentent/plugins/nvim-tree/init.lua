@@ -1,6 +1,6 @@
 return createButPlugConfig({
 	"nvim-tree/nvim-tree.lua",
-	priority = 1000,
+	priority = 10000,
 	config = function()
 		local function my_on_attach(bufnr)
 			local api = require("nvim-tree.api")

@@ -35,13 +35,17 @@ vim.filetype.add({
 	},
 })
 
-require("but-plug")
+local butPlug = require("but-plug")
+local lsp = require("lentent.lsp")
+
+butPlug
 	.setup({
-		plugins = require("lentent.plugins"),
+		plugins =  vim.list_extend(require("lentent.plugins"), lsp.plugins) ,
 	})
 	.but("lazy")
 
-require("lentent.lsp")
+lsp.setup()
+
 -- require('lentent.plugin-managers.lazy')
 
 -- require("lentent.plugins")

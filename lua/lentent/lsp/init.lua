@@ -1,3 +1,3 @@
-require("lentent.lsp.coc")
+-- return require("lentent.lsp.coc")
 
--- require("lentent.lsp.native")
+return require("lentent.lsp.native")
