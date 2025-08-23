@@ -40,7 +40,7 @@ local lsp = require("lentent.lsp")
 
 butPlug
 	.setup({
-		plugins =  vim.list_extend(require("lentent.plugins"), lsp.plugins) ,
+		plugins = vim.list_extend(require("lentent.plugins"), lsp.plugins),
 	})
 	.but("lazy")
 

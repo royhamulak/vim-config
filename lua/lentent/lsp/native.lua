@@ -7,18 +7,18 @@ _M.plugins = {
 	createButPlugConfig({
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate",
-    opts = {
-      PATH = "append",
-    },
+		opts = {
+			PATH = "append",
+		},
 		priority = 999,
 		enabled = true,
 	}),
 	createButPlugConfig({
 		"williamboman/mason-lspconfig.nvim",
-    dependencies = {
-		"williamboman/mason.nvim",
-        "neovim/nvim-lspconfig",
-    },
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
 		config = function()
 			require("mason-lspconfig").setup({
 				ensure_installed = {
@@ -28,12 +28,12 @@ _M.plugins = {
 					-- "eslint-lsp",
 					-- "prettier",
 					-- "stylua",
-          "nil_ls",
-          -- "nixfmt",
-          "lua_ls",
+					"nil_ls",
+					-- "nixfmt",
+					"lua_ls",
 				},
-        automatic_enable = true
-      })
+				automatic_enable = true,
+			})
 		end,
 		enabled = true,
 	}),
@@ -88,7 +88,14 @@ _M.plugins = {
 				}, {
 					{ name = "cmdline" },
 				}),
-				matching = { disallow_symbol_nonprefix_matching = false },
+				matching = {
+					disallow_fuzzy_matching = false,
+					disallow_fullfuzzy_matching = false,
+					disallow_partial_fuzzy_matching = true,
+					disallow_partial_matching = false,
+					disallow_prefix_unmatching = false,
+					disallow_symbol_nonprefix_matching = false,
+				},
 			})
 		end,
 		enabled = true,
@@ -256,7 +263,7 @@ local function loadLSPs(caps)
 	end
 end
 
-function setupLspAutoCommand()
+local function setupLspAutoCommand()
 	local lspAUGroup = vim.api.nvim_create_augroup("UserLspConfig", {})
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = lspAUGroup,
@@ -282,10 +289,10 @@ function setupLspAutoCommand()
 			-- See `:help vim.lsp.*` for documentation on any of the below functions
 			local opts = { buffer = ev.buf }
 			vim.keymap.set("n", "]d", function()
-				vim.diagnostic.goto_next()
+				vim.diagnostic.jump({ count = 1, float = true })
 			end, opts)
 			vim.keymap.set("n", "[d", function()
-				vim.diagnostic.goto_prev()
+				vim.diagnostic.jump({ count = -1, float = true })
 			end, opts)
 
 			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
@@ -318,7 +325,7 @@ function setupLspAutoCommand()
 	})
 end
 
-function setupNullLs()
+local function setupNullLs()
 	local null_ls = require("null-ls")
 	-- local cspell = require('cspell')
 
@@ -329,7 +336,7 @@ function setupNullLs()
 			null_ls.builtins.diagnostics.codespell,
 			null_ls.builtins.formatting.codespell,
 
-			null_ls.builtins.diagnostics.selene,
+			-- null_ls.builtins.diagnostics.selene,
 			--
 			--     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
 			--     -- null_ls.builtins.diagnostics.proselint.with({filetypes = {}}),
@@ -343,7 +350,7 @@ function setupNullLs()
 
 			null_ls.builtins.formatting.nixfmt,
 			-- --
-      null_ls.builtins.formatting.stylua,
+			null_ls.builtins.formatting.stylua,
 		},
 	})
 end
