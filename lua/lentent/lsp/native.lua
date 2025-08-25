@@ -174,6 +174,19 @@ _M.customLspConfigs = {
       },
     },
   },
+  nil_ls = {
+    ["nil"] = {
+      formatting = { "nixfmt" },
+    },
+    nix = {
+      binary = "nix",
+      flake = {
+        autoArchive = true,
+        autoEvalInputs = true,
+        nixpkgsInputName = "nixpkgs",
+      },
+    },
+  },
   nixd = {
     nixpkgs = {
       expr = "import <nixpkgs> { }",
@@ -184,7 +197,7 @@ _M.customLspConfigs = {
     options = {
       ["home-manager"] = {
         expr =
-        "(import <home-manager/modules> { configuration = ~/.config/home-manager/home.nix; pkgs = import <nixpkgs> {}; }).options",
+        "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []",
       },
     },
     -- options = {
@@ -195,6 +208,21 @@ _M.customLspConfigs = {
     -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
     -- 	},
     -- },
+  },
+  yamlls = {
+    yaml = {
+      schemas = {
+        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+        ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json"] =
+        "/*.k8s.yaml",
+      },
+    },
+  },
+  jsonls = {
+    cmd = {
+      "vscode-json-languageserver",
+      "--stdio",
+    },
   },
 }
 
@@ -208,14 +236,16 @@ local function getCmpCapabilities()
 end
 
 _M.loadLSPs = function(lsps, caps)
+  vim.lsp.config("*", { capabilities = caps })
   local lspconfig = require("lspconfig")
   for _, pkg in pairs(lsps) do
     local ali = pkg
-    if not _M.customLspConfigs[ali] then
-      lspconfig[ali].setup({ capabilities = caps })
-    else
-      lspconfig[ali].setup({ capabilities = caps, settings = _M.customLspConfigs[ali] })
+    if _M.customLspConfigs[ali] then
+      lspconfig[ali].setup({ settings = _M.customLspConfigs[ali] })
+      -- vim.lsp.config(ali, _M.customLspConfigs[ali])
+      -- print(vim.inspect(vim.lsp.config._configs[ali]))
     end
+    -- vim.lsp.enable(ali)
   end
 end
 
@@ -309,13 +339,12 @@ local function setupNullLs()
     },
   })
 end
-
-_M.setup = function()
+_M.setup = function(lsps)
   local capabilities = getCmpCapabilities()
 
   require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
 
-  _M.loadLSPs({ "nixd", "lua_ls", "vtsls", "fish_lsp" }, capabilities)
+  _M.loadLSPs(lsps, capabilities)
 
   setupLspAutoCommand()
 
