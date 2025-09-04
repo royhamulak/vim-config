@@ -45,7 +45,7 @@ butPlug
     })
     .but("lazy")
 
-lsp.setup({ "nixd", "lua_ls", "vtsls", "fish_lsp", "jsonls", "yamlls", "tombi" })
+lsp.setup({ "marksman", "nixd", "lua_ls", "vtsls", "fish_lsp", "jsonls", "yamlls", "tombi" })
 
 -- require('lentent.plugin-managers.lazy')
 

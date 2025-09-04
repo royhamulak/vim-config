@@ -89,142 +89,162 @@ _M.plugins = {
     build = "yarn install",
     dependencies = { "nvim-tree/nvim-tree.lua" },
   }),
+  createButPlugConfig({
+    "b0o/schemastore.nvim",
+  }),
+  createButPlugConfig({
+    "esmuellert/nvim-eslint",
+    config = function()
+      require("nvim-eslint").setup({})
+    end,
+  }),
 }
 
-_M.customLspConfigs = {
-  vtsls = {
+_M.customLspConfigs = {}
+local function createCustomConfigs()
+  return {
     vtsls = {
-      autoUseWorkspaceTsdk = true,
-      -- experimental = {
-      -- 	completion = {
-      -- 		enableServerSideFuzzyMatch = true,
+      settings = {
+        vtsls = {
+          autoUseWorkspaceTsdk = true,
+          -- experimental = {
+          -- 	completion = {
+          -- 		enableServerSideFuzzyMatch = true,
+          -- 	},
+          -- },
+        },
+        javascript = {
+          preferences = {
+            quoteStyle = "single",
+            importModuleSpecifierEnding = "js",
+          },
+          referencesCodeLens = {
+            enabled = true,
+            showOnAllFunction = true,
+          },
+          inlayHints = {
+            -- parameterNames = {
+            -- 	enabled = "all",
+            -- },
+            -- parameterTypes = {
+            -- 	enabled = true,
+            -- },
+            -- variableTypes = {
+            -- 	enabled = true,
+            -- },
+            -- propertyDeclarationTypes = {
+            -- 	enabled = true,
+            -- },
+            -- functionLikeReturnTypes = {
+            -- 	enabled = true,
+            -- },
+            -- enumMemberValues = {
+            -- 	enabled = true,
+            -- },
+          },
+        },
+        typescript = {
+          -- preferGoToSourceDefinition = true,
+          workspaceSymbols = {
+            scope = "currentProject",
+          },
+          preferences = {
+            quoteStyle = "single",
+            importModuleSpecifierEnding = "js",
+            preferTypeOnlyAutoImports = true,
+          },
+          referencesCodeLens = {
+            enabled = true,
+            showOnAllFunction = true,
+          },
+          inlayHints = {
+            -- parameterNames = {
+            -- 	enabled = "all",
+            -- },
+            -- parameterTypes = {
+            -- 	enabled = true,
+            -- },
+            -- variableTypes = {
+            -- 	enabled = true,
+            -- },
+            -- propertyDeclarationTypes = {
+            -- 	enabled = true,
+            -- },
+            -- functionLikeReturnTypes = {
+            -- 	enabled = true,
+            -- },
+            -- enumMemberValues = {
+            -- 	enabled = true,
+            -- },
+          },
+          suggest = {
+            completeFunctionCalls = true,
+          },
+          implementationsCodeLens = {
+            enabled = true,
+            showOnInterfaceMethods = true,
+          },
+        },
+      },
+    },
+    nil_ls = {
+      ["nil"] = {
+        formatting = { "nixfmt" },
+      },
+      nix = {
+        binary = "nix",
+        flake = {
+          autoArchive = true,
+          autoEvalInputs = true,
+          nixpkgsInputName = "nixpkgs",
+        },
+      },
+    },
+    nixd = {
+      nixpkgs = {
+        expr = "import <nixpkgs> { }",
+      },
+      formatting = {
+        command = { "nixfmt" },
+      },
+      options = {
+        ["home-manager"] = {
+          expr =
+          "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []",
+        },
+      },
+      -- options = {
+      -- 	nixos = {
+      -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
+      -- 	},
+      -- 	home_manager = {
+      -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
       -- 	},
       -- },
     },
-    javascript = {
-      preferences = {
-        quoteStyle = "single",
-        importModuleSpecifierEnding = "js",
-      },
-      referencesCodeLens = {
-        enabled = true,
-        showOnAllFunction = true,
-      },
-      inlayHints = {
-        -- parameterNames = {
-        -- 	enabled = "all",
-        -- },
-        -- parameterTypes = {
-        -- 	enabled = true,
-        -- },
-        -- variableTypes = {
-        -- 	enabled = true,
-        -- },
-        -- propertyDeclarationTypes = {
-        -- 	enabled = true,
-        -- },
-        -- functionLikeReturnTypes = {
-        -- 	enabled = true,
-        -- },
-        -- enumMemberValues = {
-        -- 	enabled = true,
-        -- },
+    yamlls = {
+      yaml = {
+        schemas = {
+          ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
+          ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json"] =
+          "/*.k8s.yaml",
+        },
       },
     },
-    typescript = {
-      -- preferGoToSourceDefinition = true,
-      workspaceSymbols = {
-        scope = "currentProject",
+    jsonls = {
+      cmd = {
+        "vscode-json-languageserver",
+        "--stdio",
       },
-      preferences = {
-        quoteStyle = "single",
-        importModuleSpecifierEnding = "js",
-        preferTypeOnlyAutoImports = true,
-      },
-      referencesCodeLens = {
-        enabled = true,
-        showOnAllFunction = true,
-      },
-      inlayHints = {
-        -- parameterNames = {
-        -- 	enabled = "all",
-        -- },
-        -- parameterTypes = {
-        -- 	enabled = true,
-        -- },
-        -- variableTypes = {
-        -- 	enabled = true,
-        -- },
-        -- propertyDeclarationTypes = {
-        -- 	enabled = true,
-        -- },
-        -- functionLikeReturnTypes = {
-        -- 	enabled = true,
-        -- },
-        -- enumMemberValues = {
-        -- 	enabled = true,
-        -- },
-      },
-      suggest = {
-        completeFunctionCalls = true,
-      },
-      implementationsCodeLens = {
-        enabled = true,
-        showOnInterfaceMethods = true,
+      settings = {
+        json = {
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
       },
     },
-  },
-  nil_ls = {
-    ["nil"] = {
-      formatting = { "nixfmt" },
-    },
-    nix = {
-      binary = "nix",
-      flake = {
-        autoArchive = true,
-        autoEvalInputs = true,
-        nixpkgsInputName = "nixpkgs",
-      },
-    },
-  },
-  nixd = {
-    nixpkgs = {
-      expr = "import <nixpkgs> { }",
-    },
-    formatting = {
-      command = { "nixfmt" },
-    },
-    options = {
-      ["home-manager"] = {
-        expr =
-        "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []",
-      },
-    },
-    -- options = {
-    -- 	nixos = {
-    -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
-    -- 	},
-    -- 	home_manager = {
-    -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
-    -- 	},
-    -- },
-  },
-  yamlls = {
-    yaml = {
-      schemas = {
-        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*",
-        ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/refs/heads/master/v1.32.1-standalone-strict/all.json"] =
-        "/*.k8s.yaml",
-      },
-    },
-  },
-  jsonls = {
-    cmd = {
-      "vscode-json-languageserver",
-      "--stdio",
-    },
-  },
-}
+  }
+end
 
 local function getCmpCapabilities()
   local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -232,20 +252,21 @@ local function getCmpCapabilities()
     dynamicRegistration = false,
     lineFoldingOnly = true,
   }
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
   return capabilities
 end
 
-_M.loadLSPs = function(lsps, caps)
+_M.loadLSPs = function(lsps, caps, customLspConfigs)
   vim.lsp.config("*", { capabilities = caps })
   local lspconfig = require("lspconfig")
   for _, pkg in pairs(lsps) do
     local ali = pkg
-    if _M.customLspConfigs[ali] then
-      lspconfig[ali].setup({ settings = _M.customLspConfigs[ali] })
-      -- vim.lsp.config(ali, _M.customLspConfigs[ali])
+    if customLspConfigs[ali] then
+      -- lspconfig[ali].setup({ settings = _M.customLspConfigs[ali] })
+      vim.lsp.config(ali, customLspConfigs[ali])
       -- print(vim.inspect(vim.lsp.config._configs[ali]))
     end
-    -- vim.lsp.enable(ali)
+    vim.lsp.enable(ali)
   end
 end
 
@@ -336,6 +357,7 @@ local function setupNullLs()
       null_ls.builtins.formatting.nixfmt,
       -- --
       null_ls.builtins.formatting.stylua,
+      null_ls.builtins.formatting.prettierd.with({ filetypes = { "javascript", "typescript" } }),
     },
   })
 end
@@ -344,7 +366,7 @@ _M.setup = function(lsps)
 
   require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
 
-  _M.loadLSPs(lsps, capabilities)
+  _M.loadLSPs(lsps, capabilities, createCustomConfigs())
 
   setupLspAutoCommand()
 
