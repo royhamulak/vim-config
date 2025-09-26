@@ -4,7 +4,7 @@
 
 -- Silent remap
 local opt = {
-	silent = true,
+  silent = true,
 }
 
 -- Map leader
@@ -38,7 +38,7 @@ vim.keymap.set("v", "<M-k>", ":m'<-2<cr>`>my`<mzgv`yo`z", opt)
 
 -- Quickly replace selected text in visual selection
 vim.keymap.set("v", "<leader>r", function()
-	VisualSelection("replace")
+  VisualSelection("replace")
 end, {})
 
 ----------------------------------------------------------------
@@ -125,10 +125,10 @@ vim.keymap.set("n", "<cr>", ":noh<cr>", opt)
 
 -- Use * and # to search for visual selection
 vim.keymap.set("v", "*", function()
-	return VisualSelection("f")
+  return VisualSelection("f")
 end, {})
 vim.keymap.set("v", "#", function()
-	return VisualSelection("b")
+  return VisualSelection("b")
 end, {})
 
 -- Use <Space> to search and <C-Space> to backwards search
@@ -140,23 +140,23 @@ vim.keymap.set("n", "<C-Space>", "?", {})
 ----------------------------------------------------------------
 
 function VisualSelection(direction)
-	local saved_reg = vim.fn.getreg('"')
-	vim.cmd('execute "normal! vgvy"')
+  local saved_reg = vim.fn.getreg('"')
+  vim.cmd('execute "normal! vgvy"')
 
-	local pattern = vim.fn.escape(vim.fn.getreg('"'), "\\/.*$^~[]")
-	local pattern = vim.fn.substitute(pattern, "\n$", "", "")
-	print(pattern)
+  local pattern = vim.fn.escape(vim.fn.getreg('"'), "\\/.*$^~[]")
+  local pattern = vim.fn.substitute(pattern, "\n$", "", "")
+  print(pattern)
 
-	if direction == "b" then
-		vim.cmd.normal("?" .. pattern .. "^M")
-	elseif direction == "gv" then
-		vim.fn.feedkeys(":vimgrep /" .. pattern .. "/ **/*.")
-	elseif direction == "replace" then
-		vim.fn.feedkeys(":%s/" .. pattern .. "/")
-	elseif direction == "f" then
-		vim.cmd.normal("/" .. pattern .. "^M")
-	end
+  if direction == "b" then
+    vim.cmd.normal("?" .. pattern .. "^M")
+  elseif direction == "gv" then
+    vim.fn.feedkeys(":vimgrep /" .. pattern .. "/ **/*.")
+  elseif direction == "replace" then
+    vim.fn.feedkeys(":%s/" .. pattern .. "/")
+  elseif direction == "f" then
+    vim.cmd.normal("/" .. pattern .. "^M")
+  end
 
-	vim.fn.setreg("/", pattern)
-	vim.fn.setreg('"', saved_reg)
+  vim.fn.setreg("/", pattern)
+  vim.fn.setreg('"', saved_reg)
 end

@@ -69,18 +69,27 @@ return {
   -- require("lentent.plugins.mini.indentscope"),
   -- require("lentent.plugins.possessions"),
   -- require("lentent.plugins.treesitter.textobjects"),
+  -- createButPlugConfig({
+  --   "ggandor/leap.nvim",
+  --   config = function()
+  --     require('leap').set_default_mappings()
+  --     vim.keymap.set({ "x", "o" }, "R", function()
+  --       require("leap.treesitter").select({
+  --         -- To increase/decrease the selection in a clever-f-like manner,
+  --         -- with the trigger key itself (vRRRRrr...). The default keys
+  --         -- (<enter>/<backspace>) also work, so feel free to skip this.
+  --         opts = require("leap.user").with_traversal_keys("R", "r"),
+  --       })
+  --     end)
+  --   end,
+  -- }),
   createButPlugConfig({
-    "ggandor/leap.nvim",
-    config = function()
-      require('leap').set_default_mappings()
-      vim.keymap.set({ "x", "o" }, "R", function()
-        require("leap.treesitter").select({
-          -- To increase/decrease the selection in a clever-f-like manner,
-          -- with the trigger key itself (vRRRRrr...). The default keys
-          -- (<enter>/<backspace>) also work, so feel free to skip this.
-          opts = require("leap.user").with_traversal_keys("R", "r"),
-        })
-      end)
-    end,
+    "terrastruct/d2-vim",
+    ft = { "d2" },
+  }),
+  createButPlugConfig({
+    "ravsii/tree-sitter-d2",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    build = "make nvim-install",
   }),
 }

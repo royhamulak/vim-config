@@ -104,86 +104,84 @@ _M.customLspConfigs = {}
 local function createCustomConfigs()
   return {
     vtsls = {
-      settings = {
-        vtsls = {
-          autoUseWorkspaceTsdk = true,
-          -- experimental = {
-          -- 	completion = {
-          -- 		enableServerSideFuzzyMatch = true,
-          -- 	},
+      vtsls = {
+        autoUseWorkspaceTsdk = true,
+        -- experimental = {
+        -- 	completion = {
+        -- 		enableServerSideFuzzyMatch = true,
+        -- 	},
+        -- },
+      },
+      javascript = {
+        preferences = {
+          quoteStyle = "single",
+          importModuleSpecifierEnding = "js",
+        },
+        referencesCodeLens = {
+          enabled = true,
+          showOnAllFunction = true,
+        },
+        inlayHints = {
+          -- parameterNames = {
+          -- 	enabled = "all",
+          -- },
+          -- parameterTypes = {
+          -- 	enabled = true,
+          -- },
+          -- variableTypes = {
+          -- 	enabled = true,
+          -- },
+          -- propertyDeclarationTypes = {
+          -- 	enabled = true,
+          -- },
+          -- functionLikeReturnTypes = {
+          -- 	enabled = true,
+          -- },
+          -- enumMemberValues = {
+          -- 	enabled = true,
           -- },
         },
-        javascript = {
-          preferences = {
-            quoteStyle = "single",
-            importModuleSpecifierEnding = "js",
-          },
-          referencesCodeLens = {
-            enabled = true,
-            showOnAllFunction = true,
-          },
-          inlayHints = {
-            -- parameterNames = {
-            -- 	enabled = "all",
-            -- },
-            -- parameterTypes = {
-            -- 	enabled = true,
-            -- },
-            -- variableTypes = {
-            -- 	enabled = true,
-            -- },
-            -- propertyDeclarationTypes = {
-            -- 	enabled = true,
-            -- },
-            -- functionLikeReturnTypes = {
-            -- 	enabled = true,
-            -- },
-            -- enumMemberValues = {
-            -- 	enabled = true,
-            -- },
-          },
+      },
+      typescript = {
+        -- preferGoToSourceDefinition = true,
+        workspaceSymbols = {
+          scope = "currentProject",
         },
-        typescript = {
-          -- preferGoToSourceDefinition = true,
-          workspaceSymbols = {
-            scope = "currentProject",
-          },
-          preferences = {
-            quoteStyle = "single",
-            importModuleSpecifierEnding = "js",
-            preferTypeOnlyAutoImports = true,
-          },
-          referencesCodeLens = {
-            enabled = true,
-            showOnAllFunction = true,
-          },
-          inlayHints = {
-            -- parameterNames = {
-            -- 	enabled = "all",
-            -- },
-            -- parameterTypes = {
-            -- 	enabled = true,
-            -- },
-            -- variableTypes = {
-            -- 	enabled = true,
-            -- },
-            -- propertyDeclarationTypes = {
-            -- 	enabled = true,
-            -- },
-            -- functionLikeReturnTypes = {
-            -- 	enabled = true,
-            -- },
-            -- enumMemberValues = {
-            -- 	enabled = true,
-            -- },
-          },
-          suggest = {
-            completeFunctionCalls = true,
-          },
-          implementationsCodeLens = {
-            enabled = true,
-            showOnInterfaceMethods = true,
-          },
+        preferences = {
+          quoteStyle = "single",
+          importModuleSpecifierEnding = "js",
+          preferTypeOnlyAutoImports = true,
+        },
+        referencesCodeLens = {
+          enabled = true,
+          showOnAllFunction = true,
+        },
+        inlayHints = {
+          -- parameterNames = {
+          -- 	enabled = "all",
+          -- },
+          -- parameterTypes = {
+          -- 	enabled = true,
+          -- },
+          -- variableTypes = {
+          -- 	enabled = true,
+          -- },
+          -- propertyDeclarationTypes = {
+          -- 	enabled = true,
+          -- },
+          -- functionLikeReturnTypes = {
+          -- 	enabled = true,
+          -- },
+          -- enumMemberValues = {
+          -- 	enabled = true,
+          -- },
+        },
+        suggest = {
+          completeFunctionCalls = true,
+        },
+        implementationsCodeLens = {
+          enabled = true,
+          showOnInterfaceMethods = true,
         },
       },
     },
@@ -201,26 +199,41 @@ local function createCustomConfigs()
       },
     },
     nixd = {
-      nixpkgs = {
-        expr = "import <nixpkgs> { }",
-      },
-      formatting = {
-        command = { "nixfmt" },
-      },
-      options = {
-        ["home-manager"] = {
-          expr =
-          "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.<name>.options.home-manager.users.type.getSubOptions []",
+      cmd = { "nixd", "--inlay-hints=true", "--semantic-tokens=true" },
+      settings = {
+        nixd = {
+          nixpkgs = {
+            expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {} or import <nixpkgs> {}",
+          },
+          formatting = {
+            command = { "nixfmt" },
+          },
+          options = {
+            -- nixos = {
+            --   expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options",
+            -- },
+            -- ["home-manager"] = {
+            --   expr =
+            --   "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options.home-manager.users.type.getSubOptions []",
+            -- },
+            -- lib = {
+            --   expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options"
+            -- },
+            -- stdenv = {
+            --
+            --   expr = "pkgs.stdenv.options"
+            -- },
+          },
+          -- options = {
+          -- 	nixos = {
+          -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
+          -- 	},
+          -- 	home_manager = {
+          -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
+          -- 	},
+          -- },
         },
       },
-      -- options = {
-      -- 	nixos = {
-      -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
-      -- 	},
-      -- 	home_manager = {
-      -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
-      -- 	},
-      -- },
     },
     yamlls = {
       yaml = {
@@ -236,11 +249,9 @@ local function createCustomConfigs()
         "vscode-json-languageserver",
         "--stdio",
       },
-      settings = {
-        json = {
-          schemas = require("schemastore").json.schemas(),
-          validate = { enable = true },
-        },
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
       },
     },
   }
@@ -257,15 +268,21 @@ local function getCmpCapabilities()
 end
 
 _M.loadLSPs = function(lsps, caps, customLspConfigs)
-  vim.lsp.config("*", { capabilities = caps })
-  local lspconfig = require("lspconfig")
+  -- local lspconfig = require("lspconfig")
   for _, pkg in pairs(lsps) do
     local ali = pkg
-    if customLspConfigs[ali] then
-      -- lspconfig[ali].setup({ settings = _M.customLspConfigs[ali] })
-      vim.lsp.config(ali, customLspConfigs[ali])
-      -- print(vim.inspect(vim.lsp.config._configs[ali]))
-    end
+    -- if customLspConfigs[ali] then
+    ---@diagnostic disable-next-line: missing-fields
+    -- require("notify").notify(ali .. vim.inspect(customLspConfigs[ali]), vim.log.levels.INFO, {
+    --   keep = function()
+    --     return true
+    --   end,
+    -- })
+    -- lspconfig[ali].setup({ settings = _M.customLspConfigs[ali] or {} })
+
+    vim.lsp.config(ali, (customLspConfigs[ali] or {}))
+    -- print(vim.inspect(vim.lsp.config._configs[ali]))
+    -- end
     vim.lsp.enable(ali)
   end
 end
@@ -278,13 +295,12 @@ local function setupLspAutoCommand()
       -- Enable completion triggered by <c-x><c-o>
       local bufnr = ev.buf
       -- local client = vim.lsp.get_client_by_id(ev.data.client_id)
-      -- if client.server_capabilities.completionProvider then
-      vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
+      -- if client.server_capabilities.completionProvider then vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
       -- end
       -- if client.server_capabilities.definitionProvider then
       vim.bo[bufnr].tagfunc = "v:lua.vim.lsp.tagfunc"
       -- end
-      -- vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
+      vim.lsp.inlay_hint.enable(true, { bufnr = ev.buf })
 
       -- vim.api.nvim_create_autocmd({ "LspTokenUpdate", "BufEnter", "FocusGained" }, {
       -- 	callback = function(_ev)
@@ -362,10 +378,13 @@ local function setupNullLs()
   })
 end
 _M.setup = function(lsps)
+  vim.lsp.inlay_hint.enable(true)
   local capabilities = getCmpCapabilities()
 
   require("lspconfig.configs").vtsls = require("vtsls").lspconfig -- set default server config, optional but recommended
 
+  -- vim.lsp.config("*", { capabilities = capabilities })
+  -- require("lentent.lsp.nixd").enable()
   _M.loadLSPs(lsps, capabilities, createCustomConfigs())
 
   setupLspAutoCommand()
