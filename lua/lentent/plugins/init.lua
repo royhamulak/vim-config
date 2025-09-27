@@ -83,10 +83,10 @@ return {
   --     end)
   --   end,
   -- }),
-  createButPlugConfig({
-    "terrastruct/d2-vim",
-    ft = { "d2" },
-  }),
+  -- createButPlugConfig({
+  --   "terrastruct/d2-vim",
+  --   ft = { "d2" },
+  -- }),
   createButPlugConfig({
     "ravsii/tree-sitter-d2",
     dependencies = { "nvim-treesitter/nvim-treesitter" },
