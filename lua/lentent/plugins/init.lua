@@ -61,7 +61,7 @@ return {
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
   }),
   require("lentent.plugins.octo"),
-  -- require("lentent.plugins.recorder"),
+  require("lentent.plugins.recorder"),
   -- createButPlugConfig({ "neoclide/npm.nvim", build = "npm install", dependencies = "Shougo/denite.nvim" }),
   -- require("lentent.plugins.neo-composer"),
   -- require("lentent.plugins.lspsaga"),
@@ -83,13 +83,4 @@ return {
   --     end)
   --   end,
   -- }),
-  -- createButPlugConfig({
-  --   "terrastruct/d2-vim",
-  --   ft = { "d2" },
-  -- }),
-  createButPlugConfig({
-    "ravsii/tree-sitter-d2",
-    dependencies = { "nvim-treesitter/nvim-treesitter" },
-    build = "make nvim-install",
-  }),
 }
