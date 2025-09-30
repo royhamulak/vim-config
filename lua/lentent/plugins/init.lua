@@ -43,12 +43,12 @@ return {
       "nvim-treesitter/nvim-treesitter",
     },
   }),
-  createButPlugConfig({
-    "danymat/neogen",
-    config = true,
-    -- Uncomment next line if you want to follow only stable versions
-    -- version = "*"
-  }),
+  -- createButPlugConfig({
+  --   "danymat/neogen",
+  --   config = true,
+  --   -- Uncomment next line if you want to follow only stable versions
+  --   -- version = "*"
+  -- }),
   createButPlugConfig({
     "LunarVim/bigfile.nvim",
     config = function()
@@ -58,10 +58,10 @@ return {
   createButPlugConfig({
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {},
-    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
   }),
   require("lentent.plugins.octo"),
-  require("lentent.plugins.recorder"),
+  -- require("lentent.plugins.recorder"),
   -- createButPlugConfig({ "neoclide/npm.nvim", build = "npm install", dependencies = "Shougo/denite.nvim" }),
   -- require("lentent.plugins.neo-composer"),
   -- require("lentent.plugins.lspsaga"),
@@ -83,4 +83,19 @@ return {
   --     end)
   --   end,
   -- }),
+  createButPlugConfig({
+    "3rd/image.nvim",
+    opts = {
+      backend = "kitty",
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+        },
+      },
+      hijack_file_patterns = { "*.png", "*.jpg", "*.jpeg", "*.gif", "*.webp", "*.svg" },
+    },
+  }),
 }

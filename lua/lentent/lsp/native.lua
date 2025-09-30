@@ -203,18 +203,22 @@ local function createCustomConfigs()
       settings = {
         nixd = {
           nixpkgs = {
-            expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {} or import <nixpkgs> {}",
+            expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }",
           },
           formatting = {
             command = { "nixfmt" },
           },
           options = {
-            -- nixos = {
-            --   expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options",
-            -- },
-            -- ["home-manager"] = {
-            --   expr =
-            --   "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options.home-manager.users.type.getSubOptions []",
+            nixos = {
+              expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options",
+            },
+
+            ["home-manager"] = {
+              expr =
+              "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options.home-manager.users.type.getSubOptions []",
+            },
+            -- ["flake-parts"] = {
+            --   expr = 'builtins.getFlake (builtins.toString ./.).currentSystem.options',
             -- },
             -- lib = {
             --   expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.home-pc-nix.options"
@@ -224,14 +228,6 @@ local function createCustomConfigs()
             --   expr = "pkgs.stdenv.options"
             -- },
           },
-          -- options = {
-          -- 	nixos = {
-          -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).nixosConfigurations.k-on.options',
-          -- 	},
-          -- 	home_manager = {
-          -- 		expr = '(builtins.getFlake ("git+file://" + toString ./.)).homeConfigurations."ruixi@k-on".options',
-          -- 	},
-          -- },
         },
       },
     },
