@@ -1,3 +1,22 @@
+---@type table<string, vim.keymap.set.Opts>
+_G.keymap_opt = {
+  no_remap = {
+    silent = true,
+    noremap = true,
+  },
+  silent = {
+    silent = true,
+  },
+}
+
+vim.g.mapleader = ","
+vim.g.maplocalleader = "\\"
+
+vim.o.foldenable = true
+
+vim.o.cursorline = true
+vim.o.cursorlineopt = "both"
+
 -- Enable file title
 vim.o.title = true
 
@@ -19,11 +38,11 @@ vim.o.shortmess = vim.o.shortmess .. "c"
 -- Autoreload on external filechange
 vim.o.autoread = true
 vim.api.nvim_create_autocmd({
-	"FocusGained",
-	"BufEnter",
+  "FocusGained",
+  "BufEnter",
 }, {
-	pattern = "*",
-	command = "checktime",
+  pattern = "*",
+  command = "checktime",
 })
 
 -- Make buffers hidden when abandoned
@@ -53,16 +72,16 @@ vim.o.fileformats = "unix,dos,mac"
 
 -- Delete trailing white space on save
 function ClearExtraSpaces()
-	local save_cursor = vim.fn.getpos(".")
-	local old_q = vim.fn.getreg("/")
-	vim.cmd("silent! a%s/\\s\\+$//e")
-	vim.fn.setpos(".", save_cursor)
-	vim.fn.setreg("/", old_q)
+  local save_cursor = vim.fn.getpos(".")
+  local old_q = vim.fn.getreg("/")
+  vim.cmd("silent! a%s/\\s\\+$//e")
+  vim.fn.setpos(".", save_cursor)
+  vim.fn.setreg("/", old_q)
 end
 
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-	pattern = { "*.txt", "*.js", "*.ts", "*.sh", "*.fishrc", "*.lua" },
-	callback = ClearExtraSpaces,
+  pattern = { "*.txt", "*.js", "*.ts", "*.sh", "*.fishrc", "*.lua" },
+  callback = ClearExtraSpaces,
 })
 
 require("lentent.cli")
@@ -72,7 +91,7 @@ require("lentent.UI")
 require("lentent.text")
 require("lentent.clipboard")
 require("lentent.mappings")
-require("lentent.files")
+require("lentent.buffers")
 require("lentent.history")
 require("lentent.filetype")
 require("lentent.search")

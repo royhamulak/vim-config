@@ -4,197 +4,20 @@ else
     " ordinary neovim
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins section
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
-" vim plug section 
-" call plug#begin(stdpath('data') . '/plugged')
-" " Core Stuff
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-" Plug 'RRethy/vim-illuminate'
-"
-" Plug 'nvim-tree/nvim-web-devicons'
-" " Plug 'ryanoasis/vim-devicons'
-"
-" Plug 'nvim-lualine/lualine.nvim'
-" Plug 'akinsho/bufferline.nvim', { 'tag': '*' }
-"
-" Plug 'nvim-lua/plenary.nvim'
-" Plug 'antoinemadec/FixCursorHold.nvim'
-" Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.x' }
-"
-" Plug 'rcarriga/nvim-notify'
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " General
-" Plug 'tpope/vim-surround'
-" Plug 'norcalli/nvim-colorizer.lua'
-" Plug 'tomtom/tcomment_vim'
-"
-" " Mini,nvim
-" Plug 'echasnovski/mini.indentscope'
-"
-" """"" File tree plugin
-" Plug 'nvim-tree/nvim-tree.lua'
-" " Plug 'scrooloose/nerdtree'
-" " Plug 'Xuyuanp/nerdtree-git-plugin'
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " Colorschemes
-" Plug 'navarasu/onedark.nvim'
-" " Plug 'joshdick/onedark.vim'
-" Plug 'briones-gabriel/darcula-solid.nvim'
-" Plug 'rktjmp/lush.nvim'
-"
-" """" Language binding """"""""""""""""""
-" " Plug 'sheerun/vim-polyglot'
-" " Plug 'pangloss/vim-javascript'
-" " Plug 'HerringtonDarkholme/yats.vim'
-" " Plug 'maxmellon/vim-jsx-pretty'
-" " Plug 'moll/vim-node'
-" " Plug 'othree/html5.vim'
-" " Plug 'hail2u/vim-css3-syntax'
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" " Plug 'm-demare/hlargs.nvim'
-"
-"
-" Plug 'ziontee113/syntax-tree-surfer',
-" " Coc
-" " Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': ':CocUpdate'}
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " markdown
-" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npx --yes yarn install' }
-" " Plug 'MeanderingProgrammer/markdown.nvim'
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " Marks
-" " Plug 'chentoast/marks.nvim'
-" """"""""""""""""""""""""""""""""""""""""
-"
-" """"""""""""' Git
-" " Plug 'airblade/vim-gitgutter'
-" Plug 'tpope/vim-fugitive'
-" Plug 'sindrets/diffview.nvim'
-" Plug 'lewis6991/gitsigns.nvim'
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " NPM
-" Plug 'neoclide/npm.nvim', {'do' : 'npm install'}
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " Regex
-" Plug 'rclawlor/regex-railroad.nvim'
-" """"""""""""""""""""""""""""""""""""""""
-"
-" """" Tests
-" Plug 'nvim-neotest/neotest'
-" Plug 'nvim-neotest/neotest-jest'
-"
-" Plug 'klen/nvim-test'
-"
-" Plug 'johmsalas/text-case.nvim'
-"
-" Plug 'otavioschwanck/arrow.nvim'
-"
-" " Plug 'MunifTanjim/nui.nvim'
-" Plug 'm4xshen/hardtime.nvim'
-"
-" """"""""""""""""""""""""""""""""""""""""
-"
-" " native lsp stuff
-" Plug 'nvimtools/none-ls.nvim'
-" Plug 'nvimtools/none-ls-extras.nvim'
-" Plug 'zeioth/none-ls-autoload.nvim'
-"
-" Plug 'williamboman/mason.nvim', {'do': ':MasonUpdate'}
-" Plug 'williamboman/mason-lspconfig.nvim'
-" Plug 'neovim/nvim-lspconfig'
-"
-"
-" Plug 'davidmh/cspell.nvim'
-"
-" Plug 'kkoomen/vim-doge', { 'do': { -> doge#install() } }
-"
-"
-" Plug 'yioneko/nvim-vtsls'
-"
-" " Completion
-" Plug 'hrsh7th/cmp-nvim-lsp'
-" Plug 'hrsh7th/cmp-buffer'
-" Plug 'hrsh7th/cmp-path'
-" Plug 'hrsh7th/cmp-cmdline'
-" Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-" Plug 'SergioRibera/cmp-dotenv'
-" Plug 'hrsh7th/nvim-cmp'
-"
-" " Plug 'folke/neodev.nvim'
-"
-" " UI
-" Plug 'gbrlsnchs/telescope-lsp-handlers.nvim'
-"
-" Plug 'MunifTanjim/nui.nvim'
-"
-" Plug 'stevearc/dressing.nvim'
-" " Plug 'j-hui/fidget.nvim'
-"
-" " Plug 'ndonfris/fish-lsp', {'do' : 'yarn install'}
-" Plug 'folke/noice.nvim'
-"
-" Plug 'folke/neoconf.nvim'
-"
-"
-" Plug 'folke/lazydev.nvim'
-" Plug 'Bilal2453/luvit-meta'
-"
-" call plug#end()
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General section
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 let g:doge_mapping = '<leader>dd'
-" set ; to : in normal mode
-set foldenable
-nnoremap ; :
-
-set cursorline
-set cursorlineopt=both
-
-set undodir=~/.vim/undodir
-set undofile
-set undolevels=1000
-set undoreload=10000
-
-" Keep 1000 items in the history
-set history=1000
-
-" Auto reload when file changed from outside
-set autoread
-au FocusGained,BufEnter * checktime
-
-" Enable filetype plugins
-filetype on
-filetype plugin on
-filetype indent on
 
 
 " autocmd TermLeave,TermClose * set number
 " autocmd TermOpen * setlocal l:nonumber
-autocmd TermOpen,BufEnter term://* startinsert
-autocmd BufLeave * stopinsert
-
-tnoremap <C-ESC> <C-\><C-n>
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
-
-" autocmd BufEnter *.test.* Neotest summary open
-" autocmd BufHidden *.test.* Neotest summary close
+" autocmd TermOpen,BufEnter term://* startinsert
+" autocmd BufLeave * stopinsert
+"
+" tnoremap <C-ESC> <C-\><C-n>
+" tnoremap <C-h> <C-\><C-n><C-w>h
+" tnoremap <C-j> <C-\><C-n><C-w>j
+" tnoremap <C-k> <C-\><C-n><C-w>k
+" tnoremap <C-l> <C-\><C-n><C-w>l
+"
 
 " let g:mkdp_auto_start = 1
 
@@ -207,8 +30,8 @@ let g:mkdp_echo_preview_url = 1
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
-let mapleader = ","
-let g:mapleader = ","
+" let mapleader = ","
+" let g:mapleader = ","
 
 " Fast saving
 nnoremap <leader>w :w!<cr>
@@ -235,15 +58,6 @@ set termguicolors
 set spr
 
 set rtp+=/usr/local/opt/fzf
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugin configurations
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Gutter
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" " Keep gutter line at all times
-" set signcolumn=yes
 
 """"""""""""""""""""""""""""""
 " => Coc.nvim
@@ -453,13 +267,13 @@ set wrap "Wrap lines
 " Clipboard
 " set clipboard+=unnamedplus
 
-" CTRL-A is Select all
-noremap  <C-A> gggH<C-O>G
-inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
-cnoremap <C-A> <C-C>gggH<C-O>G
-onoremap <C-A> <C-C>gggH<C-O>G
-snoremap <C-A> <C-C>gggH<C-O>G
-xnoremap <C-A> <C-C>ggVG
+" " CTRL-A is Select all
+" noremap  <C-A> gggH<C-O>G
+" inoremap <C-A> <C-O>gg<C-O>gH<C-O>G
+" cnoremap <C-A> <C-C>gggH<C-O>G
+" onoremap <C-A> <C-C>gggH<C-O>G
+" snoremap <C-A> <C-C>gggH<C-O>G
+" xnoremap <C-A> <C-C>ggVG
 
 """"""""""""""""""""""""""""""
 " => Visual mode related
@@ -579,7 +393,6 @@ endfun
 
 autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 
-let g:tcomment_mapleader2 = '<leader>c'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Diffview
@@ -640,56 +453,57 @@ endfunction
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scribble
-noremap <leader>q :e ~/buffer<cr>
+" noremap <leader>q :e ~/buffer<cr>
 
 " Toggle paste mode on and off
 noremap <leader>pp :setlocal paste!<cr>
 
 let g:markdown_fenced_languages = [
       \ 'vim',
-      \ 'help'
+      \ 'help',
+			\ 'markdown'
       \]
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Util commands
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-vnoremap <leader>fq :!sqlfluff format -d postgres -<CR>
+" vnoremap <leader>fq :!sqlfluff format -d postgres -<CR>
 
 " Faker update
-let s:fakerUpdateCommands=[
-      \ '%s/date.past(\(\d\+\))/date.past({years: \1})/g',
-      \ '%s/date.future(\(\d\+\))/date.future({years: \1})/g',
-      \ '%s/date.soon(\(\d\+\))/date.soon({days: \1})/g',
-      \ '%s/date.recent(\(\d\+\))/date.recent({days: \1})/g',
-      \ '%s/datatype.datetime/date.anytime/g',
-      \ '%s/datatype.number(\({.*precision.*}\))/number.float(\1)/g',
-      \ '%s/datatype.number/number.int/g',
-      \ '%s/faker.random.numeric/faker.string.numeric/g',
-      \ '%s/datatype.uuid/string.uuid/g',
-      \ '%s/random.alphanumeric/string.alphanumeric/g',
-      \ '%s/datatype.string/string.sample/g',
-      \ '%s/random.word/lorem.word/g',
-      \ '%s/random.words/lorem.words/g',
-      \ '%s/faker.address/faker.location/g',
-      \ '%s/faker.location.streetName/faker.location.street/g',
-      \ '%s/faker.location.streetSuffix/faker.location.buildingNumber/g',
-      \ '%s/location.stateAbbr()/location.state({abbreviated: true})/g',
-      \ '%s/faker.name/faker.person/g',
-      \ '%s/faker.finance.account(\(\d*\))/faker.finance.accountNumber(\1)/g',
-      \ '%s/\(faker.finance.amount(\)\(\d\+\), undefined, \(\d\+\)/\1{min: \2, dec: \3}',
-      \ '%s/\(faker.finance.amount(\)\(\d\+\), \(\d\+\)/\1{min: \2, max: \3}',
-      \ '%s/datatype.float/number.float/g',
-      \ '%s/faker.helpers.replaceSymbolWithNumber(\(.*\))/\1.replace(\/#+\/g, (m) => faker.string.numeric(m.length))',
-      \ '%s/\(faker\.number\.float({\)\(.*\)precision: \(0\.1\)\(.*})\)/\1\2multipleOf: \3\4/g',
-      \]
-
-command! FakerUpdate call s:updateFaker()
-function! s:updateFaker()
-  for rep in s:fakerUpdateCommands
-    :execute rep
-  endfor
-endfunction
-
+" let s:fakerUpdateCommands=[
+"       \ '%s/date.past(\(\d\+\))/date.past({years: \1})/g',
+"       \ '%s/date.future(\(\d\+\))/date.future({years: \1})/g',
+"       \ '%s/date.soon(\(\d\+\))/date.soon({days: \1})/g',
+"       \ '%s/date.recent(\(\d\+\))/date.recent({days: \1})/g',
+"       \ '%s/datatype.datetime/date.anytime/g',
+"       \ '%s/datatype.number(\({.*precision.*}\))/number.float(\1)/g',
+"       \ '%s/datatype.number/number.int/g',
+"       \ '%s/faker.random.numeric/faker.string.numeric/g',
+"       \ '%s/datatype.uuid/string.uuid/g',
+"       \ '%s/random.alphanumeric/string.alphanumeric/g',
+"       \ '%s/datatype.string/string.sample/g',
+"       \ '%s/random.word/lorem.word/g',
+"       \ '%s/random.words/lorem.words/g',
+"       \ '%s/faker.address/faker.location/g',
+"       \ '%s/faker.location.streetName/faker.location.street/g',
+"       \ '%s/faker.location.streetSuffix/faker.location.buildingNumber/g',
+"       \ '%s/location.stateAbbr()/location.state({abbreviated: true})/g',
+"       \ '%s/faker.name/faker.person/g',
+"       \ '%s/faker.finance.account(\(\d*\))/faker.finance.accountNumber(\1)/g',
+"       \ '%s/\(faker.finance.amount(\)\(\d\+\), undefined, \(\d\+\)/\1{min: \2, dec: \3}',
+"       \ '%s/\(faker.finance.amount(\)\(\d\+\), \(\d\+\)/\1{min: \2, max: \3}',
+"       \ '%s/datatype.float/number.float/g',
+"       \ '%s/faker.helpers.replaceSymbolWithNumber(\(.*\))/\1.replace(\/#+\/g, (m) => faker.string.numeric(m.length))',
+"       \ '%s/\(faker\.number\.float({\)\(.*\)precision: \(0\.1\)\(.*})\)/\1\2multipleOf: \3\4/g',
+"       \]
+"
+" command! FakerUpdate call s:updateFaker()
+" function! s:updateFaker()
+"   for rep in s:fakerUpdateCommands
+"     :execute rep
+"   endfor
+" endfunction
+"
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

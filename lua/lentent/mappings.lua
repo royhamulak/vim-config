@@ -2,39 +2,29 @@
 -- General
 ----------------------------------------------------------------
 
--- Silent remap
-local opt = {
-  silent = true,
-}
-
 -- Map leader
-vim.g.mapleader = ","
-vim.g.maplocalleader = "\\"
 
 -- Set ; to : in normal mode
-vim.keymap.set("n", ";", ":", opt)
-
--- Reload config
-vim.keymap.set("n", "<leader><cr>", _G.ReloadConfig, { silent = false })
+vim.keymap.set("n", ";", ":", _G.keymap_opt.no_remap)
 
 -- Fast save
-vim.keymap.set("n", "<leader>w", ":w!<cr>", opt)
+vim.keymap.set("n", "<leader>w", ":w!<cr>", _G.keymap_opt.silent)
 
 -- Switch CWD to the buffer's directory
-vim.keymap.set("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>", opt)
+vim.keymap.set("n", "<leader>cd", ":cd %:p:h<cr>:pwd<cr>", _G.keymap_opt.silent)
 
 ----------------------------------------------------------------
 -- Editing
 ----------------------------------------------------------------
 
 -- Remap 0 to first non-blank character
-vim.keymap.set("n", "0", "^", opt)
+vim.keymap.set("n", "0", "^", _G.keymap_opt.silent)
 
 -- Move lines using <M-jk>
-vim.keymap.set("n", "<M-j>", "mz:m+<cr>`z", opt)
-vim.keymap.set("n", "<M-k>", "mz:m-2<cr>`z", opt)
-vim.keymap.set("v", "<M-j>", ":m'>+<cr>`<my`>mzgv`yo`z", opt)
-vim.keymap.set("v", "<M-k>", ":m'<-2<cr>`>my`<mzgv`yo`z", opt)
+vim.keymap.set("n", "<M-j>", "mz:m+<cr>`z", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-k>", "mz:m-2<cr>`z", _G.keymap_opt.silent)
+vim.keymap.set("v", "<M-j>", ":m'>+<cr>`<my`>mzgv`yo`z", _G.keymap_opt.silent)
+vim.keymap.set("v", "<M-k>", ":m'<-2<cr>`>my`<mzgv`yo`z", _G.keymap_opt.silent)
 
 -- Quickly replace selected text in visual selection
 vim.keymap.set("v", "<leader>r", function()
@@ -46,33 +36,33 @@ end, {})
 ----------------------------------------------------------------
 
 -- Treat along lines asa break lines
-vim.keymap.set("n", "j", "gj", opt)
-vim.keymap.set("n", "k", "gk", opt)
+vim.keymap.set("n", "j", "gj", _G.keymap_opt.silent)
+vim.keymap.set("n", "k", "gk", _G.keymap_opt.silent)
 
 -- Map <space> and <c-space> for easier search
-vim.keymap.set("n", "<space>", "/", opt)
-vim.keymap.set("n", "<C-space>", "?", opt)
+vim.keymap.set("n", "<space>", "/", _G.keymap_opt.silent)
+vim.keymap.set("n", "<C-space>", "?", _G.keymap_opt.silent)
 
 -- Use <M-h/j/k/l> for movement in insert mode
-vim.keymap.set("i", "<M-h>", "<Left>", opt)
-vim.keymap.set("i", "<M-j>", "<Down>", opt)
-vim.keymap.set("i", "<M-k>", "<Up>", opt)
-vim.keymap.set("i", "<M-l>", "<Right>", opt)
+vim.keymap.set("i", "<M-h>", "<Left>", _G.keymap_opt.silent)
+vim.keymap.set("i", "<M-j>", "<Down>", _G.keymap_opt.silent)
+vim.keymap.set("i", "<M-k>", "<Up>", _G.keymap_opt.silent)
+vim.keymap.set("i", "<M-l>", "<Right>", _G.keymap_opt.silent)
 
 -- Move between windows with <C-h/j//k/l>
-vim.keymap.set("n", "<C-h>", "<C-w>h", opt)
-vim.keymap.set("n", "<C-j>", "<C-w>j", opt)
-vim.keymap.set("n", "<C-k>", "<C-w>k", opt)
-vim.keymap.set("n", "<C-l>", "<C-w>l", opt)
+vim.keymap.set("n", "<C-h>", "<C-w>h", _G.keymap_opt.silent)
+vim.keymap.set("n", "<C-j>", "<C-w>j", _G.keymap_opt.silent)
+vim.keymap.set("n", "<C-k>", "<C-w>k", _G.keymap_opt.silent)
+vim.keymap.set("n", "<C-l>", "<C-w>l", _G.keymap_opt.silent)
 
 -- <C-ESC> exists terminal mode
-vim.keymap.set("t", "<C-ESC>", "<C-\\><C-n>", opt)
+vim.keymap.set("t", "<C-ESC>", "<C-\\><C-n>", _G.keymap_opt.silent)
 
 -- Enable switching from terminal with <C-h/j/k/l>
-vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", opt)
-vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", opt)
-vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", opt)
-vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", opt)
+vim.keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", _G.keymap_opt.silent)
+vim.keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", _G.keymap_opt.silent)
+vim.keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", _G.keymap_opt.silent)
+vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", _G.keymap_opt.silent)
 
 ----------------------------------------------------------------
 -- Buffers
@@ -82,29 +72,29 @@ vim.keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", opt)
 vim.keymap.set("n", "<leader>e", ':e <c-r>=expand("%:p:h")<cr>/', { silent = false })
 
 -- Move to next buffer in the buffer list
-vim.keymap.set("n", "<M-]>", ":bn<cr>", opt)
+vim.keymap.set("n", "<M-]>", ":bn<cr>", _G.keymap_opt.silent)
 
 -- Move to previous buffer in the buffer list
-vim.keymap.set("n", "<M-[>", ":bp<cr>", opt)
+vim.keymap.set("n", "<M-[>", ":bp<cr>", _G.keymap_opt.silent)
 
 -- Close current buffer
-vim.keymap.set("n", "<M-w>", ":bd<cr>", opt)
+vim.keymap.set("n", "<M-w>", ":bd<cr>", _G.keymap_opt.silent)
 
 -- Close all other buffers
-vim.keymap.set("n", "<M-S-w>", ":%bd|e#|bd#<cr>", opt)
+vim.keymap.set("n", "<M-S-w>", ":%bd|e#|bd#<cr>", _G.keymap_opt.silent)
 
 -- Dynamic buffer switching based on number
-vim.keymap.set("n", "<M-->", ":bf<cr>", opt)
-vim.keymap.set("n", "<M-1>", ":bf<cr>:bn1<cr>", opt)
-vim.keymap.set("n", "<M-2>", ":bf<cr>:bn2<cr>", opt)
-vim.keymap.set("n", "<M-3>", ":bf<cr>:bn3<cr>", opt)
-vim.keymap.set("n", "<M-4>", ":bf<cr>:bn4<cr>", opt)
-vim.keymap.set("n", "<M-5>", ":bf<cr>:bn5<cr>", opt)
-vim.keymap.set("n", "<M-6>", ":bf<cr>:bn6<cr>", opt)
-vim.keymap.set("n", "<M-7>", ":bf<cr>:bn7<cr>", opt)
-vim.keymap.set("n", "<M-8>", ":bf<cr>:bn8<cr>", opt)
-vim.keymap.set("n", "<M-9>", ":bf<cr>:bn9<cr>", opt)
-vim.keymap.set("n", "<M-=>", ":bl<cr>", opt)
+vim.keymap.set("n", "<M-->", ":bf<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-1>", ":bf<cr>:bn1<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-2>", ":bf<cr>:bn2<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-3>", ":bf<cr>:bn3<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-4>", ":bf<cr>:bn4<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-5>", ":bf<cr>:bn5<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-6>", ":bf<cr>:bn6<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-7>", ":bf<cr>:bn7<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-8>", ":bf<cr>:bn8<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-9>", ":bf<cr>:bn9<cr>", _G.keymap_opt.silent)
+vim.keymap.set("n", "<M-=>", ":bl<cr>", _G.keymap_opt.silent)
 
 ----------------------------------------------------------------
 -- Selection
@@ -121,7 +111,7 @@ vim.keymap.set("n", "<M-=>", ":bl<cr>", opt)
 ----------------------------------------------------------------
 
 -- Disable highlight on <cr>
-vim.keymap.set("n", "<cr>", ":noh<cr>", opt)
+vim.keymap.set("n", "<cr>", ":noh<cr>", _G.keymap_opt.silent)
 
 -- Use * and # to search for visual selection
 vim.keymap.set("v", "*", function()

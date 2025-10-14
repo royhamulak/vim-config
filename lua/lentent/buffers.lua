@@ -1,3 +1,4 @@
+-- vim.o.undodir = "~/.vim/undodir"
 -- Save undo history to file
 vim.o.undofile = true
 
@@ -18,8 +19,8 @@ vim.o.writebackup = false
 
 -- Return to last edit position when opening a file
 vim.api.nvim_create_autocmd({ "BufReadPost" }, {
-	pattern = { "*" },
-	command = [[
+  pattern = { "*" },
+  command = [[
     if line("'\"") > 0 && line("'\"") <= line("$") |
       exe "normal! g`\"" |
     endif
@@ -31,3 +32,8 @@ vim.o.shada = "%," .. vim.o.shada
 
 -- When switching buffers use open windows, otherwise split window
 vim.o.switchbuf = "useopen,vsplit"
+
+-- Auto check file change upon entering buffer
+vim.o.autoread = true
+
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter" }, { pattern = "*", command = "checktime" })
