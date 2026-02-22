@@ -104,84 +104,115 @@ _M.customLspConfigs = {}
 local function createCustomConfigs()
   return {
     vtsls = {
-      vtsls = {
-        autoUseWorkspaceTsdk = true,
-        -- experimental = {
-        -- 	completion = {
-        -- 		enableServerSideFuzzyMatch = true,
-        -- 	},
-        -- },
+      cmd = { "vtsls", "--stdio" },
+      init_options = {
+        hostInfo = "neovim",
       },
-      javascript = {
-        preferences = {
-          quoteStyle = "single",
-          importModuleSpecifierEnding = "js",
-        },
-        referencesCodeLens = {
-          enabled = true,
-          showOnAllFunction = true,
-        },
-        inlayHints = {
-          -- parameterNames = {
-          -- 	enabled = "all",
-          -- },
-          -- parameterTypes = {
-          -- 	enabled = true,
-          -- },
-          -- variableTypes = {
-          -- 	enabled = true,
-          -- },
-          -- propertyDeclarationTypes = {
-          -- 	enabled = true,
-          -- },
-          -- functionLikeReturnTypes = {
-          -- 	enabled = true,
-          -- },
-          -- enumMemberValues = {
-          -- 	enabled = true,
-          -- },
-        },
-      },
-      typescript = {
-        -- preferGoToSourceDefinition = true,
-        workspaceSymbols = {
-          scope = "currentProject",
-        },
-        preferences = {
-          quoteStyle = "single",
-          importModuleSpecifierEnding = "js",
-          preferTypeOnlyAutoImports = true,
-        },
-        referencesCodeLens = {
-          enabled = true,
-          showOnAllFunction = true,
-        },
-        inlayHints = {
-          -- parameterNames = {
-          -- 	enabled = "all",
-          -- },
-          -- parameterTypes = {
-          -- 	enabled = true,
-          -- },
-          -- variableTypes = {
-          -- 	enabled = true,
-          -- },
-          -- propertyDeclarationTypes = {
-          -- 	enabled = true,
-          -- },
-          -- functionLikeReturnTypes = {
-          -- 	enabled = true,
-          -- },
-          -- enumMemberValues = {
-          -- 	enabled = true,
+      root_dir = function(bufnr, on_dir)
+        -- The project root is where the LSP can be started from
+        -- As stated in the documentation above, this LSP supports monorepos and simple projects.
+        -- We select then from the project root, which is identified by the presence of a package
+        -- manager lock file.
+        local root_markers = { "package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lockb", "bun.lock" }
+        -- Give the root markers equal priority by wrapping them in a table
+        root_markers = vim.fn.has("nvim-0.11.3") == 1 and { root_markers, { ".git" } }
+            or vim.list_extend(root_markers, { ".git" })
+        -- exclude deno
+        local deno_root = vim.fs.root(bufnr, { "deno.json", "deno.jsonc" })
+        local deno_lock_root = vim.fs.root(bufnr, { "deno.lock" })
+        local project_root = vim.fs.root(bufnr, root_markers)
+        if deno_lock_root and (not project_root or #deno_lock_root > #project_root) then
+          -- deno lock is closer than package manager lock, abort
+          return
+        end
+        if deno_root and (not project_root or #deno_root >= #project_root) then
+          -- deno config is closer than or equal to package manager lock, abort
+          return
+        end
+        -- project is standard TS, not deno
+        -- We fallback to the current working directory if no project root is found
+        on_dir(project_root or vim.fn.getcwd())
+      end,
+      settings = {
+        vtsls = {
+          autoUseWorkspaceTsdk = true,
+          -- experimental = {
+          -- 	completion = {
+          -- 		enableServerSideFuzzyMatch = true,
+          -- 	},
           -- },
         },
-        suggest = {
-          completeFunctionCalls = true,
+        javascript = {
+          preferences = {
+            quoteStyle = "single",
+            importModuleSpecifierEnding = "js",
+          },
+          referencesCodeLens = {
+            enabled = true,
+            showOnAllFunction = true,
+          },
+          inlayHints = {
+            -- parameterNames = {
+            -- 	enabled = "all",
+            -- },
+            -- parameterTypes = {
+            -- 	enabled = true,
+            -- },
+            -- variableTypes = {
+            -- 	enabled = true,
+            -- },
+            -- propertyDeclarationTypes = {
+            -- 	enabled = true,
+            -- },
+            -- functionLikeReturnTypes = {
+            -- 	enabled = true,
+            -- },
+            -- enumMemberValues = {
+            -- 	enabled = true,
+            -- },
+          },
         },
-        implementationsCodeLens = {
-          enabled = true,
-          showOnInterfaceMethods = true,
+        typescript = {
+          -- preferGoToSourceDefinition = true,
+          workspaceSymbols = {
+            scope = "currentProject",
+          },
+          preferences = {
+            quoteStyle = "single",
+            importModuleSpecifierEnding = "js",
+            preferTypeOnlyAutoImports = true,
+          },
+          referencesCodeLens = {
+            enabled = true,
+            showOnAllFunction = true,
+          },
+          inlayHints = {
+            -- parameterNames = {
+            -- 	enabled = "all",
+            -- },
+            -- parameterTypes = {
+            -- 	enabled = true,
+            -- },
+            -- variableTypes = {
+            -- 	enabled = true,
+            -- },
+            -- propertyDeclarationTypes = {
+            -- 	enabled = true,
+            -- },
+            -- functionLikeReturnTypes = {
+            -- 	enabled = true,
+            -- },
+            -- enumMemberValues = {
+            -- 	enabled = true,
+            -- },
+          },
+          suggest = {
+            completeFunctionCalls = true,
+          },
+          implementationsCodeLens = {
+            enabled = true,
+            showOnInterfaceMethods = true,
+          },
         },
       },
     },
@@ -245,9 +276,14 @@ local function createCustomConfigs()
         "vscode-json-languageserver",
         "--stdio",
       },
-      json = {
-        schemas = require("schemastore").json.schemas(),
-        validate = { enable = true },
+      settings = {
+        json = {
+          schemaDownload = {
+            enable = true,
+          },
+          schemas = require("schemastore").json.schemas(),
+          validate = { enable = true },
+        },
       },
     },
   }
@@ -277,6 +313,9 @@ _M.loadLSPs = function(lsps, caps, customLspConfigs)
     -- lspconfig[ali].setup({ settings = _M.customLspConfigs[ali] or {} })
 
     vim.lsp.config(ali, (customLspConfigs[ali] or {}))
+
+    -- print(ali)
+    -- print(vim.inspect(customLspConfigs[ali]))
     -- print(vim.inspect(vim.lsp.config._configs[ali]))
     -- end
     vim.lsp.enable(ali)
@@ -326,12 +365,18 @@ local function setupLspAutoCommand()
       vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
       -- vim.keymap.set({ 'n', 'v' }, '<leader>ac', actionPreview.code_actions, opts)
       vim.keymap.set({ "n", "v" }, "<leader>ac", vim.lsp.buf.code_action, opts)
+
       -- vim.keymap.set('n', 'gr', tele_builtins.lsp_references, opts)
       vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
 
       vim.keymap.set("n", "<leader>ld", function()
         require("telescope.builtin").diagnostics({ bufnr = 0 })
       end, opts)
+
+      vim.keymap.set("n", "<leader>dd", function()
+        require("telescope.builtin").diagnostics()
+      end, opts)
+
       vim.keymap.set("n", "<leader>pr", function()
         vim.lsp.buf.format({
           filter = function(_client)
@@ -354,6 +399,8 @@ local function setupNullLs()
       null_ls.builtins.diagnostics.codespell,
       null_ls.builtins.formatting.codespell,
 
+      null_ls.builtins.diagnostics.pylint,
+      null_ls.builtins.formatting.black,
       -- null_ls.builtins.diagnostics.selene,
       --
       --     -- null_ls.builtins.code_actions.proselint.with({filetypes = {}}),
